@@ -1,9 +1,7 @@
 <?php
-
-/* 
- * definir le dossier racine
- */
 session_start();
+
+//définir le dossier racine
 define ('WEBROOT', dirname(__FILE__));
 
 define ('ROOT',dirname(WEBROOT));

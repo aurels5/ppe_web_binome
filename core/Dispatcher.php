@@ -22,7 +22,7 @@ class Dispatcher {
         //print_r( $this->request);
         $controller=$this->loadController();
         if(!in_array($this->request->action, get_class_methods($controller))){
-            $this->error('Le controleur na pas '.$this->request->action);
+            $this->error('Le controleur n\'a pas '.$this->request->action);
         }
         call_user_func(array($controller, $this->request->action), $this->request->params);
         $controller->render($this->request->action);

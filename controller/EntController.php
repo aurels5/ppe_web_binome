@@ -150,7 +150,6 @@ class EntController extends Controller {
             'conditions' => 1)
         );
 
-
         $this->set($d);
     }
 

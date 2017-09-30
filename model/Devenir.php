@@ -7,12 +7,12 @@
  */
 
 /**
- * Description of Entreprise
+ * Description of Devenir
  *
- * @author travail
+ * @author sarradin
  */
-class Entreprise extends Model{
-    function __construct() {
-        parent::__construct();
-    }
+class Devenir extends Model {
+    var $table='devenir';
+    
+
 }
