@@ -6,4 +6,4 @@
  * and open the template in the editor.
  */
 
-echo "Coucou";
+echo "Coucou toi";
