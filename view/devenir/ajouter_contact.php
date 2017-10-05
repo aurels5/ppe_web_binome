@@ -41,8 +41,18 @@ for($k=0;$k<2;$k++){
                     
                     <label for="promo">Quelle promotion ?</label>
                     <select>
-                        <option>1boucle foreach</option>
-                        <option>2</option>
+                        <?php foreach ($promotions as $pr): ?>
+                        <?php
+                        $selected ='';
+                        
+                        if ($promotions->pr_code === $pr->pr_code) {
+                            $selected = 'selected';
+                        }
+                        ?>
+             
+                         
+                        <option value="<?= $pr->pr_code ?>" <?= $selected ?> ><?= dateShowYear($pr->pr_date_debut)  .' / '. dateShowYear($pr->pr_date_fin) ?></option>
+                    <?php endforeach; ?>
                     </select>
                     
                     <br>
@@ -65,10 +75,18 @@ for($k=0;$k<2;$k++){
                     &nbsp&nbsp
                     <br>
                     
-                    <label for="nom_prenom">Nom/prénom de l'élève ?</label>
+                    <label for="nom_prenom">Nom/prénom de l'étudiant ?</label>
                     <select>
-                        <option>1</option>
-                        <option>2boucle foreach</option>
+                        foreach ($devenirs as $de): ?>
+                        <?php
+                        $selected ='';
+                        
+                        if ($devenirs->d_code === $de->d_code) {
+                            $selected = 'selected';
+                        }
+                        ?>
+                        <option value="<?= $de->d_code ?>" <?= $selected ?> ><?= $de->d_devenir ?></option>
+                    <?php endforeach; ?>
                     </select>
                </div>
            </fieldset>
@@ -99,8 +117,6 @@ for($k=0;$k<2;$k++){
                             $selected = 'selected';
                         }
                         ?>
-                        
-                         
                         <option value="<?= $de->d_code ?>" <?= $selected ?> ><?= $de->d_devenir ?></option>
                     <?php endforeach; ?>
                     
