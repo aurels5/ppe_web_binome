@@ -77,16 +77,16 @@ for($k=0;$k<2;$k++){
                     
                     <label for="nom_prenom">Nom/prénom de l'étudiant ?</label>
                     <select>
-                        foreach ($devenirs as $de): ?>
+                        <?php foreach ($users as $us): ?>
                         <?php
                         $selected ='';
                         
-                        if ($devenirs->d_code === $de->d_code) {
+                        if ($users->d_code === $us->d_code) {
                             $selected = 'selected';
                         }
                         ?>
-                        <option value="<?= $de->d_code ?>" <?= $selected ?> ><?= $de->d_devenir ?></option>
-                    <?php endforeach; ?>
+                        <option value="<?= $us->u_code ?>" <?= $selected ?> ><?= $us->u_nom , ' ' , $us->u_prenom  ?></option>
+                        <?php endforeach; ?>
                     </select>
                </div>
            </fieldset>
