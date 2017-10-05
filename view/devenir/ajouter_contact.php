@@ -1,3 +1,35 @@
+<?php
+//on prend le contenu du fichier XML
+$fichier = simplexml_load_file('../etudiant_devenir.xml');
+
+//test pour prélever 1 champ
+//$devenir1 = $fichier->parametre[0];
+//echo $devenir1 ,' <br>';
+
+//TABLEAU DEVENIR
+/*
+for($i=0; $i<5 ; $i++){
+    //le tableau prend les valeurs du devenir du fichier XML
+    $tab_devenirs[$i] = $fichier->devenir[$i];
+    
+    //echo $tab_devenirs[$i] , '<br>'; 
+//vérif contenu tableau -> on l'affichera dans un foreach
+}
+ * 
+ */
+
+
+/*//si besoin de mettre les données dans un tableau :
+for($k=0;$k<2;$k++){
+    $options[$k] = $fichier->option[$k];
+}
+ * */
+
+?>
+
+
+
+
 <div class="row">
     <div class="col-lg-6">
         <form method="post" action="ajouter_promo.php">
@@ -11,6 +43,23 @@
                     <select>
                         <option>1boucle foreach</option>
                         <option>2</option>
+                    </select>
+                    
+                    <br>
+                    
+                    <label for="option">Quelle option ?</label>
+                    <select>
+                        <?php
+                        /* //avec le tableau $option créé dans le for
+                        foreach($options as $o){
+                            echo '<option>';
+                            echo $o;
+                            echo '</option>';
+                        }*/
+                        foreach($fichier->option as $op){
+                            echo '<option>',$op,'</option>';
+                        }
+                        ?>
                     </select>
 
                     &nbsp&nbsp
@@ -34,11 +83,19 @@
                
                <label for="prenom">Informations Post-BTS SIO</label>
                 <select>
-                    <option>Poursuite d'études</option>
-                    <option>Travail CDD</option>
-                    <option>Travail CDI</option>
-                    <option>Chômage/Recherche d'emploi</option>
-                    
+                    <?php
+                    /*//en utilisant le tableau créé dans le for
+                    foreach($tab_devenirs as $t){
+                        echo '<option>';
+                        echo $t;
+                        echo '</option>';
+                    }
+                     * 
+                     */
+                    foreach($fichier->devenir as $d){
+                        echo '<option>',$d,'</option>';
+                    }
+                    ?>
                 </select> 
                
                 <br>
