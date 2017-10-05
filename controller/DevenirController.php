@@ -12,9 +12,12 @@ include('verifications.php');
 class DevenirController extends Controller {
     
     private $modDevenir = null; //modèle devenir
-    private $modInfoDevenir = null;
 
+    private $modPromotion = null; 
     
+    private $modEleve = null;
+    
+    private $modUser = null;
     
     function ajouter_contact(){
         
@@ -26,8 +29,18 @@ class DevenirController extends Controller {
             $this->modPromotion = $this->loadModel('Promotion');
         }
         
+        if (is_null($this->modUser)) { //charger le modèle Eleve
+            $this->modUser = $this->loadModel('User');
+        }
+        
+        if (is_null($this->modEleve)) { //charger le modèle Eleve
+            $this->modEleve = $this->loadModel('Eleve');
+        }
+        
         $d['devenirs'] = $this->modDevenir->find(array('conditions' => 1)); //utilisé dans le foreach d'affichage
         $d['promotions'] = $this->modPromotion->find(array('conditions' => 1));
+        $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
+        $d['users'] = $this->modUser->find(array('conditions' => 1));
         
         /*
         if (empty($d['devenir'])) {
