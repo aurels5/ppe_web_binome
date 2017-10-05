@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<root>
+
+    <!-- paramètres de devenirs possibles (situation étu post BTS)-->
+    <devenir name="devenir1">Poursuite d'études</devenir>
+    <devenir name="devenir2">Changement de voie</devenir>
+    <devenir name="devenir3">Travail (CDD)</devenir>
+    <devenir name="devenir4">Travail (CDI)</devenir>
+    <devenir name="devenir5">Chômage / Recherche d'emploi</devenir>
+
+
+
+    <!-- option du BTS SIO -->
+    <option name="opt1">SLAM</option>
+    <option name="opt2">SISR</option>
+    
+
+    <!-- diplômes précédents le BTS SIO -->
+    <dp>Bac Pro SEN</dp>
+    <dp>Bac STMG</dp>
+    <dp>Bac S</dp>
+    <dp>Bac ES</dp>
+    <dp>Bac L</dp>
+    <dp></dp>
+    
+
+</root>
+
