@@ -84,18 +84,27 @@ for($k=0;$k<2;$k++){
                <label for="prenom">Informations Post-BTS SIO</label>
                 <select>
                     <?php
-                    /*//en utilisant le tableau créé dans le for
-                    foreach($tab_devenirs as $t){
-                        echo '<option>';
-                        echo $t;
-                        echo '</option>';
+                    /*
+                    foreach($fichier->devenir as $d){ //utilise le XML
+                        echo '<option>',$d,'</option>';
                     }
                      * 
                      */
-                    foreach($fichier->devenir as $d){
-                        echo '<option>',$d,'</option>';
-                    }
-                    ?>
+                    
+                     foreach ($devenirs as $de): ?>
+                        <?php
+                        $selected ='';
+                        
+                        if ($devenirs->d_code === $de->d_code) {
+                            $selected = 'selected';
+                        }
+                        ?>
+                        
+                         
+                        <option value="<?= $de->d_code ?>" <?= $selected ?> ><?= $de->d_devenir ?></option>
+                    <?php endforeach; ?>
+                    
+                    
                 </select> 
                
                 <br>
