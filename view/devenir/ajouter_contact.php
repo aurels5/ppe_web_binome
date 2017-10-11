@@ -71,23 +71,40 @@ for($k=0;$k<2;$k++){
                         }
                         ?>
                     </select>
-
-                    &nbsp&nbsp
-                    <br>
                     
-                    <label for="nom_prenom">Nom/prénom de l'étudiant ?</label>
-                    <select>
-                        <?php foreach ($users as $us): ?>
-                        <?php
-                        $selected ='';
+                    <?php
+                    
+                    if("SLAM"=="SLAM"){//faire "si on a sélectionné SLAM"
+                        echo '<br>testslam';
+                        echo '<label for="etu">Quel étudiant ?</label>';
+                        echo '<select>';
+                            foreach ($users as $u){
+
+                                $selected ='';
+
+                                if ($users->pr_code === $u->pr_code) {
+                                    $selected = 'selected';
+                                }
+                            
+                            
+                            echo '<option value="'. $u->u_code .'"'. $selected .'>'. $u->u_nom .' '. $u->u_prenom .'</option>';
+                            }
+                        echo '</select>';
                         
-                        if ($users->d_code === $us->d_code) {
-                            $selected = 'selected';
-                        }
-                        ?>
-                        <option value="<?= $us->u_code ?>" <?= $selected ?> ><?= $us->u_nom , ' ' , $us->u_prenom  ?></option>
-                        <?php endforeach; ?>
-                    </select>
+                    }
+                    elseif($op=="SISR"){
+                        
+                    }
+                    else{
+                        echo "Sélectionnez une option pour choisir l'étudiant...";
+                    }
+                    
+                    /////////////////////////// test de where :
+                    
+                    
+                    ?>
+                    
+
                </div>
            </fieldset>
 
