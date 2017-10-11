@@ -103,7 +103,16 @@ for($k=0;$k<2;$k++){
                     
                     
                     ?>
-                    
+                    test inner join
+                    <?php $opt="SLAM";?>
+                    <select>
+                        <?php foreach($d['eleves'] as $el): ?>
+                            <option>
+                            <?=$el->el_date_naissance ?>
+                            </option>
+                        <?php endforeach ?>
+                        
+                    </select>
 
                </div>
            </fieldset>
