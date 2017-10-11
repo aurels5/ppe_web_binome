@@ -38,6 +38,7 @@ class EntController extends Controller {
         $this->set($d);
     }
 
+    //affiche le champ de la table dont le numéro est passé en paramètre
     function detail($id) {
         $id = $id[0];
 
