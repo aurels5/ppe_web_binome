@@ -16,16 +16,16 @@
         </style>
     </head>
     <body class="container">
-        <!--div class="topbar">
+        <div class="topbar">
             <div class="topbar-inner">
                 <div class="container">
-                    <h3><a href="#">Mon Site</a></h3>
+                    <h2><a href="#">Module devenir</a></h2>
                     <ul class="nav">
                        
                     </ul>
                 </div>
             </div>
-        </div-->
+        </div>
 
         <header  >
             <div class="row hidden-xs" id="header_img"></div>
@@ -34,9 +34,10 @@
         <?php if ($view != 'login'): ?>
             <div class="navbar navbar-default">
                 <ul class="nav navbar-nav">
-                    <li class="active" ><a href="<?= BASE_URL ?>/ent/liste"> Accueil </a> </li>
-                    <li ><a href="<?= BASE_URL ?>/ent/nouveau"> Nouvelle Entreprise </a> </li>
-
+                    <li class="active"><a href="<?= BASE_URL ?>/ent/liste"> Accueil</a></li>
+                    <li ><a href="<?= BASE_URL ?>/ent/nouveau">Nouvelle Entreprise</a></li>
+                    <li ><a href="<?= BASE_URL ?>/devenir/ajouter_contact">Ajouter contact étudiant</a></li>
+                    <li ><a href="<?= BASE_URL ?>/devenir/modifier_contact">Modifier contact étudiant</a></li>
                 </ul>
             </div>
         <?php endif; ?>
