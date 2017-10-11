@@ -42,6 +42,11 @@ class DevenirController extends Controller {
         $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
         $d['users'] = $this->modUser->find(array('conditions' => 1));
         
+        //faire un where :
+        //$d['trucs'] = $this->modTruc->find(array('conditions' => array('codetruc'=>$codetruc, 'nomtruc'=>$nomtruc)   ));
+        
+        
+        
         /*
         if (empty($d['devenir'])) {
             $this->e404('Page introuvable');
@@ -50,9 +55,6 @@ class DevenirController extends Controller {
         $this->set($d);
     }
     
-    function ajouter_promo(){
-        
-    }
     
     function consulter_stat(){
         
