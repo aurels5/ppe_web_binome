@@ -42,16 +42,17 @@ class DevenirController extends Controller {
         $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
         $d['users'] = $this->modUser->find(array('conditions' => 1));
         
+        //récupérer les données
+        $donnees['devenir']=$_POST['promo']; //$donnees['table']=$_POST['name_select']
+        echo 'PROMOTION : ',$donnees[0];
+        
+        
         //faire un where :
         //$d['trucs'] = $this->modTruc->find(array('conditions' => array('codetruc'=>$codetruc, 'nomtruc'=>$nomtruc)   ));
         
         //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
         
-        
-        //$d['eleves'] = $this->modEleve->find(array(
-        //   'conditions' => array('e_code' => $id)
-        //));
-        
+
         /*
         if (empty($d['devenir'])) {
             $this->e404('Page introuvable');
@@ -89,9 +90,8 @@ class DevenirController extends Controller {
         $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
         $d['users'] = $this->modUser->find(array('conditions' => 1));
         
-        
         /*
-        $code_truc= $id[0];
+        $u_code= $id[0];
         $modTruc= $this->loadModel('Truc');
         $donnees=array();
         $donnees['nomtruc']=$_POST['nomtruc'];
@@ -109,9 +109,11 @@ class DevenirController extends Controller {
         $modTruc->update($tab);
         
         $d['truc']=donnees;
-        $this->set($d);
+        
          * 
          */
+        
+        $this->set($d);
     }
     
     
@@ -120,7 +122,7 @@ class DevenirController extends Controller {
     //l'intérêt de modifier la méthode fille render est de ne pas réécrire une vue
     function render($view) {
         if($view=='modifier_contact'){
-            $view='ajouter_contact';
+            parent::render('ajouter_contact');
         }
         else{
             parent::render($view); //$view='ajouter_contact' par exemple
