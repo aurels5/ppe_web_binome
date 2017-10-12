@@ -32,7 +32,7 @@ for($k=0;$k<2;$k++){
 
 <div class="row">
     <div class="col-lg-6">
-        <form method="post" action="ajouter_promo.php">
+        <form method="post" action="<?= BASE_URL ?>/entreprises/devenir/ajouter_contact">
 
            <fieldset>
                <div class="form-group">
@@ -40,7 +40,7 @@ for($k=0;$k<2;$k++){
                     <p>Vous pourrez modifier cette fiche contact ou en ajouter une nouvelle.</p>
                     
                     <label for="promo">Quelle promotion ?</label>
-                    <select>
+                    <select name="promo">
                         <?php foreach ($promotions as $pr): ?>
                         <?php
                         $selected ='';
