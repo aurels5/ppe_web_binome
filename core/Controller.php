@@ -23,7 +23,7 @@ class Controller {
         $this->request = $request;
     }
 
-//put your code here
+//méthode mère, à surcharger dans le contrôleur fille
     function render($view) {
         if ($this->rendered) {
             return false;
