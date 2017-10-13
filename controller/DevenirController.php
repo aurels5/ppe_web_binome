@@ -12,16 +12,12 @@ include('verifications.php');
 class DevenirController extends Controller {
     
     private $modDevenir = null; //modèle devenir
-
     private $modPromotion = null; 
-    
     private $modEleve = null;
-    
     private $modUser = null;
-    
     private $modUserEleve = null;
-    
     private $modContact = null;
+    
     
     function ajouter_contact(){
         
@@ -52,6 +48,8 @@ class DevenirController extends Controller {
         $d['users'] = $this->modUser->find(array('conditions' => 1));
         $d['lecodepromo']='';
         $d['loption']='';
+        $d['lusereleve']='';
+        $d['ledevenir']='';
         
         //récupérer les données du 1er formulaire
         if(isset($_POST['submit1'])){
@@ -63,9 +61,10 @@ class DevenirController extends Controller {
             
             $d['lecodepromo']=$promo_sel; //pour le selected : $d['name']=$var_entrée
             $d['loption']=$option_sel;
+            
            
             $params=array();
-            $projection='u_nom,u_prenom';
+            $projection='users.u_code,u_nom,u_prenom';
             $conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
             $params=array('projection'=>$projection,'conditions'=>$conditions);
             $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
@@ -75,9 +74,8 @@ class DevenirController extends Controller {
         if(isset($_POST['submit2'])){//on prélève les données du 2e formulaire
             $international=null;
             $code_etudiant=$_POST['code_etudiant'];
-            echo $code_etudiant,' : code étudiant... ';
+            
             $date_contact=$_POST['date_contact'];
-            //echo $date_contact,' : date contact';
             $info_devenir=$_POST['info_devenir'];
 
             if(isset($_POST['international'])){
@@ -85,11 +83,15 @@ class DevenirController extends Controller {
             }
             $precisions=$_POST['precisions'];
 
-            //echo $date_contact;
-            //echo $info_devenir;
-            //echo $international;
-            //echo $precisions;
-
+            echo 'code étudiant : ', $code_etudiant ,'<br>';
+            echo 'date contact : ', $date_contact ,'<br>';
+            echo 'info dev : ', $info_devenir ,'<br>';
+            echo 'international :' , $international ,'<br>';
+            echo 'precisions : ' , $precisions ,'<br>';
+            
+            $d['lusereleve']= $code_etudiant ; //pour le selected etudiant
+            $d['ledevenir']=$info_devenir;
+            
             $tab_col_contact= array('u_code','co_date','co_informations','co_international','co_precisions') ; //nom des colonnes de la table contact
             $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
 
