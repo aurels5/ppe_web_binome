@@ -19,6 +19,10 @@ class DevenirController extends Controller {
     
     private $modUser = null;
     
+    private $modUserEleve = null;
+    
+    private $modContact = null;
+    
     function ajouter_contact(){
         
         if (is_null($this->modDevenir)) { //charger le modèle Devenir
@@ -37,26 +41,68 @@ class DevenirController extends Controller {
             $this->modEleve = $this->loadModel('Eleve');
         }
         
+        $this->modUserEleve = $this->loadModel('UserEleve');
+        
+        $this->modContact = $this->loadModel('Contact');
+        
+        
         $d['devenirs'] = $this->modDevenir->find(array('conditions' => 1)); //utilisé dans le foreach d'affichage
-        $d['promotions'] = $this->modPromotion->find(array('conditions' => 1));
+        $d['promotions'] = $this->modPromotion->find(array('conditions' => 1)); //conditions : le where (ici, pas de restriction) = pareil que si on ne met rien dans le find()
         $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
         $d['users'] = $this->modUser->find(array('conditions' => 1));
+        $d['lecodepromo']='';
+        $d['loption']='';
         
-        //récupérer les données
-        $donnees['devenir']=$_POST['promo']; //$donnees['table']=$_POST['name_select']
-        echo 'PROMOTION : ',$donnees[0];
+        //récupérer les données du 1er formulaire
+        if(isset($_POST['submit1'])){
+            $promo_sel=$_POST['promo']; //promotion sélectionnée
+            //echo 'PROMOTION : ',$promo_sel ,'<br>';
+            
+            $option_sel=$_POST['option'];
+            //echo 'OPTION : ',$option_sel;
+            
+            $d['lecodepromo']=$promo_sel; //pour le selected : $d['name']=$var_entrée
+            $d['loption']=$option_sel;
+           
+            $params=array();
+            $projection='u_nom,u_prenom';
+            $conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
+            $params=array('projection'=>$projection,'conditions'=>$conditions);
+            $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
+                                                                //rien dans le find car pas de where
+        } //fin isset submit 1
+        
+        if(isset($_POST['submit2'])){//on prélève les données du 2e formulaire
+            $international=null;
+            $code_etudiant=$_POST['code_etudiant'];
+            echo $code_etudiant,' : code étudiant... ';
+            $date_contact=$_POST['date_contact'];
+            //echo $date_contact,' : date contact';
+            $info_devenir=$_POST['info_devenir'];
+
+            if(isset($_POST['international'])){
+                $international=$_POST['international'];
+            }
+            $precisions=$_POST['precisions'];
+
+            //echo $date_contact;
+            //echo $info_devenir;
+            //echo $international;
+            //echo $precisions;
+
+            $tab_col_contact= array('u_code','co_date','co_informations','co_international','co_precisions') ; //nom des colonnes de la table contact
+            $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
+
+            $modContact=$this->loadModel('Contact');
+            $modContact->insertAI($tab_col_contact,$tab_contact);
+                        
+        } //fin isset submit 2
+        
         
         
         //faire un where :
-        //$d['trucs'] = $this->modTruc->find(array('conditions' => array('codetruc'=>$codetruc, 'nomtruc'=>$nomtruc)   ));
-        
         //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
         
-
-        /*
-        if (empty($d['devenir'])) {
-            $this->e404('Page introuvable');
-        }*/
 
         $this->set($d);
     }
@@ -68,36 +114,7 @@ class DevenirController extends Controller {
     
     
     function modifier_contact($id){//paramètre $id
-        
-        if (is_null($this->modDevenir)) { //charger le modèle Devenir
-            $this->modDevenir = $this->loadModel('Devenir');
-        }
-        
-        if (is_null($this->modPromotion)) { //charger le modèle Promotion
-            $this->modPromotion = $this->loadModel('Promotion');
-        }
-        
-        if (is_null($this->modUser)) { //charger le modèle Eleve
-            $this->modUser = $this->loadModel('User');
-        }
-        
-        if (is_null($this->modEleve)) { //charger le modèle Eleve
-            $this->modEleve = $this->loadModel('Eleve');
-        }
-        
-        $d['devenirs'] = $this->modDevenir->find(array('conditions' => 1)); //utilisé dans le foreach d'affichage
-        $d['promotions'] = $this->modPromotion->find(array('conditions' => 1));
-        $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
-        $d['users'] = $this->modUser->find(array('conditions' => 1));
-        
         /*
-        $u_code= $id[0];
-        $modTruc= $this->loadModel('Truc');
-        $donnees=array();
-        $donnees['nomtruc']=$_POST['nomtruc'];
-        $donnees['codetruc']=$_POST['codetruc'];
-        $donnees['autretruc']=$_POST['autretruc'];
-        $donnees['encoretruc']=$_POST['encoretruc'];
         
         $clef=array();
         $clef['codetruc']=$codetruc;
@@ -113,7 +130,7 @@ class DevenirController extends Controller {
          * 
          */
         
-        $this->set($d);
+        //$this->set($d);
     }
     
     
