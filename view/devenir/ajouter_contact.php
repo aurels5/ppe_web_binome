@@ -49,7 +49,7 @@ for($k=0;$k<2;$k++){
                             </option>
                         <?php endforeach; ?>
                     </select>
-                    <?php echo $lecodepromo , ' : le code sélectionné.' ?>
+                    <?php //echo $lecodepromo , ' : le code sélectionné.' ?>
                     
                     <br>
                     
@@ -80,15 +80,13 @@ for($k=0;$k<2;$k++){
                 
                 <select name="code_etudiant">
                     <?php 
-                    foreach ($usereleve as $ue){
-                        
-                            if($ue->u_code==$codepromo){
-                                $selected='selected';
-                            }
+                    foreach ($usereleve as $ue):?>
 
-                    echo '<option value="'. $ue->u_code .'" '. $selected .'>'. $ue->u_nom .' '. $ue->u_prenom .'</option>';
-                    }
-                    ?>
+                        <option value="<?php $ue->u_code ?>" <?php if($ue->u_code==$lusereleve){ echo 'selected'; }?>>
+                            <?= $ue->u_nom .' '. $ue->u_prenom ?>
+                        </option>
+                    
+                    <?php endforeach; ?>
                 </select>
                 
 
@@ -108,13 +106,9 @@ for($k=0;$k<2;$k++){
                 <select name="info_devenir">
                     <?php
                      foreach ($devenirs as $de): ?>
-                        <?php
-                        $selected='';
-                            if($pr->pr_code==$codepromo){
-                                $selected='selected';
-                            }
-                        ?>
-                        <option value="<?= $de->d_code ?>" <?= $selected ?> ><?= $de->d_devenir ?></option>
+                        <option value="<?= $de->d_code ?>" <?php if($de->d_code==$ledevenir){ echo 'selected';} ?> >
+                            <?= $de->d_devenir ?>
+                        </option>
                     <?php endforeach; ?>
                     
                     
