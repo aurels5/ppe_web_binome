@@ -44,8 +44,15 @@ class Model {
         }
     }
 
-    function find($req) {
-        $sql = 'select * from ' . $this->table . ' as ' . get_class($this) . ' ';
+    function find($req='') {
+        $sql = 'select ';
+        //si la projection est renseignée on l'utilise sinon on met toutes les colonnes (*)
+        if (isset($req['projection'])) {
+            $sql .= $req['projection'] . ' ';
+        } else {
+            $sql .= '* ';
+        }
+        $sql .= ' from ' . $this->table . ' ';
         //construction de la condition
 
         if (isset($req['conditions'])) {
@@ -62,12 +69,19 @@ class Model {
                 }
                 $sql .= implode(' AND ', $cond);
             }
-
-            $pre = $this->db->prepare($sql);
-            $pre->execute();
-
-            return $pre->fetchall(PDO::FETCH_OBJ);
+            $sql .= ' ';
         }
+        // si le group by est renseigné on l'ajoute à la requete
+        if (isset($req['groupby'])) {
+            $sql .= 'group by ';
+
+            $sql .= $req['groupby'];
+        }
+      
+        $pre = $this->db->prepare($sql);
+        $pre->execute();
+
+        return $pre->fetchall(PDO::FETCH_OBJ);
     }
 
     function findFirst($req) {
