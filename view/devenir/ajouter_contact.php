@@ -82,7 +82,7 @@ for($k=0;$k<2;$k++){
                     <?php 
                     foreach ($usereleve as $ue):?>
 
-                        <option value="<?php $ue->u_code ?>" <?php if($ue->u_code==$lusereleve){ echo 'selected'; }?>>
+                        <option value="<?= $ue->u_code ?>" <?php if($ue->u_code==$lusereleve){ echo 'selected'; }?>>
                             <?= $ue->u_nom .' '. $ue->u_prenom ?>
                         </option>
                     
