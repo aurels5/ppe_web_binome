@@ -72,31 +72,33 @@ class DevenirController extends Controller {
         } //fin isset submit 1
         
         if(isset($_POST['submit2'])){//on prélève les données du 2e formulaire
-            $international=null;
+            $international=0;
             $code_etudiant=$_POST['code_etudiant'];
-            
             $date_contact=$_POST['date_contact'];
             $info_devenir=$_POST['info_devenir'];
 
             if(isset($_POST['international'])){
-                $international=$_POST['international'];
+                $international=1;
             }
             $precisions=$_POST['precisions'];
-
+            /*
             echo 'code étudiant : ', $code_etudiant ,'<br>';
             echo 'date contact : ', $date_contact ,'<br>';
             echo 'info dev : ', $info_devenir ,'<br>';
             echo 'international :' , $international ,'<br>';
             echo 'precisions : ' , $precisions ,'<br>';
+            */
             
             $d['lusereleve']= $code_etudiant ; //pour le selected etudiant
             $d['ledevenir']=$info_devenir;
             
-            $tab_col_contact= array('u_code','co_date','co_informations','co_international','co_precisions') ; //nom des colonnes de la table contact
+            $tab_col_contact= array('u_code','co_date','d_code','co_international','co_precisions') ; //nom des colonnes de la table contact
             $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
 
             $modContact=$this->loadModel('Contact');
             $modContact->insertAI($tab_col_contact,$tab_contact);
+            
+            echo 'Fiche contact bien insérée.';
                         
         } //fin isset submit 2
         
