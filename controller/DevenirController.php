@@ -21,27 +21,22 @@ class DevenirController extends Controller {
     
     function ajouter_contact(){
         
+        //chargement des modèles utiles
         if (is_null($this->modDevenir)) { //charger le modèle Devenir
             $this->modDevenir = $this->loadModel('Devenir');
         }
-        
         if (is_null($this->modPromotion)) { //charger le modèle Promotion
             $this->modPromotion = $this->loadModel('Promotion');
         }
-        
         if (is_null($this->modUser)) { //charger le modèle Eleve
             $this->modUser = $this->loadModel('User');
         }
-        
         if (is_null($this->modEleve)) { //charger le modèle Eleve
             $this->modEleve = $this->loadModel('Eleve');
         }
-        
         $this->modUserEleve = $this->loadModel('UserEleve');
         
-        $this->modContact = $this->loadModel('Contact');
-        
-        
+        //récupérer les données
         $d['devenirs'] = $this->modDevenir->find(array('conditions' => 1)); //utilisé dans le foreach d'affichage
         $d['promotions'] = $this->modPromotion->find(array('conditions' => 1)); //conditions : le where (ici, pas de restriction) = pareil que si on ne met rien dans le find()
         $d['eleves'] = $this->modEleve->find(array('conditions' => 1));
@@ -51,7 +46,7 @@ class DevenirController extends Controller {
         $d['lusereleve']='';
         $d['ledevenir']='';
         
-        //récupérer les données du 1er formulaire
+        //récupérer les données du 1er formulaire : promo + option
         if(isset($_POST['submit1'])){
             $promo_sel=$_POST['promo']; //promotion sélectionnée
             //echo 'PROMOTION : ',$promo_sel ,'<br>';
@@ -61,26 +56,40 @@ class DevenirController extends Controller {
             
             $d['lecodepromo']=$promo_sel; //pour le selected : $d['name']=$var_entrée
             $d['loption']=$option_sel;
-            
-           
+
             $params=array();
             $projection='users.u_code,u_nom,u_prenom';
             $conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
             $params=array('projection'=>$projection,'conditions'=>$conditions);
             $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
                                                                 //rien dans le find car pas de where
-        } //fin isset submit 1
+        } //fin isset submit 1 (formulaire 1)
         
-        if(isset($_POST['submit2'])){//on prélève les données du 2e formulaire
+        //on prélève les données du 2e formulaire
+        if(isset($_POST['submit2'])){
             $international=0;
+            $precisions='';
             $code_etudiant=$_POST['code_etudiant'];
-            $date_contact=$_POST['date_contact'];
+            $date_contact='2010-12-31';
             $info_devenir=$_POST['info_devenir'];
 
+            if(isset($_POST['date_contact'])){
+                $date_contact=$_POST['date_contact'];
+            }
+            
             if(isset($_POST['international'])){
                 $international=1;
             }
-            $precisions=$_POST['precisions'];
+            if(isset($_POST['precisions'])){
+                try{
+                    $precisions=nettoyer($_POST['precisions'], 30);
+                } catch (Exception $ex) {
+                    return $ex;
+                }
+                
+            }
+            
+            
             /*
             echo 'code étudiant : ', $code_etudiant ,'<br>';
             echo 'date contact : ', $date_contact ,'<br>';
@@ -96,11 +105,11 @@ class DevenirController extends Controller {
             $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
 
             $modContact=$this->loadModel('Contact');
-            $modContact->insertAI($tab_col_contact,$tab_contact);
+            $modContact->insertAI($tab_col_contact,$tab_contact); //requête insertion
             
             echo 'Fiche contact bien insérée.';
                         
-        } //fin isset submit 2
+        } //fin isset submit 2 (formulaire détails du contact)
         
         
         

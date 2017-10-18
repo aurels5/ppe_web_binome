@@ -31,3 +31,15 @@ function verifDateY_m_d($date){//méth. pour vérifier validité date fiche cont
     }
 }
     
+
+    //Enlever les espaces en début/fin de chaîne + vérifier longueur
+    function nettoyer($string,$long){
+        if( (strlen($string))<$long){
+            //$string=addslashes($string); //caractère d'échappement pour apostrophe
+            $string=ltrim($string);
+            return $string;
+        }
+        else{
+            throw new Exception('Chaîne trop longue. Limitée à 30 caractères.');
+        }  
+    }
