@@ -98,7 +98,7 @@ for($k=0;$k<2;$k++){
                <legend>Détails du contact</legend> <!-- Titre du fieldset -->
                
                <label for="date_contact">Date de la prise de contact</label>
-               <input type="date" name="date_contact" value="" />
+               <input type="date" name="date_contact" value="2017-01-01" />
                
                <br>
                

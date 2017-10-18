@@ -111,9 +111,7 @@ class DevenirController extends Controller {
             echo 'Fiche contact bien insérée.';
                         
         } //fin isset submit 2 (formulaire détails du contact)
-        else{
-            echo 'date à sélectionner.';
-        }
+        
         
 
         //faire un where :
