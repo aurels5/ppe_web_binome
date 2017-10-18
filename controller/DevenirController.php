@@ -66,7 +66,7 @@ class DevenirController extends Controller {
         } //fin isset submit 1 (formulaire 1)
         
         //on prélève les données du 2e formulaire
-        if(isset($_POST['submit2'])){
+        if(isset($_POST['submit2']) && !empty($_POST['date_contact'])){
             $international=0;
             $precisions='';
             $code_etudiant=$_POST['code_etudiant'];
@@ -76,6 +76,7 @@ class DevenirController extends Controller {
             if(isset($_POST['date_contact'])){
                 $date_contact=$_POST['date_contact'];
             }
+            echo 'date = ', $date_contact;
             
             if(isset($_POST['international'])){
                 $international=1;
@@ -110,9 +111,11 @@ class DevenirController extends Controller {
             echo 'Fiche contact bien insérée.';
                         
         } //fin isset submit 2 (formulaire détails du contact)
+        else{
+            echo 'date à sélectionner.';
+        }
         
-        
-        
+
         //faire un where :
         //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
         
