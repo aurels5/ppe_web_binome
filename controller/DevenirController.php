@@ -196,10 +196,18 @@ class DevenirController extends Controller {
             //print_r($d['contactdevenir']);
             
             
-            $projection='users.u_code,u_nom,u_prenom';
-            $conditions= array('users.u_code'=>$code_etudiant);
-            $params3=array('projection'=>$projection,'conditions'=>$conditions);
+            $projection3='users.u_code,u_nom,u_prenom';
+            $conditions3= array('users.u_code'=>$code_etudiant);
+            $params3=array('projection'=>$projection3,'conditions'=>$conditions3);
             $d['elevefiche'] = $this->modUserEleve->find($params3);
+            
+            $projection4='co_code,contact.u_code,co_date,co_international,co_precisions,devenir.d_code';
+            $conditions4= array('contact.u_code'=>$code_etudiant);
+            $params4=array('projection'=>$projection4,'conditions'=>$conditions4);
+            $d['contactseleve'] = $this->modContactDevenir->find($params4);
+            
+            
+            
         }
             
         
@@ -208,7 +216,6 @@ class DevenirController extends Controller {
         if(isset($_POST['submit2']) && !empty($_POST['date_contact'])){
             
             $code_etudiant=$_POST['code_etudiant'];
-            echo 'on est dans la 2e partie du 2e formulaire',$code_etudiant;
             
             $international=0;
             $precisions='';
@@ -226,33 +233,39 @@ class DevenirController extends Controller {
             }
             if(isset($_POST['precisions'])){
                 try{
-                    $precisions=nettoyer($_POST['precisions'], 30);
+                    $precisions=nettoyer($_POST['precisions'], 254);
                 } catch (Exception $ex) {
                     return $ex;
                 }
                 
             }
+                        
+
+                       
+            // -------------------------------------------------------------------
             
-            
-            /*
-            echo 'code étudiant : ', $code_etudiant ,'<br>';
-            echo 'date contact : ', $date_contact ,'<br>';
-            echo 'info dev : ', $info_devenir ,'<br>';
-            echo 'international :' , $international ,'<br>';
-            echo 'precisions : ' , $precisions ,'<br>';
-            */
-            
+            $co_code=$id[0];
+            $modContact=$this->loadModel('Contact');
+            $donnees=array();
+            $cle=array();
+            $cle['co_code']=$co_code;
             $d['lusereleve']= $code_etudiant ; //pour le selected etudiant
             $d['new_cd']=$info_devenir;
             
             $tab_col_contact= array('u_code','co_date','d_code','co_international','co_precisions') ; //nom des colonnes de la table contact
             $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
 
-            $modContact=$this->loadModel('Contact');
+            
             $modContact->insertAI($tab_col_contact,$tab_contact); //requête insertion
             
-            echo 'Fiche contact bien insérée.';
-                        
+            echo 'Fiche contact bien modifiée.';
+                                    /*
+            echo 'code étudiant : ', $code_etudiant ,'<br>';
+            echo 'date contact : ', $date_contact ,'<br>';
+            echo 'info dev : ', $info_devenir ,'<br>';
+            echo 'international :' , $international ,'<br>';
+            echo 'precisions : ' , $precisions ,'<br>';
+            */
         } //fin isset submit 2 (formulaire détails du contact)
         
         
@@ -260,7 +273,7 @@ class DevenirController extends Controller {
         //faire un where :
         //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
         
-        //print_r($d);
+        print_r($d);
         $this->set($d);
         
     }

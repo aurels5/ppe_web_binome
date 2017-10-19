@@ -117,27 +117,42 @@ for($k=0;$k<2;$k++){
                <legend>Détails du contact</legend> <!-- Titre du fieldset -->
                
                <label for="date_contact">Date de la prise de contact</label>
-               <input type="date" name="date_contact" value="<?php if($var_script=='modifier_contact'){ echo $contactdevenir->co_date; } else{ echo date("Y-m-d"); }?>" />
+               <input type="date" name="date_contact" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+                   { foreach ($contactseleve as $ce) {
+                       echo $ce->co_date;}
+                   }elseif($var_script=='modifier_contact'){ echo $contactdevenir->co_date; } else{ echo date("Y-m-d"); }?>" />
                
-               <br> <?php 
-                        // echo $contactdevenir->co_date 
-                       ?>
+               <br> 
                
                <label for="info_devenir">Informations Post-BTS SIO</label>
                 <select name="info_devenir">
-                    <?php
-                     foreach ($devenirs as $de): ?>
-                        <option value="<?= $de->d_code ?>" <?php if($de->d_code==$ledevenir){ echo 'selected';} ?> >
-                            <?= $de->d_devenir ?>
-                        </option>
-                    <?php endforeach; ?>
-                    
+                    <?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche'])){ 
+                                foreach ($contactseleve as $ce): ?> 
+                                    <?= $ce->d_code ; ?>
+                                    <?php foreach ($devenirs as $de): ?>
+                                    <option value="<?= $de->d_code ?>" <?php if($de->d_code==$ce->d_code){ echo 'selected';} ?> >
+                                        <?= $de->d_devenir ?>
+                                    </option>
+                                <?php endforeach; ?>
+                                <?php 
+                                endforeach ;//ferme foreach
+                        } //ferme if
+                        else{
+                            foreach ($devenirs as $de): ?>
+
+                            <option value="<?= $de->d_code ?>" <?php if($de->d_code==$ledevenir){ echo 'selected';} ?> >
+                                <?= $de->d_devenir ?>
+                            </option>
+                        <?php endforeach; 
+                        
+                      }//fin else ?>
                     
                 </select> 
                
                 <br>
                
-                <input type="checkbox" class="form-check-input" name="international" id="international">
+                <input type="checkbox" class="form-check-input" name="international" id="international" <?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+{ foreach ($contactseleve as $ce) {if($ce->co_international==1){ echo 'checked';}}} ?>>
                 <label class="form-check-label" for="international">
                     Poursuite à l'international
                 </label>
@@ -145,7 +160,8 @@ for($k=0;$k<2;$k++){
                 <br>
                 <p>
                     <label for="precisions">Précisions :</label>
-                    <textarea name="precisions" id="precisions" cols="40" rows="4" class="form-control"></textarea>
+                    <textarea name="precisions" id="precisions" cols="40" rows="4" class="form-control"><?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+{ foreach ($contactseleve as $ce) { echo $ce->co_precisions;}}?></textarea>
                 </p>
            </fieldset>
 
