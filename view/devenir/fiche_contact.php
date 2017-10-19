@@ -32,7 +32,7 @@ for($k=0;$k<2;$k++){
 
 <div class="row">
     <div class="col-lg-6">
-        <form method="post" action="<?= BASE_URL ?>/devenir/ajouter_contact">
+        <form method="post" action="<?= BASE_URL ?>/devenir/<?=$var_script?>">
 
            <fieldset>
                <div class="form-group">
@@ -69,17 +69,18 @@ for($k=0;$k<2;$k++){
           
         
         
-        <?php if(isset($_POST['submit1'])){ 
+        <?php if( isset($_POST['submit1']) || isset($_POST['aff_fiche']) ){ 
             //DEBUT DU DEUXIEME FORMULAIRE : choix d'un étudiant
         ?>
 
-        <form method="post" action="<?= BASE_URL ?>/devenir/ajouter_contact">
+        
+        <form method="post" action="<?= BASE_URL ?>/devenir/<?=$var_script?>/">
             <fieldset>
-
+               
                 <label for="etu">Quel étudiant ?</label>
                 
                 <select name="code_etudiant">
-                    <?php 
+                    <?php if(isset($_POST['submit1'])){
                     foreach ($usereleve as $ue):?>
 
                         <option value="<?= $ue->u_code ?>" <?php if($ue->u_code==$lusereleve){ echo 'selected'; }?>>
@@ -87,20 +88,40 @@ for($k=0;$k<2;$k++){
                         </option>
                     
                     <?php endforeach; ?>
+                    <?php } 
+                    elseif(isset($_POST['aff_fiche']) && $var_script=='modifier_contact'){ 
+                    foreach ($elevefiche as $ef):?>
+
+                        <option value="<?= $ef->u_code ?>">
+                            <?= $ef->u_nom .' '. $ef->u_prenom ?>
+                        </option>
+                    
+                    <?php endforeach; ?>    
+                        
+                    <?php } ?>
+                        
+                    
                 </select>
                 
-
+                <?php
+                if($var_script=='modifier_contact'){
+                    echo '<input type="submit" name="aff_fiche" value="Afficher fiche(s)" >';
+                }
+                ?>
             </fieldset>   
            
 
-            
+            <?php if( ($var_script=='fiche_contact') || ( $var_script=='modifier_contact' &&  isset($_POST['aff_fiche'])   ) ){ ?>
             <fieldset>
+               
                <legend>Détails du contact</legend> <!-- Titre du fieldset -->
                
                <label for="date_contact">Date de la prise de contact</label>
-               <input type="date" name="date_contact" value="2017-01-01" />
+               <input type="date" name="date_contact" value="<?php if($var_script=='modifier_contact'){ echo $contactdevenir->co_date; } else{ echo date("Y-m-d"); }?>" />
                
-               <br>
+               <br> <?php 
+                        // echo $contactdevenir->co_date 
+                       ?>
                
                <label for="info_devenir">Informations Post-BTS SIO</label>
                 <select name="info_devenir">
@@ -129,9 +150,9 @@ for($k=0;$k<2;$k++){
            </fieldset>
 
             <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact">
-
+            <?php } //fin du isset aff_fiche ?>
         </form><!--fin form 2-->
         
-        <?php } //fin du isset ?>
+        <?php } //fin du isset pour afficher le formulaire 2 ?>
     </div><!--fin col-->
 </div><!--fin row-->

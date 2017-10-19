@@ -36,7 +36,7 @@
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="<?= BASE_URL ?>/ent/liste"> Accueil</a></li>
                     <li ><a href="<?= BASE_URL ?>/ent/nouveau">Nouvelle Entreprise</a></li>
-                    <li ><a href="<?= BASE_URL ?>/devenir/ajouter_contact">Ajouter contact étudiant</a></li>
+                    <li ><a href="<?= BASE_URL ?>/devenir/fiche_contact">Ajouter contact étudiant</a></li>
                     <li ><a href="<?= BASE_URL ?>/devenir/modifier_contact">Modifier contact étudiant</a></li>
                 </ul>
             </div>
