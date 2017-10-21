@@ -33,7 +33,7 @@ $i=0;
 foreach($pct_bacs as $pbs){
     echo 'truc';
     $i++;
-    echo $i; //super il compte bien les deux "Bac S" de la BDD... mais ce serait mieux de faire un COUNT !
+     //super il compte bien les deux "Bac S" de la BDD... mais ce serait mieux de faire un COUNT !
 }
-
+echo $i;
 ?>
