@@ -240,8 +240,7 @@ class DevenirController extends Controller {
                 
             }
                         
-
-                       
+   
             // -------------------------------------------------------------------
             
             $co_code=$id[0];
@@ -273,16 +272,83 @@ class DevenirController extends Controller {
         //faire un where :
         //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
         
-        print_r($d);
+        //print_r($d);
         $this->set($d);
         
     }
     
     
     
+    
+    
+    
+    
     function consulter_stat(){
+        //chargement des modèles utiles
+        $this->modDevenir = $this->loadModel('Devenir'); //charger le modèle Devenir
+        $this->modPromotion = $this->loadModel('Promotion'); //charger le modèle Promotion
+        $this->modUser = $this->loadModel('User');//charger le modèle User
+        $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
+        $this->modUserEleve = $this->loadModel('UserEleve');
+        $this->modContactDevenir = $this->loadModel('ContactDevenir');
         
-    }
+        //initialisations
+        $msg_stat='';
+        $value_stat_choisie='';
+        $d['value_stat_choisie']='';
+        
+        if(isset($_POST['submit_choix_stat'])){
+            $value_stat_choisie=$_POST['stat_choisie']; //stat_choisie
+            //echo 'stat choisie : ',$value_stat_choisie ,'<br>'; //s'affiche bien
+            $d['value_stat_choisie']=$value_stat_choisie;
+
+            switch($value_stat_choisie){
+                case "s1" : //Provenance des étudiants, el_diplome_prec
+                    $msg_stat="Provenance des étudiants en BTS SIO...";
+                    
+                    //pourcentage de chaque diplôme précédent sur la totalité des élèves
+                    //concerne uniquement la table élève
+                    
+                    $dp1='Bac S';
+                    
+                    $projection_s1='eleve.el_diplome_prec';//le select
+                    $conditions_s1= array('el_diplome_prec'=>$dp1);//pas de where ? on veut les compter...
+                    $params_s1=array('projection'=>$projection_s1,'conditions'=>$conditions_s1);
+                    $d['pct_bacs'] = $this->modEleve->find($params_s1);
+                    
+                    
+                    
+                    break;
+                case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
+                    $msg_stat="Taux de poursuite à l'étranger";
+                    break;
+                case "s3";//Taux de redoublement par année (diag en bâtons)
+                    $msg_stat="Taux de redoublement par promotion";
+                    break;
+                case "s4";//Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
+                    $msg_stat="Que deviennent-ils après le BTS SIO ?";
+                    break;
+                default:
+                    $msg_stat="Choisissez les statistiques que vous voulez visionner.";
+            }
+             
+            
+        } //fin du if isset submit choix stat
+        
+        echo '$msg_stat: ',$msg_stat;
+        
+        
+        $d['titre_stat']=$msg_stat; //pour afficher le sous-titre de la statistique choisie
+        
+        
+        print_r($d);
+        $this->set($d);
+        
+    }//fin consulter stat
+    
+    
+    
+    
     
     
     //méthode déjà dans la classe mère, contenu différent
