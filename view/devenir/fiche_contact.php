@@ -115,7 +115,10 @@ for($k=0;$k<2;$k++){
             <fieldset>
                
                <legend>Détails du contact</legend> <!-- Titre du fieldset -->
-               
+               <input type="hidden" name="cocode" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+                   { foreach ($contactseleve as $cc) {
+                       echo $cc->co_code;}
+                   }?>">
                <label for="date_contact">Date de la prise de contact</label>
                <input type="date" name="date_contact" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
                    { foreach ($contactseleve as $ce) {
@@ -164,7 +167,7 @@ for($k=0;$k<2;$k++){
 { foreach ($contactseleve as $ce) { echo $ce->co_precisions;}}?></textarea>
                 </p>
            </fieldset>
-
+            
             <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact">
             <?php } //fin du isset aff_fiche ?>
         </form><!--fin form 2-->

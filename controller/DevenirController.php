@@ -239,23 +239,26 @@ class DevenirController extends Controller {
                 }
                 
             }
-                        
-   
-            // -------------------------------------------------------------------
             
-            $co_code=$id[0];
-            $modContact=$this->loadModel('Contact');
             $donnees=array();
+            $donnees['co_date']=$date_contact;
+            $donnees['d_code']=$info_devenir;
+            $donnees['co_international']=$international;
+            $donnees['co_precisions']=$precisions;
+            
+            
+            $modContact=$this->loadModel('Contact');
+            
             $cle=array();
-            $cle['co_code']=$co_code;
+            $cle['co_code']=$_POST['cocode'];
             $d['lusereleve']= $code_etudiant ; //pour le selected etudiant
             $d['new_cd']=$info_devenir;
             
-            $tab_col_contact= array('u_code','co_date','d_code','co_international','co_precisions') ; //nom des colonnes de la table contact
-            $tab_contact= array($code_etudiant,$date_contact,$info_devenir,$international,$precisions) ; //nom des données entrées
-
+            $tableau= array() ; //création du tableau de modification
+            $tableau['cle']=$cle;
+            $tableau['donnees']=$donnees;
             
-            $modContact->insertAI($tab_col_contact,$tab_contact); //requête insertion
+            $modContact->update($tableau); //requête insertion
             
             echo 'Fiche contact bien modifiée.';
                                     /*
@@ -274,7 +277,7 @@ class DevenirController extends Controller {
         
         //print_r($d);
         $this->set($d);
-        
+        //print_r($d);
     }
     
     
@@ -340,8 +343,6 @@ class DevenirController extends Controller {
         
         $d['titre_stat']=$msg_stat; //pour afficher le sous-titre de la statistique choisie
         
-        
-        print_r($d);
         $this->set($d);
         
     }//fin consulter stat
