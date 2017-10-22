@@ -86,12 +86,17 @@ class Model {
             $sql .= $req['groupby'];
         }
         
-        echo $sql; //affichage de la requête
+        // echo $sql; //affichage de la requête
       
         $pre = $this->db->prepare($sql);
         $pre->execute();
-
-        return $pre->fetchall(PDO::FETCH_OBJ);
+        
+        if(isset($req['count'])) {
+            return $pre->fetchall(PDO::FETCH_ASSOC);
+        }
+        else{
+            return $pre->fetchall(PDO::FETCH_OBJ);
+        }
     }
 
     function findFirst($req) {

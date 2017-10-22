@@ -299,7 +299,13 @@ class DevenirController extends Controller {
         $msg_stat='';
         $value_stat_choisie='';
         $d['value_stat_choisie']='';
+        $all='*';
         
+        //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
+        $params_total_el=array('count'=>$all); //pas de , 'conditions'=>$conditions_tot_el
+        $d['total_eleves'] = $this->modEleve->find($params_total_el);
+        //print_r($d['total_eleves']);
+                    
         if(isset($_POST['submit_choix_stat'])){
             $value_stat_choisie=$_POST['stat_choisie']; //stat_choisie
             //echo 'stat choisie : ',$value_stat_choisie ,'<br>'; //s'affiche bien
@@ -312,20 +318,47 @@ class DevenirController extends Controller {
                     //pourcentage de chaque diplôme précédent sur la totalité des élèves
                     //concerne uniquement la table élève
                     
-                    //$dp1='Bac S';
+                    // Nb bac S
+                    $bac_s='Bac S';//variabe à compter
+                    $conditions_bac_s= array('el_diplome_prec'=>$bac_s);// where el_diplome_prec=$bac_s
+                    $params_el_s=array('count'=>$all,'conditions'=>$conditions_bac_s);// on met le count et la condition
+                    $d['nb_bac_s'] = $this->modEleve->find($params_el_s);// on récupère le résultat dans le tableau $d
+                    print_r($d['nb_bac_s']);
                     
-                    //$projection_s1='eleve.el_diplome_prec';//le select
-                    //$conditions_s1= array('el_diplome_prec'=>$dp1);//pas de where ? on veut les compter...
-                    //$params_s1=array('projection'=>$projection_s1,'conditions'=>$conditions_s1);
-                    //$d['pct_bacs'] = $this->modEleve->find($params_s1);
+                    // Nb bac ES
+                    $bac_es='Bac ES';
+                    $conditions_bac_es= array('el_diplome_prec'=>$bac_es);
+                    $params_el_es=array('count'=>$all,'conditions'=>$conditions_bac_es);
+                    $d['nb_bac_es'] = $this->modEleve->find($params_el_es);
+                    print_r($d['nb_bac_es']);
                     
+                    // Nb bac pro SEN
+                    $bac_pro_sen='Bac Pro SEN';
+                    $conditions_bac_pro_sen= array('el_diplome_prec'=>$bac_pro_sen);
+                    $params_el_sen=array('count'=>$all,'conditions'=>$conditions_bac_pro_sen);
+                    $d['nb_bac_pro_sen'] = $this->modEleve->find($params_el_sen);
+                    print_r($d['nb_bac_pro_sen']);
                     
-                    //on essaye de faire un count pour la totalité des élèves
-                    $count_tot_el='el_redoublant';
-                    //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
-                    $params_total_el=array('count'=>$count_tot_el); //pas de , 'conditions'=>$conditions_tot_el
-                    $d['total_eleves'] = $this->modEleve->find($params_total_el);
-                    print_r($d['total_eleves']);
+                    // Nb bac STI2D
+                    $bac_sti2d='Bac STI2D';
+                    $conditions_bac_sti2d= array('el_diplome_prec'=>$bac_sti2d);
+                    $params_el_sti2d=array('count'=>$all,'conditions'=>$conditions_bac_sti2d);
+                    $d['nb_bac_sti2d'] = $this->modEleve->find($params_el_sti2d);
+                    print_r($d['nb_bac_sti2d']);
+                    
+                    // Nb bac STMG
+                    $bac_stmg='Bac STMG';
+                    $conditions_bac_stmg= array('el_diplome_prec'=>$bac_stmg);
+                    $params_el_stmg=array('count'=>$all,'conditions'=>$conditions_bac_stmg);
+                    $d['nb_bac_stmg'] = $this->modEleve->find($params_el_stmg);
+                    print_r($d['nb_bac_stmg']);
+                    
+                    // Nb bac Autre
+                    $bac_autre='Autre';
+                    $conditions_bac_autre= array('el_diplome_prec'=>$bac_autre);
+                    $params_el_autre=array('count'=>$all,'conditions'=>$conditions_bac_autre);
+                    $d['nb_bac_autre'] = $this->modEleve->find($params_el_autre);
+                    print_r($d['nb_bac_autre']);
                     
                     break;
                 case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
@@ -344,7 +377,7 @@ class DevenirController extends Controller {
             
         } //fin du if isset submit choix stat
         
-        echo '$msg_stat: ',$msg_stat;
+        //echo '$msg_stat: ',$msg_stat;
         
         
         $d['titre_stat']=$msg_stat; //pour afficher le sous-titre de la statistique choisie
@@ -352,9 +385,6 @@ class DevenirController extends Controller {
         $this->set($d);
         
     }//fin consulter stat
-    
-    
-    
     
     
     

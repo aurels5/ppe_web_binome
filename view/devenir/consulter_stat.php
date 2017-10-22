@@ -32,6 +32,21 @@
     switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         case "s1" :
             
+            //print_r($total_eleves->[count(*)] );//ne fonctionne pas
+            //print_r($total_eleves); //affiche tout...
+            
+            
+           foreach($total_eleves as $te){
+                echo $te['count(*)'];
+           }
+            /*
+            foreach($total_eleves as $te){
+                //echo $te['count(*)'];
+                echo $te[0];
+            }
+             * 
+             */
+            
             break;
         case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
             
