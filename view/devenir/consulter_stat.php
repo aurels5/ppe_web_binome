@@ -27,11 +27,22 @@
 
 <h3><?=$titre_stat?></h3>
 
-<?php 
-//afficher tous les "bac S"... il faudrait faire un count !
-$bacS=0;
-foreach($pct_bacs as $pbs){
-    $bacS++;//super il compte bien les deux "Bac S" de la BDD... mais ce serait mieux de faire un COUNT !
-}
-echo $bacS;
+
+<?php
+    switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
+        case "s1" :
+            
+            break;
+        case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
+            
+            break;
+        case "s3";//Taux de redoublement par année (diag en bâtons)
+            
+            break;
+        case "s4";//Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
+            
+            break;
+        default:
+            
+    }                
 ?>

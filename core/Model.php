@@ -86,7 +86,7 @@ class Model {
             $sql .= $req['groupby'];
         }
         
-        echo $sql;
+        echo $sql; //affichage de la requête
       
         $pre = $this->db->prepare($sql);
         $pre->execute();
