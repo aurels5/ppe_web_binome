@@ -37,15 +37,45 @@
             
             
            foreach($total_eleves as $te){
-                echo $te['count(*)'];
+                $v_tot_el=$te['count(*)'];
+                $v_tot_el=intval($v_tot_el);
+           }      
+           foreach($nb_bac_s as $bs){
+               $v_bac_s=$bs['count(*)'];
+               $v_bac_s=intval($v_bac_s);
+           }  
+           foreach($nb_bac_es as $bes){
+               $v_bac_es=$bes['count(*)'];
+               $v_bac_es=intval($v_bac_es);
            }
-            /*
-            foreach($total_eleves as $te){
-                //echo $te['count(*)'];
-                echo $te[0];
-            }
-             * 
-             */
+           foreach($nb_bac_sti2d as $bsti2d){
+               $v_bac_sti2d=$bsti2d['count(*)'];
+               $v_bac_sti2d=intval($v_bac_sti2d);
+           }
+           foreach($nb_bac_pro_sen as $bsen){
+               $v_bac_sen=$bsen['count(*)'];
+               $v_bac_sen=intval($v_bac_sen);
+           }
+           foreach($nb_bac_stmg as $bstmg){
+               $v_bac_stmg=$bstmg['count(*)'];
+               $v_bac_stmg=intval($v_bac_stmg);
+           }
+           foreach($nb_bac_autre as $ba){
+               $v_ba=$ba['count(*)'];
+               $v_ba=intval($v_ba);
+           }
+           
+           //echo $v_tot_el , ' ';
+           //echo $v_bac_s , ' ';
+           //echo $v_bac_es, ' ';
+           //echo $v_bac_sen, ' ';
+           //echo $v_bac_sti2d+2, ' ';//test intval
+           //echo $v_bac_stmg, ' ';
+           //echo $v_ba, ' ';
+           
+           $pct_bac_s=$v_bac_s*100/$v_tot_el;
+           echo $pct_bac_s;
+           
             
             break;
         case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
