@@ -29,11 +29,9 @@
 
 <?php 
 //afficher tous les "bac S"... il faudrait faire un count !
-$i=0;
+$bacS=0;
 foreach($pct_bacs as $pbs){
-    echo 'truc';
-    $i++;
-     //super il compte bien les deux "Bac S" de la BDD... mais ce serait mieux de faire un COUNT !
+    $bacS++;//super il compte bien les deux "Bac S" de la BDD... mais ce serait mieux de faire un COUNT !
 }
-echo $i;
+echo $bacS;
 ?>
