@@ -51,7 +51,7 @@ class Model {
         if (isset($req['projection'])) {
             $sql .= $req['projection'] . ' ';
         } 
-        //sinon si un count est renseigné... avec tout, on fait select count (*) sinon SELECT COUNT(nom_colonne)
+        //sinon si un count est renseigné... avec tout, on fait select count(*) sinon SELECT COUNT(nom_colonne)
         elseif (isset($req['count'])) {
             $sql .= $req['count'] . ' ';
         }
