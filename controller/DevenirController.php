@@ -321,7 +321,7 @@ class DevenirController extends Controller {
                     
                     
                     //on essaye de faire un count pour la totalité des élèves
-                    $count_tot_el='count(*)';
+                    $count_tot_el='el_redoublant';
                     //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
                     $params_total_el=array('count'=>$count_tot_el); //pas de , 'conditions'=>$conditions_tot_el
                     $d['total_eleves'] = $this->modEleve->find($params_total_el);

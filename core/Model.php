@@ -53,7 +53,7 @@ class Model {
         } 
         //sinon si un count est renseigné... avec tout, on fait select count(*) sinon SELECT COUNT(nom_colonne)
         elseif (isset($req['count'])) {
-            $sql .= $req['count'] . ' ';
+            $sql .= 'count('.$req['count'] . ') ';
         }
         else {
             $sql .= '* ';
