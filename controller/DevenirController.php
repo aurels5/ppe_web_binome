@@ -312,14 +312,20 @@ class DevenirController extends Controller {
                     //pourcentage de chaque diplôme précédent sur la totalité des élèves
                     //concerne uniquement la table élève
                     
-                    $dp1='Bac S';
+                    //$dp1='Bac S';
                     
-                    $projection_s1='eleve.el_diplome_prec';//le select
-                    $conditions_s1= array('el_diplome_prec'=>$dp1);//pas de where ? on veut les compter...
-                    $params_s1=array('projection'=>$projection_s1,'conditions'=>$conditions_s1);
-                    $d['pct_bacs'] = $this->modEleve->find($params_s1);
+                    //$projection_s1='eleve.el_diplome_prec';//le select
+                    //$conditions_s1= array('el_diplome_prec'=>$dp1);//pas de where ? on veut les compter...
+                    //$params_s1=array('projection'=>$projection_s1,'conditions'=>$conditions_s1);
+                    //$d['pct_bacs'] = $this->modEleve->find($params_s1);
                     
                     
+                    //on essaye de faire un count pour la totalité des élèves
+                    $count_tot_el='count(*)';
+                    //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
+                    $params_total_el=array('count'=>$count_tot_el); //pas de , 'conditions'=>$conditions_tot_el
+                    $d['total_eleves'] = $this->modEleve->find($params_total_el);
+                    print_r($d['total_eleves']);
                     
                     break;
                 case "s2"://Poursuite à l'étranger, sur la totalité des étudiants

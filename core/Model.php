@@ -46,13 +46,21 @@ class Model {
 
     function find($req='') {
         $sql = 'select ';
+        
         //si la projection est renseignée on l'utilise sinon on met toutes les colonnes (*)
         if (isset($req['projection'])) {
             $sql .= $req['projection'] . ' ';
-        } else {
+        } 
+        //sinon si un count est renseigné... avec tout, on fait select count (*) sinon SELECT COUNT(nom_colonne)
+        elseif (isset($req['count'])) {
+            $sql .= $req['count'] . ' ';
+        }
+        else {
             $sql .= '* ';
         }
+        
         $sql .= ' from ' . $this->table . ' ';
+        
         //construction de la condition
 
         if (isset($req['conditions'])) {
@@ -77,6 +85,8 @@ class Model {
 
             $sql .= $req['groupby'];
         }
+        
+        echo $sql;
       
         $pre = $this->db->prepare($sql);
         $pre->execute();
