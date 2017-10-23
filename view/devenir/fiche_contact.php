@@ -138,8 +138,8 @@ for($k=0;$k<2;$k++){
                                     </option>
                                 <?php endforeach; ?>
                                 <?php 
-                                endforeach ;//ferme foreach
-                        } //ferme if
+                                endforeach ;//fin foreach
+                        } //fin if
                         else{
                             foreach ($devenirs as $de): ?>
 

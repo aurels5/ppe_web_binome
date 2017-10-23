@@ -113,9 +113,7 @@ class DevenirController extends Controller {
                 echo 'Problème d\'insertion<br>';
                 print_r($d['message']); //affiche l'exception de précisions
             }
-            
-            
-            
+
                         
         } //fin isset submit 2 (formulaire détails du contact)
         
@@ -205,9 +203,7 @@ class DevenirController extends Controller {
             $conditions4= array('contact.u_code'=>$code_etudiant);
             $params4=array('projection'=>$projection4,'conditions'=>$conditions4);
             $d['contactseleve'] = $this->modContactDevenir->find($params4);
-            
-            
-            
+
         }
             
         
@@ -306,6 +302,7 @@ class DevenirController extends Controller {
         $option1="SLAM";
         $option2="SISR";
         
+        //TOTAL d'élèves (combien d'élèves en tout)
         //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
         $params_total_el=array('count'=>$all); //pas de , 'conditions'=>$conditions_tot_el
         $d['total_eleves'] = $this->modEleve->find($params_total_el);
@@ -328,42 +325,42 @@ class DevenirController extends Controller {
                     $conditions_bac_s= array('el_diplome_prec'=>$bac_s);// where el_diplome_prec=$bac_s
                     $params_el_s=array('count'=>$all,'conditions'=>$conditions_bac_s);// on met le count et la condition
                     $d['nb_bac_s'] = $this->modEleve->find($params_el_s);// on récupère le résultat dans le tableau $d
-                    print_r($d['nb_bac_s']);
+                    //print_r($d['nb_bac_s']);
                     
                     // Nb bac ES
                     $bac_es='Bac ES';
                     $conditions_bac_es= array('el_diplome_prec'=>$bac_es);
                     $params_el_es=array('count'=>$all,'conditions'=>$conditions_bac_es);
                     $d['nb_bac_es'] = $this->modEleve->find($params_el_es);
-                    print_r($d['nb_bac_es']);
+                    //print_r($d['nb_bac_es']);
                     
                     // Nb bac pro SEN
                     $bac_pro_sen='Bac Pro SEN';
                     $conditions_bac_pro_sen= array('el_diplome_prec'=>$bac_pro_sen);
                     $params_el_sen=array('count'=>$all,'conditions'=>$conditions_bac_pro_sen);
                     $d['nb_bac_pro_sen'] = $this->modEleve->find($params_el_sen);
-                    print_r($d['nb_bac_pro_sen']);
+                    //print_r($d['nb_bac_pro_sen']);
                     
                     // Nb bac STI2D
                     $bac_sti2d='Bac STI2D';
                     $conditions_bac_sti2d= array('el_diplome_prec'=>$bac_sti2d);
                     $params_el_sti2d=array('count'=>$all,'conditions'=>$conditions_bac_sti2d);
                     $d['nb_bac_sti2d'] = $this->modEleve->find($params_el_sti2d);
-                    print_r($d['nb_bac_sti2d']);
+                    //print_r($d['nb_bac_sti2d']);
                     
                     // Nb bac STMG
                     $bac_stmg='Bac STMG';
                     $conditions_bac_stmg= array('el_diplome_prec'=>$bac_stmg);
                     $params_el_stmg=array('count'=>$all,'conditions'=>$conditions_bac_stmg);
                     $d['nb_bac_stmg'] = $this->modEleve->find($params_el_stmg);
-                    print_r($d['nb_bac_stmg']);
+                    //print_r($d['nb_bac_stmg']);
                     
                     // Nb bac Autre
                     $bac_autre='Autre';
                     $conditions_bac_autre= array('el_diplome_prec'=>$bac_autre);
                     $params_el_autre=array('count'=>$all,'conditions'=>$conditions_bac_autre);
                     $d['nb_bac_autre'] = $this->modEleve->find($params_el_autre);
-                    print_r($d['nb_bac_autre']);
+                    //print_r($d['nb_bac_autre']);
                     
                     break;
                 case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
@@ -373,26 +370,90 @@ class DevenirController extends Controller {
                     $conditions_international= array('co_international'=>1);
                     $params_international=array('count'=>$all,'conditions'=>$conditions_international);
                     $d['nb_international'] = $this->modContact->find($params_international);
-                    print_r($d['nb_international']);
+                    //print_r($d['nb_international']);
                     
                     //nb de d'élèves SLAM où co_international=1
                     $conditions_international= array('co_international'=>1,'el_option'=>$option1);
                     $params_international=array('count'=>$all,'conditions'=>$conditions_international);
                     $d['nb_opt1_international'] = $this->modContactEleve->find($params_international);
-                    print_r($d['nb_opt1_international']);
+                    //print_r($d['nb_opt1_international']);
                     
                     //nb de d'élèves SISR où co_international=1
                     $conditions_international= array('co_international'=>1,'el_option'=>$option2);
                     $params_international=array('count'=>$all,'conditions'=>$conditions_international);
                     $d['nb_opt2_international'] = $this->modContactEleve->find($params_international);
-                    print_r($d['nb_opt2_international']);
+                    //print_r($d['nb_opt2_international']);
 
                     break;
-                case "s3";//Taux de redoublement par année (diag en bâtons)
-                    $msg_stat="Taux de redoublement par promotion";
+                case "s3"://Taux de redoublement moyen
+                    $msg_stat="Taux de redoublement moyen";
+                    
+                    //$annee_en_cours=intval(date('Y'));
+                    //echo $annee_en_cours , ' : année en cours... ';
+                    
+                    /*//si on voulait le nb de redoublement par promo (pas très utile)
+                    $annee=2015; 
+                    while($annee<=$annee_en_cours){
+                        $annee++;
+                        $i=1;
+                        $promo=$i;
+                        echo $promo;
+                    }
+                     */
+                    
+                    
+                    //Requête pour nombre de redoublants en moyenne càd :
+                    //(nombre de redoublants total puis divisé par le nb de promos !)
+                    $conditions_redouble= array('el_redoublant'=>1);// where élève est un redoublant et appartient à telle promo
+                    $params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
+                    $d['nb_redoublants_total'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
+                    //print_r($d['nb_redoublants_total']);echo '<br>';
+                    
+                    //nb de promos dans la BDD
+                    $params_nb_promos=array('count'=>$all); //pas de , 'conditions'=>$conditions_tot_el
+                    $d['nb_promos'] = $this->modPromotion->find($params_nb_promos);
+                    //print_r($d['nb_promos']); echo '<br>';
+                    
+                    
+                    //Requête nombre de redoublants promo 1
+                    $conditions_redouble= array('el_redoublant'=>1,'pr_code'=>1);// where élève est un redoublant et appartient à telle promo
+                    $params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
+                    $d['nb_redoublants1'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
+                    //print_r($d['nb_redoublants1']);echo '<br>';
+                    
                     break;
-                case "s4";//Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
+                case "s4"://Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
                     $msg_stat="Que deviennent-ils après le BTS SIO ?";
+
+                    //on prend les devenirs de la BDD
+                    $d['devenirs'] = $this->modDevenir->find();
+                    //print_r($d['devenirs']);
+                    
+                    $nb_devenirs=0; //on compte le nombre de devenirs qu'il y a dans la BDD
+                    foreach($d['devenirs'] as $de){
+                        //echo $de->d_devenir;//afficher les devenirs
+                        $nb_devenirs++;
+                        //echo ' ',$nb_devenirs;
+                        
+                        $conditions_devenir= array('d_code'=>$nb_devenirs); //,'el_option'=>$option2
+                        $params_devenir=array('count'=>$all,'conditions'=>$conditions_devenir);
+                        $d["compte_devenir$nb_devenirs"] = $this->modContact->find($params_devenir);
+                        
+                    }
+                    //echo ' ',$nb_devenirs;//renvoie bien 5
+                    $d['num_devenir']=$nb_devenirs;
+                    print_r($d['num_devenir']); echo ': valeur num_devenir, théoriquement 5';
+                    
+                    //Requête du total d'élèves à faire tel devenir
+                    /*
+                    $conditions_devenir= array('d_code'=>1); //,'el_option'=>$option2
+                    $params_devenir=array('count'=>$all,'conditions'=>$conditions_devenir);
+                    $d['compte_devenir'] = $this->modContact->find($params_devenir);
+                     * 
+                     */
+                    //print_r($d['compte_devenir']);
+                    
+                    
                     break;
                 default:
                     $msg_stat="Choisissez les statistiques que vous voulez visionner.";

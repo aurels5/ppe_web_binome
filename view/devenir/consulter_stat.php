@@ -119,10 +119,40 @@
             echo 'Elèves SISR à l\'international : ', $pct_opt2_international , ' &#37;<br>';
             
             break;
-        case "s3";//Taux de redoublement par année (diag en bâtons)
+        case "s3"://Taux de redoublement moyen
+            foreach($nb_redoublants_total as $nrt){
+                $v_nb_redoublants_total=$nrt['count(*)'];
+                $v_nb_redoublants_total=intval($v_nb_redoublants_total);
+            } 
+            foreach($nb_promos as $np){
+                $v_nb_promos=$np['count(*)'];
+                $v_nb_promos=intval($v_nb_promos);
+            } 
+            
+            $taux_redoublement=$v_nb_redoublants_total/$v_nb_promos;
+            echo $taux_redoublement , ' redoublant par promotion.';
+            
+            //soit sur une promotion de 28 élèves :
+            $pct_redoublement=$taux_redoublement*100/28;
+            echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
             
             break;
-        case "s4";//Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
+        case "s4"://Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
+            
+            
+            for($x=1;$x<=$num_devenir;$x++){ //pour le nombre de devenirs existants dans la base de données
+                //echo 'hello 5 fois normalement<br>';//OK
+                echo 'Devenir ',$x, '.<br>';
+                foreach(${'compte_devenir'.$x} as $cdev){
+                    ${'v_nb_d'.$x}=$cdev['count(*)'];
+                    ${'v_nb_d'.$x}=intval(${'v_nb_d'.$x});
+                    echo ${'v_nb_d'.$x},'<br>';
+                    //bon l'idée c'est de les ajouter dans un tableau maintenant ! pour les ressortir proprement
+                    //et pas les afficher au sein même du foreach...
+                }
+            }
+            
+            //afficher ici chaque valeur du futur tableau
             
             break;
         default:
