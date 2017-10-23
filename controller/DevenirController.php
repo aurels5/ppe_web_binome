@@ -294,12 +294,17 @@ class DevenirController extends Controller {
         $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
         $this->modUserEleve = $this->loadModel('UserEleve');
         $this->modContactDevenir = $this->loadModel('ContactDevenir');
+        $this->modContact = $this->loadModel('Contact');
+        $this->modContactEleve = $this->loadModel('ContactEleve');
         
         //initialisations
         $msg_stat='';
         $value_stat_choisie='';
         $d['value_stat_choisie']='';
         $all='*';
+        
+        $option1="SLAM";
+        $option2="SISR";
         
         //$conditions_tot_el= array(''); //pas de where comme on veut tous les élèves de la table el
         $params_total_el=array('count'=>$all); //pas de , 'conditions'=>$conditions_tot_el
@@ -363,6 +368,25 @@ class DevenirController extends Controller {
                     break;
                 case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
                     $msg_stat="Taux de poursuite à l'étranger";
+                    
+                    //nombre d'élèves où co_international=1
+                    $conditions_international= array('co_international'=>1);
+                    $params_international=array('count'=>$all,'conditions'=>$conditions_international);
+                    $d['nb_international'] = $this->modContact->find($params_international);
+                    print_r($d['nb_international']);
+                    
+                    //nb de d'élèves SLAM où co_international=1
+                    $conditions_international= array('co_international'=>1,'el_option'=>$option1);
+                    $params_international=array('count'=>$all,'conditions'=>$conditions_international);
+                    $d['nb_opt1_international'] = $this->modContactEleve->find($params_international);
+                    print_r($d['nb_opt1_international']);
+                    
+                    //nb de d'élèves SISR où co_international=1
+                    $conditions_international= array('co_international'=>1,'el_option'=>$option2);
+                    $params_international=array('count'=>$all,'conditions'=>$conditions_international);
+                    $d['nb_opt2_international'] = $this->modContactEleve->find($params_international);
+                    print_r($d['nb_opt2_international']);
+
                     break;
                 case "s3";//Taux de redoublement par année (diag en bâtons)
                     $msg_stat="Taux de redoublement par promotion";
