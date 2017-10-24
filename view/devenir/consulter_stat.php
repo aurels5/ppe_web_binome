@@ -130,7 +130,7 @@
             } 
             
             $taux_redoublement=$v_nb_redoublants_total/$v_nb_promos;
-            echo $taux_redoublement , ' redoublant par promotion.';
+            echo $taux_redoublement , ' redoublant par promotion. ';
             
             //soit sur une promotion de 28 élèves :
             $pct_redoublement=$taux_redoublement*100/28;
@@ -143,19 +143,52 @@
             for($x=1;$x<=$num_devenir;$x++){ //pour le nombre de devenirs existants dans la base de données
                 //echo 'hello 5 fois normalement<br>';//OK
                 echo 'Devenir ',$x, '.<br>';
-                foreach(${'compte_devenir'.$x} as $cdev){
+                
+                foreach(${'compte_devenir'.$x} as $cdev){ //passe $num_devenir fois ici ($num_devenir=5)
                     ${'v_nb_d'.$x}=$cdev['count(*)'];
                     ${'v_nb_d'.$x}=intval(${'v_nb_d'.$x});
-                    echo ${'v_nb_d'.$x},'<br>';
-                    //bon l'idée c'est de les ajouter dans un tableau maintenant ! pour les ressortir proprement
-                    //et pas les afficher au sein même du foreach...
+                    
+                    $test=intval(${'v_nb_d'.$x});
+                    echo 'test', $test;
+                    
+                    echo 'Valeur du devenir en question : ' , ${'v_nb_d'.$x},'<br>';
+   
+                    //on crée le tableau de valeurs du nombre de personnes ayant le devenir $x
+                    $y=$x-1;
+                    echo $y;
+                    $tab_valeurs_devenirs["$y"]=$test;  
                 }
             }
             
             //afficher ici chaque valeur du futur tableau
+            echo 'tableau final :';
+            
+            for($w=0; ($w<sizeof($tab_valeurs_devenirs)) ; $w++){
+                echo $tab_valeurs_devenirs[$w];
+            }
             
             break;
         default:
             
     }                
 ?>
+
+<!-- test html récupéré grâce à l'id en JS-->
+<!-- HTML -->
+<input type="hidden" id="untest" value="<?php $test="coucou"; echo $test; ?>"/>
+
+<script>//JavaScript 
+ 
+//on récupère les données
+var variableRecuperee = document.getElementById("untest").value;
+//alert(variableRecuperee);
+</script>
+
+
+
+<?php $blabla="hey test json !"; ?>
+<!-- test JSON -->
+<script>
+ var variable_a_utiliser = '<?= json_encode($blabla); ?>';
+ alert(variable_a_utiliser);
+</script>
