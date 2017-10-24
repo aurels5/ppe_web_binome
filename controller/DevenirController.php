@@ -416,9 +416,9 @@ class DevenirController extends Controller {
                     
                     
                     //Requête nombre de redoublants promo 1
-                    $conditions_redouble= array('el_redoublant'=>1,'pr_code'=>1);// where élève est un redoublant et appartient à telle promo
-                    $params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
-                    $d['nb_redoublants1'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
+                    //$conditions_redouble= array('el_redoublant'=>1,'pr_code'=>1);// where élève est un redoublant et appartient à telle promo
+                    //$params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
+                    //$d['nb_redoublants1'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
                     //print_r($d['nb_redoublants1']);echo '<br>';
                     
                     break;
@@ -435,6 +435,7 @@ class DevenirController extends Controller {
                         $nb_devenirs++;
                         //echo ' ',$nb_devenirs;
                         
+                        //Requête qui renvoie le nombre d'étudiants ayant ce devenir $nb_devenirs
                         $conditions_devenir= array('d_code'=>$nb_devenirs); //,'el_option'=>$option2
                         $params_devenir=array('count'=>$all,'conditions'=>$conditions_devenir);
                         $d["compte_devenir$nb_devenirs"] = $this->modContact->find($params_devenir);
