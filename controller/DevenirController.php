@@ -65,11 +65,17 @@ class DevenirController extends Controller {
             $international=0;
             $precisions='';
             $code_etudiant=$_POST['code_etudiant'];
-            $date_contact=date("Y-m-d"); //on a initialisé la value aussi
             $info_devenir=$_POST['info_devenir'];
 
+            $date_contact=date("Y-m-d"); //on a initialisé la value aussi côté client
             if(isset($_POST['date_contact'])){
-                $date_contact=$_POST['date_contact'];
+                try{
+                    $date_contact=$_POST['date_contact'];
+                    verifDateY_m_d($date_contact);
+                } catch (Exception $ex) {
+                    $d['message']=$ex->getMessage(); // ? ne fonctionne pas à chaque fois...pq?
+                    $contact_valid=false;
+                }    
             }
             //echo 'date = ', $date_contact;
             
@@ -80,7 +86,7 @@ class DevenirController extends Controller {
                 try{
                     $precisions=nettoyer($_POST['precisions'], 254);
                 } catch (Exception $ex) {
-                    $d['message']=$ex->getMessage();
+                    $d['message']=$ex->getMessage(); //OK
                     $contact_valid=false;
                 }
                 
