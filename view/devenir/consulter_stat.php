@@ -182,7 +182,17 @@
                 
                 echo ' : ',$tab_pct_valeurs_devenirs[$rang],'<br>';
             }
+            
+            ?>
+            <?php $blabla="hey test json !"; ?>
+            <!-- test JSON -->
+            <script src="../webroot/js/script_statistiques.js"></script>
 
+            <script>
+                var variable_a_utiliser = '<?= json_encode($blabla); ?>';
+                alert(variable_a_utiliser);
+            </script>
+            <?php
             break;
         default:
             
@@ -191,7 +201,7 @@
 
 <!-- test html récupéré grâce à l'id en JS-->
 <!-- HTML 
-<input type="hidden" id="untest" value="<?php $test="coucou"; echo $test; ?>"/>
+<input type="hidden" id="untest" value="<?php //$test="coucou"; echo $test; ?>"/>
 
 <script>//JavaScript 
  
@@ -202,11 +212,3 @@ var variableRecuperee = document.getElementById("untest").value;
 
 
 
-<?php $blabla="hey test json !"; ?>
-<!-- test JSON -->
-<script src="../webroot/js/script_statistiques.js"></script>
-
-<script>
-    var variable_a_utiliser = '<?= json_encode($blabla); ?>';
-    alert(variable_a_utiliser);
-</script>
