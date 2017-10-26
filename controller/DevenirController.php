@@ -565,7 +565,14 @@ class DevenirController extends Controller {
             }
         } // fin du if (!isset($_POST['envoi']))
         
+        
         $d['err_formulaire']=$err_formulaire;
+        $d['form_action']=$form_action;
+        $d['nom']=$nom;
+        $d['email']=$email;
+        $d['objet']=$objet;
+        $d['message']=$message;
+        
         
         $this->set($d);
 
