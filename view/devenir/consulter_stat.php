@@ -240,13 +240,13 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         var pct_bac_stmg='<?= json_encode($pct_bac_stmg); ?>';
         var pct_ba='<?= json_encode($pct_ba); ?>';
         
-        //on met en /1354 au lieu de pourcentage
-        pct_bac_s=pct_bac_s*1354/100; //alert(pct_bac_s);
-        pct_bac_es=pct_bac_es*1354/100; //alert(pct_bac_es);
-        pct_bac_sen=pct_bac_sen*1354/100; //alert(pct_bac_sen);
-        pct_bac_sti2d=pct_bac_sti2d*1354/100; //alert(pct_bac_sti2d);
-        pct_bac_stmg=pct_bac_stmg*1354/100; //alert(pct_bac_stmg);
-        pct_ba=pct_ba*1354/100; //alert(pct_ba);
+        //on met en /1000 au lieu de pourcentage
+        pct_bac_s=pct_bac_s*10; //alert(pct_bac_s);
+        pct_bac_es=pct_bac_es*10; //alert(pct_bac_es);
+        pct_bac_sen=pct_bac_sen*10; //alert(pct_bac_sen);
+        pct_bac_sti2d=pct_bac_sti2d*10; //alert(pct_bac_sti2d);
+        pct_bac_stmg=pct_bac_stmg*10; //alert(pct_bac_stmg);
+        pct_ba=pct_ba*10; //alert(pct_ba);
         
         
         //on crée le graphique
