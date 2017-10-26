@@ -142,30 +142,36 @@
             
             for($x=1;$x<=$num_devenir;$x++){ //pour le nombre de devenirs existants dans la base de données
                 //echo 'hello 5 fois normalement<br>';//OK
-                echo 'Devenir ',$x, '.<br>';
+                //echo 'Devenir ',$x, '.<br>';
                 
                 foreach(${'compte_devenir'.$x} as $cdev){ //passe $num_devenir fois ici ($num_devenir=5)
                     ${'v_nb_d'.$x}=$cdev['count(*)'];
                     ${'v_nb_d'.$x}=intval(${'v_nb_d'.$x});
                     
-                    $test=intval(${'v_nb_d'.$x});
-                    echo 'test', $test;
+                    $valeur_devenir=intval(${'v_nb_d'.$x});//echo 'valeur : ', $valeur_devenir; //OK
                     
-                    echo 'Valeur du devenir en question : ' , ${'v_nb_d'.$x},'<br>';
+                    //echo 'Nombre d\'étudiants ayant ce devenir : ' , ${'v_nb_d'.$x},'<br>'; //OK
    
                     //on crée le tableau de valeurs du nombre de personnes ayant le devenir $x
                     $y=$x-1;
-                    echo $y;
-                    $tab_valeurs_devenirs["$y"]=$test;  
+                    //echo $y;
+                    $tab_valeurs_devenirs["$y"]=$valeur_devenir;  
+                    $tab_pct_valeurs_devenirs["$y"]=$valeur_devenir*100/$v_tot_el ;
                 }
             }
             
             //afficher ici chaque valeur du futur tableau
-            echo 'tableau final :';
-            
+            //echo 'Tableau final des devenirs :<br>';
+            /*
             for($w=0; ($w<sizeof($tab_valeurs_devenirs)) ; $w++){
-                echo $tab_valeurs_devenirs[$w];
+                echo 'Valeur devenir ',$w+1,' : ',$tab_valeurs_devenirs[$w],'<br>';
+            }*/
+            
+            echo 'Pourcentages des devenirs :<br>';
+            for($w=0; ($w<sizeof($tab_pct_valeurs_devenirs)) ; $w++){
+                echo 'Pourcentage devenir ',$w+1,' : ',$tab_pct_valeurs_devenirs[$w],'<br>';
             }
+            
             
             break;
         default:
@@ -190,5 +196,5 @@ var variableRecuperee = document.getElementById("untest").value;
 <!-- test JSON -->
 <script>
  var variable_a_utiliser = '<?= json_encode($blabla); ?>';
- alert(variable_a_utiliser);
+ //alert(variable_a_utiliser);
 </script>
