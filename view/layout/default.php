@@ -39,6 +39,7 @@
                     <li ><a href="<?= BASE_URL ?>/devenir/fiche_contact">Ajouter contact étudiant</a></li>
                     <li ><a href="<?= BASE_URL ?>/devenir/modifier_contact">Modifier contact étudiant</a></li>
                     <li ><a href="<?= BASE_URL ?>/devenir/consulter_stat">Statistiques</a></li>
+                    <li ><a href="<?= BASE_URL ?>/devenir/contact">Contact</a></li>
                 </ul>
             </div>
         <?php endif; ?>
