@@ -173,7 +173,7 @@
             }
             */
             
-            echo 'Pourcentages des devenirs :<br>';
+            echo '<strong>Pourcentages des devenirs</strong> :<br>';
             
             //Nom devenir : pourcentage de chaque devenir
             foreach ($devenirs as $de){
@@ -183,10 +183,6 @@
                 echo ' : ',$tab_pct_valeurs_devenirs[$rang],'<br>';
             }
 
-            
-            
-            
-            
             break;
         default:
             
@@ -194,7 +190,7 @@
 ?>
 
 <!-- test html récupéré grâce à l'id en JS-->
-<!-- HTML -->
+<!-- HTML 
 <input type="hidden" id="untest" value="<?php $test="coucou"; echo $test; ?>"/>
 
 <script>//JavaScript 
@@ -202,13 +198,15 @@
 //on récupère les données
 var variableRecuperee = document.getElementById("untest").value;
 //alert(variableRecuperee);
-</script>
+</script>-->
 
 
 
 <?php $blabla="hey test json !"; ?>
 <!-- test JSON -->
+<script src="../webroot/js/script_statistiques.js"></script>
+
 <script>
- var variable_a_utiliser = '<?= json_encode($blabla); ?>';
- //alert(variable_a_utiliser);
+    var variable_a_utiliser = '<?= json_encode($blabla); ?>';
+    alert(variable_a_utiliser);
 </script>
