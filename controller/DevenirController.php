@@ -471,13 +471,32 @@ class DevenirController extends Controller {
         } //fin du if isset submit choix stat
         
         //echo '$msg_stat: ',$msg_stat;
-        
-        
         $d['titre_stat']=$msg_stat; //pour afficher le sous-titre de la statistique choisie
         
         $this->set($d);
         
     }//fin consulter stat
+    
+    
+    
+    function contact(){
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     
