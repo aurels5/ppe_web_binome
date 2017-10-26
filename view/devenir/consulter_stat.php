@@ -36,7 +36,7 @@
     }
 
     switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
-        case "s1" :
+        case "s1" ://provenance élèves
             
             //print_r($total_eleves->[count(*)] );//ne fonctionne pas
             //print_r($total_eleves); //affiche tout...
@@ -195,7 +195,7 @@
             <?php
             break;
         default:
-            
+            //pas de stat' sélectionnée, on ne fait rien
     }                
 ?>
 
@@ -212,3 +212,135 @@ var variableRecuperee = document.getElementById("untest").value;
 
 
 
+
+
+<!-- diagrammes et graphiques stats -->
+<div id="container" style="height: 500px"></div>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+
+
+<?php
+switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
+    case "s1" :
+?>
+
+        <script type="text/javascript">
+        
+        //On prélève les variables de PHP pour la provenance des étudiants
+        var pct_bac_s = '<?= json_encode($pct_bac_s); ?>';
+        var pct_bac_es='<?= json_encode($pct_bac_es); ?>';
+        var pct_bac_sen='<?= json_encode($pct_bac_sen); ?>';
+        var pct_bac_sti2d='<?= json_encode($pct_bac_sti2d); ?>';
+        var pct_bac_stmg='<?= json_encode($pct_bac_stmg); ?>';
+        var pct_ba='<?= json_encode($pct_ba); ?>';
+        
+        //on met en /1354 au lieu de pourcentage
+        pct_bac_s=pct_bac_s*1354/100; //alert(pct_bac_s);
+        pct_bac_es=pct_bac_es*1354/100; //alert(pct_bac_es);
+        pct_bac_sen=pct_bac_sen*1354/100; //alert(pct_bac_sen);
+        pct_bac_sti2d=pct_bac_sti2d*1354/100; //alert(pct_bac_sti2d);
+        pct_bac_stmg=pct_bac_stmg*1354/100; //alert(pct_bac_stmg);
+        pct_ba=pct_ba*1354/100; //alert(pct_ba);
+        
+        
+        //on crée le graphique
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        option = {
+            backgroundColor: '#507090',
+
+            title: {
+                text: 'Les devenirs après un BTS SIO',
+                left: 'center',
+                top: 20,
+                textStyle: {
+                    color: '#aaa'
+                }
+            },
+
+            tooltip : {
+                trigger: 'item',
+                formatter: "{a} <br/>{b} : {c} ({d}%)"
+            },
+
+            visualMap: {
+                show: false,
+                min: 80,
+                max: 600,
+                inRange: {
+                    colorLightness: [0.2, 0.9] //0 noir, 1 blanc (nuances d'une couleur, ici R)
+                }
+            },
+            series : [
+                {
+                    name:'Pourcentage :',
+                    type:'pie',
+                    radius : '55%',
+                    center: ['50%', '50%'],
+                    data:[
+                        {value:pct_bac_s, name:'Bac S'}, //la somme doit faire 1354
+                        {value:pct_bac_es, name:'Bac ES'},
+                        {value:pct_bac_sen, name:'Bac Pro SEN'},
+                        {value:pct_bac_sti2d, name:'Bac STI2D'},
+                        {value:pct_bac_stmg, name:'Bac STMG'},
+                        {value:pct_ba, name:'Autres'}
+                    ].sort(function (a, b) { return a.value - b.value; }),
+                    roseType: 'radius',
+                    label: {
+                        normal: {
+                            textStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            }
+                        }
+                    },
+                    labelLine: {
+                        normal: {
+                            lineStyle: {
+                                color: 'rgba(255, 255, 255, 0.3)'
+                            },
+                            smooth: 0.2,
+                            length: 10,
+                            length2: 20
+                        }
+                    },
+                    itemStyle: {
+                        normal: {
+                            color: '#AABFDD',
+                            shadowBlur: 200,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    },
+
+                    animationType: 'scale',
+                    animationEasing: 'elasticOut',
+                    animationDelay: function (idx) {
+                        return Math.random() * 200;
+                    }
+                }
+            ]
+        };;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+        </script>
+
+<?php 
+        break;
+    case "s2" :
+        break;
+    case "s3" :
+        break;
+    case "s4" :
+        break;
+    default:
+        //echo '';//pas d'affichage de graphique
+}
+?>
