@@ -441,6 +441,7 @@ class DevenirController extends Controller {
                         $nb_devenirs++;
                         //echo ' ',$nb_devenirs;
                         
+                        
                         //Requête qui renvoie le nombre d'étudiants ayant ce devenir $nb_devenirs
                         $conditions_devenir= array('d_code'=>$nb_devenirs); //,'el_option'=>$option2
                         $params_devenir=array('count'=>$all,'conditions'=>$conditions_devenir);
@@ -449,7 +450,7 @@ class DevenirController extends Controller {
                     }
                     //echo ' ',$nb_devenirs;//renvoie bien 5
                     $d['num_devenir']=$nb_devenirs;
-                    print_r($d['num_devenir']); echo ': valeur num_devenir, théoriquement 5';
+                    //print_r($d['num_devenir']); echo ': valeur num_devenir, théoriquement 5'; //OK
                     
                     //Requête du total d'élèves à faire tel devenir
                     /*

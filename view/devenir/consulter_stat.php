@@ -153,8 +153,7 @@
                     //echo 'Nombre d\'étudiants ayant ce devenir : ' , ${'v_nb_d'.$x},'<br>'; //OK
    
                     //on crée le tableau de valeurs du nombre de personnes ayant le devenir $x
-                    $y=$x-1;
-                    //echo $y;
+                    $y=$x-1;//echo $y;
                     $tab_valeurs_devenirs["$y"]=$valeur_devenir;  
                     $tab_pct_valeurs_devenirs["$y"]=$valeur_devenir*100/$v_tot_el ;
                 }
@@ -163,14 +162,29 @@
             //afficher ici chaque valeur du futur tableau
             //echo 'Tableau final des devenirs :<br>';
             /*
+            //on affiche les nombres de devenirs
             for($w=0; ($w<sizeof($tab_valeurs_devenirs)) ; $w++){
                 echo 'Valeur devenir ',$w+1,' : ',$tab_valeurs_devenirs[$w],'<br>';
-            }*/
-            
-            echo 'Pourcentages des devenirs :<br>';
+            }
+
+            //on affiche les pourcentages des devenirs
             for($w=0; ($w<sizeof($tab_pct_valeurs_devenirs)) ; $w++){
                 echo 'Pourcentage devenir ',$w+1,' : ',$tab_pct_valeurs_devenirs[$w],'<br>';
             }
+            */
+            
+            echo 'Pourcentages des devenirs :<br>';
+            
+            //Nom devenir : pourcentage de chaque devenir
+            foreach ($devenirs as $de){
+                $rang=($de->d_code)-1; //echo 'd_code=',$de->d_code ;//OK
+                echo $de->d_devenir ;
+                
+                echo ' : ',$tab_pct_valeurs_devenirs[$rang],'<br>';
+            }
+
+            
+            
             
             
             break;
