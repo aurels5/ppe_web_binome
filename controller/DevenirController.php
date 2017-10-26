@@ -480,20 +480,13 @@ class DevenirController extends Controller {
     
     
     function contact(){
-        /*
-          ********************************************************************************************
-          CONFIGURATION
-          ********************************************************************************************
-        */
-        // destinataire est notre adresse mail. Pour envoyer à plusieurs à la fois, séparez-les par une virgule
+        // adresse mail du système
         $destinataire = 'aurelia.sarradin@gmail.com';
 
         // copie ? (envoie une copie au visiteur)
         $copie = 'oui';
 
-        // Action du formulaire (si votre page a des paramètres dans l'URL)
-        // si cette page est index.php?page=contact alors mettez index.php?page=contact
-        // sinon, laissez vide
+        // Action du formulaire (si la page a des paramètres dans l'URL)
         $form_action = '';
 
         // Messages de confirmation du mail
@@ -502,12 +495,6 @@ class DevenirController extends Controller {
 
         // Message d'erreur du formulaire
         $message_formulaire_invalide = "Mail invalide. Vérifiez tous les champs et notamment la validité de votre adresse mail.";
-
-        /*
-                  ********************************************************************************************
-                  FIN DE LA CONFIGURATION
-                  ********************************************************************************************
-        */
 
         /*
          * fonctions Rec() et IsMail() dans les verifications.php
@@ -526,57 +513,61 @@ class DevenirController extends Controller {
 
         if (isset($_POST['envoi']))
         {
-                  if (($nom != '') && ($email != '') && ($objet != '') && ($message != ''))
-                  {
-                            // les 4 variables sont remplies, on génère puis envoie le mail
-                            $headers  = 'From:'.$nom.' <'.$email.'>' . "\r\n";
-                            //$headers .= 'Reply-To: '.$email. "\r\n" ;
-                            //$headers .= 'X-Mailer:PHP/'.phpversion();
+            if (($nom != '') && ($email != '') && ($objet != '') && ($message != ''))
+            {
+                // les 4 variables sont remplies, on génère puis envoie le mail
+                $headers  = 'From:'.$nom.' <'.$email.'>' . "\r\n";
+                //$headers .= 'Reply-To: '.$email. "\r\n" ;
+                //$headers .= 'X-Mailer:PHP/'.phpversion();
 
-                            // envoyer une copie au visiteur ?
-                            if ($copie == 'oui')
-                            {
-                                      $cible = $destinataire.';'.$email;
-                            }
-                            else
-                            {
-                                      $cible = $destinataire;
-                            }
+                // envoyer une copie au visiteur ?
+                if ($copie == 'oui')
+                {
+                          $cible = $destinataire.';'.$email;
+                }
+                else
+                {
+                          $cible = $destinataire;
+                }
 
-                            // Remplacement de certains caractères spéciaux
-                            $message = str_replace("&#039;","'",$message);
-                            $message = str_replace("&#8217;","'",$message);
-                            $message = str_replace("&quot;",'"',$message);
-                            $message = str_replace('&lt;br&gt;','',$message);
-                            $message = str_replace('&lt;br /&gt;','',$message);
-                            $message = str_replace("&lt;","&lt;",$message);
-                            $message = str_replace("&gt;","&gt;",$message);
-                            $message = str_replace("&amp;","&",$message);
+                // Remplacement de certains caractères spéciaux
+                $message = str_replace("&#039;","'",$message);
+                $message = str_replace("&#8217;","'",$message);
+                $message = str_replace("&quot;",'"',$message);
+                $message = str_replace('&lt;br&gt;','',$message);
+                $message = str_replace('&lt;br /&gt;','',$message);
+                $message = str_replace("&lt;","&lt;",$message);
+                $message = str_replace("&gt;","&gt;",$message);
+                $message = str_replace("&amp;","&",$message);
 
-                            // Envoi du mail
-                            $num_emails = 0;
-                            $tmp = explode(';', $cible);
-                            foreach($tmp as $email_destinataire){
-                                      if (mail($email_destinataire, $objet, $message, $headers))
-                                                $num_emails++;
-                            }
+                // Envoi du mail
+                $num_emails = 0;
+                $tmp = explode(';', $cible);
+                foreach($tmp as $email_destinataire){
+                          if (mail($email_destinataire, $objet, $message, $headers))
+                                    $num_emails++;
+                }
 
-                            if ((($copie == 'oui') && ($num_emails == 2)) || (($copie == 'non') && ($num_emails == 1)))
-                            {
-                                      echo '<p>'.$message_envoye.'</p>';
-                            }
-                            else
-                            {
-                                      echo '<p>'.$message_non_envoye.'</p>';
-                            }
-                  }
-                  else
-                  {
-                            // une des 3 variables (ou plus) est vide ...
-                            echo '<p>'.$message_formulaire_invalide.'</p>';
-                            $err_formulaire = true;
-                  }
+                if ((($copie == 'oui') && ($num_emails == 2)) || (($copie == 'non') && ($num_emails == 1)))
+                {
+                          echo '<p>'.$message_envoye.'</p>';
+                }
+                else
+                {
+                          echo '<p>'.$message_non_envoye.'</p>';
+                }
+            }
+            else
+            {
+                      // une des 3 variables (ou plus) est vide ...
+                      echo '<p>'.$message_formulaire_invalide.'</p>';
+                      $err_formulaire = true;
+            }
         } // fin du if (!isset($_POST['envoi']))
+        
+        $d['err_formulaire']=$err_formulaire;
+        
+        $this->set($d);
 
     }
     
