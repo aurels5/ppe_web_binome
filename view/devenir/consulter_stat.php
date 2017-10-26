@@ -258,7 +258,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
             backgroundColor: '#507090',
 
             title: {
-                text: 'Les devenirs après un BTS SIO',
+                text: 'Les provenances des étudiants avant le BTS SIO',
                 left: 'center',
                 top: 20,
                 textStyle: {
