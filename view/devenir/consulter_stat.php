@@ -136,6 +136,25 @@
             $pct_redoublement=$taux_redoublement*100/28;
             echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
             
+            
+            echo '<label for="promo">Quelle promotion ?</label>';
+                    
+            echo '<select name="promo">';
+                
+                foreach ($promotions as $pr): ?>
+                    <option value="<?= $pr->pr_code ?>" <?php if($pr->pr_code==$lecodepromo){ echo 'selected';} ?> >
+                            <?= dateShowYear($pr->pr_date_debut)  .' / '. dateShowYear($pr->pr_date_fin) ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <?php //echo $lecodepromo , ' : le code sélectionné.' ?>
+            
+            
+            
+            
+            
+            
+            <?php
             break;
         case "s4"://Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
             
@@ -184,14 +203,10 @@
             }
             
             ?>
-            <?php $blabla="hey test json !"; ?>
-            <!-- test JSON -->
-            <script src="../webroot/js/script_statistiques.js"></script>
+            
 
-            <script>
-                var variable_a_utiliser = '<?= json_encode($blabla); ?>';
-                alert(variable_a_utiliser);
-            </script>
+            <!--script src="../webroot/js/script_devenir.js"></script-->
+
             <?php
             break;
         default:
@@ -199,23 +214,11 @@
     }                
 ?>
 
-<!-- test html récupéré grâce à l'id en JS-->
-<!-- HTML 
-<input type="hidden" id="untest" value="<?php //$test="coucou"; echo $test; ?>"/>
-
-<script>//JavaScript 
- 
-//on récupère les données
-var variableRecuperee = document.getElementById("untest").value;
-//alert(variableRecuperee);
-</script>-->
-
-
-
 
 
 <!-- diagrammes et graphiques stats -->
-<div id="container" style="height: 500px"></div>
+<!-- on charge tous les scripts JS 1 fois pour tous les scripts à venir-->
+<div id="container" style="height: 500px"><!--chaque graphique se met ici--></div>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
 <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
@@ -249,7 +252,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         pct_ba=pct_ba*10; //alert(pct_ba);
         
         
-        //on crée le graphique
+        //on crée le graphique, se met dans le container en html ci-dessus
         var dom = document.getElementById("container");
         var myChart = echarts.init(dom);
         var app = {};
@@ -330,16 +333,93 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         if (option && typeof option === "object") {
             myChart.setOption(option, true);
         }
+        //fin graphique provenance des étudiants
         </script>
+
+        
+<?php
+        break;
+    case "s2" :
+        
+    //début graphique 2, poursuites à l'étranger
+?>
+
+        <script type="text/javascript">
+            
+            //On prélève les variables de PHP pour la provenance des étudiants
+            var pct_opt1_international = '<?= json_encode($pct_opt1_international); ?>';
+            var pct_opt2_international = '<?= json_encode($pct_opt2_international); ?>';
+            var reste = '<?= 100-json_encode($pct_international); ?>'; //alert(reste);//OK
+            
+            //début du graphique à mettre dans le container
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            option = {
+                      title : {
+                                text: 'International',
+                                subtext: 'Poursuite des étudiants à l\'étranger...',
+                                x:'center'
+                      },
+                      tooltip : {
+                                trigger: 'item',
+                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                      },
+                      legend: {
+                                orient: 'vertical',
+                                left: 'left',
+                                data: ['Etudiants SLAM à l\'international','Etudiants SISR à l\'international','Etudiants restant en France'] //attention, même nom qu'en dessous obligatoire
+                      },
+                      series : [
+                                {
+                                    name: 'Pourcentage :',
+                                    type: 'pie',
+                                    radius : '55%',
+                                    center: ['50%', '60%'],
+                                    data:[
+                                              {value:pct_opt1_international, name:'Etudiants SLAM à l\'international'}, //attention, même nom qu'au-dessus obligatoire
+                                              {value:pct_opt2_international, name:'Etudiants SISR à l\'international'},
+                                              {value:reste, name:'Etudiants restant en France'}
+                                    ],
+                                    itemStyle: {
+                                              emphasis: {
+                                                        shadowBlur: 10,
+                                                        shadowOffsetX: 0,
+                                                        shadowColor: 'rgba(0, 0, 0, 0.7)'
+                                              }
+                                    }
+                                }
+                      ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                      myChart.setOption(option, true);
+            }
+            //fin affichage graphique s2 (étudiants à l'international)
+       </script>
+        
 
 <?php 
         break;
-    case "s2" :
-        break;
     case "s3" :
+        //taux de redoublement
+?>
+       
+       
+       
+
+<?php
         break;
     case "s4" :
+?>
+       
+       
+       
+        
+<?php 
         break;
+        //fin des affichages des graphiques
     default:
         //echo '';//pas d'affichage de graphique
 }

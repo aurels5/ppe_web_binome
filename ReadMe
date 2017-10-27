@@ -1,0 +1,57 @@
+ReadMe - Lisez-moi
+------------------
+
+Application Entreprise, Retro-engineering : Module Devenir
+----------------------------------------------------------
+
+    /***********************************************************
+    ARCHITECTURE MVC :
+    ------------------
+
+    /config     (contient conf.php, accès à la BDD)
+
+    /controller (contient les contrôleurs fils DevenirController, EntController, UserController, et verifications)
+
+    /code       (contient Controller principal, Dispatcher, Model (classe mère), Request, Rooter, Session, includes
+
+    /model      (contient les modèles fils de Model : Commentaire, Contact, ContactDevenir, ContactEleve, Devenir
+                                    Devenir, Eleve, Entreprise, Promotion, Type_Entreprise, User, UserEleve)
+
+    /sql        (contient les scripts SQL : bdd, insert et drops)
+
+    /view       /devenir    (consulter_stat (vue exploitée par l'insert et la modification), contact, fiche_contact)
+                /ent    
+                /errors
+                /layout
+                /user
+
+    /webroot    /css
+                /img
+                /js (DataTables, jquery.js, script_devenir.js)
+
+    .htaccess
+    ReadMe (Lisez-moi)
+    etudiant_devenir.xml
+
+
+    FIN ARCHITECTURE MVC
+    ***********************************************************/
+
+
+
+
+
+
+    /***********************************************************
+    Informations sur la BDD / pour les tests sur jeux d'essais :
+
+    Étudiants qui n'ont pas de fiche contact : 
+        Anaïs SISR
+        Mouna SLAM
+        Aymerick
+        Mélanie Lussan, 
+        Johnny André, 
+        Quentin Passebon
+    ************************************************************/
+
+

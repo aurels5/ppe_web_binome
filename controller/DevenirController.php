@@ -394,20 +394,6 @@ class DevenirController extends Controller {
                 case "s3"://Taux de redoublement moyen
                     $msg_stat="Taux de redoublement moyen";
                     
-                    //$annee_en_cours=intval(date('Y'));
-                    //echo $annee_en_cours , ' : année en cours... ';
-                    
-                    /*//si on voulait le nb de redoublement par promo (pas très utile)
-                    $annee=2015; 
-                    while($annee<=$annee_en_cours){
-                        $annee++;
-                        $i=1;
-                        $promo=$i;
-                        echo $promo;
-                    }
-                     */
-                    
-                    
                     //Requête pour nombre de redoublants en moyenne càd :
                     //(nombre de redoublants total puis divisé par le nb de promos !)
                     $conditions_redouble= array('el_redoublant'=>1);// where élève est un redoublant et appartient à telle promo
@@ -426,6 +412,19 @@ class DevenirController extends Controller {
                     //$params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
                     //$d['nb_redoublants1'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
                     //print_r($d['nb_redoublants1']);echo '<br>';
+                    
+                    
+                    //Requête nombre de redoublants par promo...
+                    //pour chaque promo de la bdd (foreach)
+                        //requête...$promo.$x
+                        //$d['nb_redoublants_$x']
+                    $d['promotions'] = $this->modPromotion->find();
+                    $d['lecodepromo']='';
+
+                     if(isset($_POST['submit1'])){
+                        $promo_sel=$_POST['promo']; 
+                        $d['lecodepromo']=$promo_sel;
+                     }
                     
                     break;
                 case "s4"://Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir
