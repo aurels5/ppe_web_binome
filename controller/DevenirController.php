@@ -419,12 +419,21 @@ class DevenirController extends Controller {
                         //requête...$promo.$x
                         //$d['nb_redoublants_$x']
                     $d['promotions'] = $this->modPromotion->find();
+                    print_r($d['promotions']);
+                    
+                    //---> ici(PROBLEME) je n'arrive pas à récupérer chaque promo de la BDD (genre un foreach ici dans le contrôleur, dans la view je sais faire)
+                    //et appliquer la requête de redoublement pour chaque promo (même si on rajoute des promos ça devra fonctionner)...
+                    
+                    /*//si on voulait que l'utilisateur sélectionne lui-même la promo. 
+                     * //Mais on va faire un diagramme en bâtons avec les promos de la BDD
                     $d['lecodepromo']='';
 
-                     if(isset($_POST['submit1'])){
+                     if(isset($_POST['choix_promo'])){
                         $promo_sel=$_POST['promo']; 
                         $d['lecodepromo']=$promo_sel;
                      }
+                     * 
+                     */
                     
                     break;
                 case "s4"://Devenir après le BTS, d_devenir + innerjoin avec contact.u_code --> modèle ContactDevenir

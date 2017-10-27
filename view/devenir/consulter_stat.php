@@ -130,26 +130,35 @@
             } 
             
             $taux_redoublement=$v_nb_redoublants_total/$v_nb_promos;
-            echo $taux_redoublement , ' redoublant par promotion. ';
+            echo 'Il y a en moyenne ',$taux_redoublement , ' redoublant(s) par promotion (sur deux ans). ';
             
             //soit sur une promotion de 28 élèves :
             $pct_redoublement=$taux_redoublement*100/28;
             echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
-            
-            
-            echo '<label for="promo">Quelle promotion ?</label>';
-                    
-            echo '<select name="promo">';
-                
-                foreach ($promotions as $pr): ?>
-                    <option value="<?= $pr->pr_code ?>" <?php if($pr->pr_code==$lecodepromo){ echo 'selected';} ?> >
-                            <?= dateShowYear($pr->pr_date_debut)  .' / '. dateShowYear($pr->pr_date_fin) ?>
-                    </option>
-                <?php endforeach; ?>
-            </select>
+
+            ?>
+<!--SI ON VOULAIT QUE l'UTILISATEUR CHOISISSE LA PROMO... PB : NOUVEAU FORMULAIRE DONC IL REACTUAISE ET OUBLIE QU'ON VEUT LA STAT s3
+        <form method="POST" action="<?= BASE_URL ?>/devenir/consulter_stat">
+            <?php
+            /*
+            echo '<label for="promo">Quelle promotion ?</label>'.  
+                '<select name="promo">';
+                    foreach ($promotions as $pr): */?>
+                        <option value="<?php //echo $pr->pr_code ?>" <?php //if($pr->pr_code==$lecodepromo){ echo 'selected';} ?> >
+                                <?php //echo dateShowYear($pr->pr_date_debut)  .' / '. dateShowYear($pr->pr_date_fin) ?>
+                        </option>
+                <?php //endforeach; ?>
+                </select>
+                <input type="submit" name="choix_promo" value="Choisir la promotion">
+                <button id="choix_promo">Bouton JS Choisir la promotion</button>
+                <script>var choix_promo = document.getElementById("choix_promo").value; alert(choixpromo);</script>
             <?php //echo $lecodepromo , ' : le code sélectionné.' ?>
-            
-            
+        </form>   
+    -->
+    
+            <?php
+            //statistiques de redoublement par promotion
+            ?>
             
             
             
