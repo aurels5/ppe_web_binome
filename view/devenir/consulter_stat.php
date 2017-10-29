@@ -208,7 +208,7 @@
                 $rang=($de->d_code)-1; //echo 'd_code=',$de->d_code ;//OK
                 echo $de->d_devenir ;
                 
-                echo ' : ',$tab_pct_valeurs_devenirs[$rang],'<br>';
+                echo ' : ',$tab_pct_valeurs_devenirs[$rang],' &#37;<br>';
             }
             
             ?>

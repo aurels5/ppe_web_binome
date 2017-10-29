@@ -4,9 +4,12 @@
 
 if (($err_formulaire) || (!isset($_POST['envoi']))) //s'il y a une erreur de remplissage ou si l'user n'a pas appuyé sur envoyer
 {
-    echo 'Etudiant post BTS SIO, votre devenir nous intéresse à des fins statistiques. '
-    . 'Veuillez nous préciser de préférence : la promotion dans laquelle vous étiez, l\'option que vous aviez choisie, '
-    . '';
+    echo '<p>Etudiant post BTS SIO, votre devenir nous intéresse à des fins statistiques. '
+    . 'Veuillez nous préciser de préférence : la promotion dans laquelle vous étiez, l\'option '
+            . 'que vous aviez choisie, vos Nom/Prénom, vos nouvelles conditions de vie '
+            . '(CDI, CDD, Chômage, Poursuite d\'études, Changement de voie), '
+            . 'votre situation en France ou à l\'international, et d\'éventuelles précisions. '
+    . '</p>';
     
     // afficher le formulaire
     echo '
