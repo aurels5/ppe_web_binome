@@ -119,6 +119,10 @@
             echo 'Elèves SISR à l\'international : ', $pct_opt2_international , ' &#37;<br>';
             
             break;
+            
+            
+            
+            
         case "s3"://Taux de redoublement moyen
             foreach($nb_redoublants_total as $nrt){
                 $v_nb_redoublants_total=$nrt['count(*)'];
@@ -137,27 +141,25 @@
             echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
 
             ?>
-<!--SI ON VOULAIT QUE l'UTILISATEUR CHOISISSE LA PROMO... PB : NOUVEAU FORMULAIRE DONC IL REACTUAISE ET OUBLIE QU'ON VEUT LA STAT s3
-        <form method="POST" action="<?= BASE_URL ?>/devenir/consulter_stat">
-            <?php
-            /*
-            echo '<label for="promo">Quelle promotion ?</label>'.  
-                '<select name="promo">';
-                    foreach ($promotions as $pr): */?>
-                        <option value="<?php //echo $pr->pr_code ?>" <?php //if($pr->pr_code==$lecodepromo){ echo 'selected';} ?> >
-                                <?php //echo dateShowYear($pr->pr_date_debut)  .' / '. dateShowYear($pr->pr_date_fin) ?>
-                        </option>
-                <?php //endforeach; ?>
-                </select>
-                <input type="submit" name="choix_promo" value="Choisir la promotion">
-                <button id="choix_promo">Bouton JS Choisir la promotion</button>
-                <script>var choix_promo = document.getElementById("choix_promo").value; alert(choixpromo);</script>
-            <?php //echo $lecodepromo , ' : le code sélectionné.' ?>
-        </form>   
-    -->
+ 
     
             <?php
             //statistiques de redoublement par promotion
+            
+            for($y=1;$y<=$nombre_promotions;$y++){
+                //pour chaque promo, on veut le nombre de redoublants
+                $tab_redoub_promo["$y"]=${'nb_redoub_promo'.$y}; //NE FONCTIONNE PAS !!!
+                echo $tab_redoub_promo[$y] , '<br>'; //pour tester
+            }
+            
+            /*
+            for($r=1; $r<=$nombre_promotions; $r++){
+                echo 'Promo', $r, ': ',$tab_redoub_promo[$r]; //ON VEUT METTRE DANS UN TABLEAU
+            }
+             * 
+             */
+            
+            
             ?>
             
             

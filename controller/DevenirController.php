@@ -395,17 +395,49 @@ class DevenirController extends Controller {
                     $msg_stat="Taux de redoublement moyen";
                     
                     //Requête pour nombre de redoublants en moyenne càd :
-                    //(nombre de redoublants total puis divisé par le nb de promos !)
+                    //(nombre de redoublants total ici puis divisé par le nb de promos !)
                     $conditions_redouble= array('el_redoublant'=>1);// where élève est un redoublant et appartient à telle promo
                     $params_redouble=array('count'=>$all,'conditions'=>$conditions_redouble);// on met le count et la condition
                     $d['nb_redoublants_total'] = $this->modEleve->find($params_redouble);// on récupère le résultat dans le tableau $d
                     //print_r($d['nb_redoublants_total']);echo '<br>';
                     
+                    
+                    
                     //nb de promos dans la BDD
-                    $params_nb_promos=array('count'=>$all); //pas de , 'conditions'=>$conditions_tot_el
+                    $params_nb_promos=array('count'=>$all);
                     $d['nb_promos'] = $this->modPromotion->find($params_nb_promos);
+                    $nb_promotions=$d['nb_promos']; 
+                    //echo 'print_r nb_promos:<br>';
                     //print_r($d['nb_promos']); echo '<br>';
                     
+                    $nbprom=0;
+                    foreach($nb_promotions as $prom){
+                        $nb_prom=$prom['count(*)'];
+                        //echo $nb_prom; //OK
+                        $d['nombre_promotions']=$nb_prom;
+                    }
+                    
+                    //Requête pour telle promo : compte le nombre de redoublants correspondants
+                    for($y=1;$y<=$nb_prom;$y++){
+                        $conditions_redoub_promo= array('pr_code'=>$y,'el_redoublant'=>1);
+                        $params_redoub_promo=array('count'=>$all,'conditions'=>$conditions_redoub_promo);
+                        ${'nb_redoub_promo'.$y} = $this->modEleve->find($params_redoub_promo);
+                        //echo '<br>y=',$y,' ';
+                        //print_r(${'nb_redoub_promo'.$y});//OK
+                        //$d['nb_redoub_promo'.$y]=${'nb_redoub_promo'.$y};
+                        
+                        foreach(${'nb_redoub_promo'.$y} as $n){
+                            $d['nb_redoub_promo'.$y]=$n['count(*)'];
+                            //echo $d['nb_redoub_promo'.$y];
+                        }
+                        
+                    }
+                    
+                    //echo '<br>test $d nb_redoub_promo 1 :',print_r($d['nb_redoub_promo1']); //fonctionne OK
+                    //echo '<br>test $d nb_redoub_promo 2 :',print_r($d['nb_redoub_promo2']);
+                    
+
+
                     
                     //Requête nombre de redoublants promo 1
                     //$conditions_redouble= array('el_redoublant'=>1,'pr_code'=>1);// where élève est un redoublant et appartient à telle promo
@@ -419,7 +451,7 @@ class DevenirController extends Controller {
                         //requête...$promo.$x
                         //$d['nb_redoublants_$x']
                     $d['promotions'] = $this->modPromotion->find();
-                    print_r($d['promotions']);
+                    //print_r($d['promotions']);//OK
                     
                     //---> ici(PROBLEME) je n'arrive pas à récupérer chaque promo de la BDD (genre un foreach ici dans le contrôleur, dans la view je sais faire)
                     //et appliquer la requête de redoublement pour chaque promo (même si on rajoute des promos ça devra fonctionner)...
