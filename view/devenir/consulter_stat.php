@@ -524,14 +524,26 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         break;
     case "s4" :
 ?>
+       
        <script type="text/javascript">
            
-            var ps_et='<?= json_encode($tab_valeurs_devenirs[0]/$v_tot_el); ?>';
-            var ch_voie='<?= json_encode($tab_valeurs_devenirs[1]/$v_tot_el); ?>';
-            var cdd='<?= json_encode($tab_valeurs_devenirs[2]/$v_tot_el); ?>';
-            var cdi='<?= json_encode($tab_valeurs_devenirs[3]/$v_tot_el); ?>';
-            var chom='<?= json_encode($tab_valeurs_devenirs[4]/$v_tot_el); ?>';
+           //on récupère les données de PHP
+            var ps_et='<?= json_encode($tab_valeurs_devenirs[0]/$v_tot_el*100); ?>'; 
+            var ch_voie='<?= json_encode($tab_valeurs_devenirs[1]/$v_tot_el*100); ?>'; 
+            var cdd='<?= json_encode($tab_valeurs_devenirs[2]/$v_tot_el*100); ?>';
+            var cdi='<?= json_encode($tab_valeurs_devenirs[3]/$v_tot_el*100); ?>';
+            var chom='<?= json_encode($tab_valeurs_devenirs[4]/$v_tot_el*100); ?>';
+            
+            ps_et = parseInt(ps_et);
+            ch_voie = parseInt(ch_voie);
+            cdd = parseInt(cdd);
+            cdi = parseInt(cdi);
+            chom = parseInt(chom);
+            
+            var autres= 100-(ps_et+ch_voie+cdd+cdi+chom); //alert(autres);
            
+           
+           //début du graphique
             var dom = document.getElementById("container");
             var myChart = echarts.init(dom);
             var app = {};
@@ -546,7 +558,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                 legend: {
                     orient: 'vertical',
                     x: 'left',
-                    data:['Poursuite d\'études','Changement de voie','Travail en CDD','Travail en CDI','Chômage']
+                    data:['Poursuite d\'études','Changement de voie','Travail en CDD','Travail en CDI','Chômage','Autres']
                 },
                 series: [
                     {
@@ -577,7 +589,8 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                             {value:ch_voie, name:'Changement de voie'},
                             {value:cdd, name:'Travail en CDD'},
                             {value:cdi, name:'Travail en CDI'},
-                            {value:chom, name:'Chômage'}
+                            {value:chom, name:'Chômage'},
+                            {value:autres, name:'Autres'}
                         ]
                     }
                 ]
