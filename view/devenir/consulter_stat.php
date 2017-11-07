@@ -146,18 +146,16 @@
             <?php
             //statistiques de redoublement par promotion
             
-            for($y=1;$y<=$nombre_promotions;$y++){
-                //pour chaque promo, on veut le nombre de redoublants
-                $tab_redoub_promo["$y"]=${'nb_redoub_promo'.$y}; //NE FONCTIONNE PAS !!!
-                echo $tab_redoub_promo[$y] , '<br>'; //pour tester
+            for($p=1;$p<=$nombre_promotions;$p++){
+                //récupérer les dates correspondant à chaque promotion
+                //l'année courante pour la promo
+                $annee_promo = 2015 + $p-1 ; //on commence en 2015
+                
+                //pour chaque promo, on veut le nombre de redoublants (on y associe la date)
+                $tab_redoub_promo["$p"]=${'nb_redoub_promo'.$p}; //OK
+                echo '<br>Pour la promotion ', $p, ' (' , $annee_promo, '-', $annee_promo+2, '), ' , $tab_redoub_promo[$p] , ' redoublants.'; //OK
+
             }
-            
-            /*
-            for($r=1; $r<=$nombre_promotions; $r++){
-                echo 'Promo', $r, ': ',$tab_redoub_promo[$r]; //ON VEUT METTRE DANS UN TABLEAU
-            }
-             * 
-             */
             
             
             ?>
@@ -416,7 +414,109 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
     case "s3" :
         //taux de redoublement
 ?>
-       
+
+       <script type="text/javascript">
+           
+            //On prélève les variables de PHP pour la provenance des étudiants
+            <?php
+            //statistiques de redoublement par promotion
+            
+            for($p=1;$p<=$nombre_promotions;$p++){ ?>
+                <?php
+                //l'année courante pour la promo
+                $annee_promo = 2015 + $p-1 ; //on commence en 2015
+                //$tab_annee_promo[$p-1]=$annee_promo; //on met chaque année dans un tableau
+                ?>
+                
+                var annee_promo= '<?= json_encode($annee_promo); ?>'; //alert(annee_promo);//OK, affiche chaque année de promo
+                
+                var p0 = '<?= json_encode($p-1); ?>'; //alert(p0); //OK, vaut 0 puis 1...
+                
+                //var redoub_promo_n = '<?php //echo json_encode(${'nb_redoub_promo'.$p}); ?>'; //OK donne le nombre de redoublants à chaque fois
+
+                var tab_redoub_promo = new Array();
+                
+                tab_redoub_promo.push(<?= json_encode(${'nb_redoub_promo'.$p}); ?>);
+                
+                var testt = '<?= ${'nb_redoub_promo'.$p}; ?>';
+                alert(testt);
+                
+                alert("p0="+p0);//OK
+                alert('tableau des redoublements par promo, rang ',p0, ': ',tab_redoub_promo[p0]); //on affiche le contenu du tableau à chaque rang (le nombre de redoublant pour la promo $p=1 quand p0=0...)
+                
+                //alert("test en dur="+ tab_redoub_promo[1]);//NE FONCTIONNE PAS NON PLUS AU RANG 1 ! alors que fonctionne au rang 0 !!
+                
+                //var tab_redoub_promo[p0]= 55; alert(tab_redoub_promo[0]); //je n'arrive pas à mettre dans un tableau...!!
+                
+                
+                //alert(redoub_promo_n); //OK
+                
+            <?php } ?>
+
+
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+           
+           
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            app.title = 'Statistiques de redoublement';
+
+            option = {
+                color: ['#77BBDB'],
+
+                tooltip : {
+                    trigger: 'axis',
+                    axisPointer : {            
+                        type : 'shadow'   // 'line' | 'shadow' : le hover (passage de la souris)
+                    }
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                xAxis : [
+                    {
+                        type : 'category',
+                        data : ['2013', '2014', '2015', '2016', '2017', '2018', '2019'], //les noms des données dans l'ordre
+                        axisTick: {
+                            alignWithLabel: true
+                        }
+                    }
+                ],
+                yAxis : [
+                    {
+                        type : 'value'
+                    }
+                ],
+                series : [
+                    {
+                        name:'Pourcentage',
+                        type:'bar',
+                        barWidth: '60%',
+                        data:[340, 52, 200, 334, 390, 330, 220] //les valeurs dans l'ordre des noms des données
+                    }
+                ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+       </script>
        
        
 
@@ -424,7 +524,69 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         break;
     case "s4" :
 ?>
-       
+       <script type="text/javascript">
+           
+            var ps_et='<?= json_encode($tab_valeurs_devenirs[0]/$v_tot_el); ?>';
+            var ch_voie='<?= json_encode($tab_valeurs_devenirs[1]/$v_tot_el); ?>';
+            var cdd='<?= json_encode($tab_valeurs_devenirs[2]/$v_tot_el); ?>';
+            var cdi='<?= json_encode($tab_valeurs_devenirs[3]/$v_tot_el); ?>';
+            var chom='<?= json_encode($tab_valeurs_devenirs[4]/$v_tot_el); ?>';
+           
+            var dom = document.getElementById("container");
+            var myChart = echarts.init(dom);
+            var app = {};
+            option = null;
+            app.title = 'Devenir';
+
+            option = {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                },
+                legend: {
+                    orient: 'vertical',
+                    x: 'left',
+                    data:['Poursuite d\'études','Changement de voie','Travail en CDD','Travail en CDI','Chômage']
+                },
+                series: [
+                    {
+                        name:'Devenir',
+                        type:'pie',
+                        radius: ['50%', '70%'],
+                        avoidLabelOverlap: false,
+                        label: {
+                            normal: {
+                                show: false,
+                                position: 'center'
+                            },
+                            emphasis: {
+                                show: true,
+                                textStyle: {
+                                    fontSize: '23',
+                                    fontWeight: 'bold'
+                                }
+                            }
+                        },
+                        labelLine: {
+                            normal: {
+                                show: false
+                            }
+                        },
+                        data:[
+                            {value:ps_et, name:'Poursuite d\'études'},
+                            {value:ch_voie, name:'Changement de voie'},
+                            {value:cdd, name:'Travail en CDD'},
+                            {value:cdi, name:'Travail en CDI'},
+                            {value:chom, name:'Chômage'}
+                        ]
+                    }
+                ]
+            };
+            ;
+            if (option && typeof option === "object") {
+                myChart.setOption(option, true);
+            }
+       </script>
        
        
         
