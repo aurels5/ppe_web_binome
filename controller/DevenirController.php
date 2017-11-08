@@ -19,6 +19,11 @@ class DevenirController extends Controller {
     private $modContact = null;
     private $modContactDevenir = null;
     
+    
+    //////////////////////////////////////
+    ////    CREATION FICHE    ////////////
+    //////////////////////////////////////
+    
     function fiche_contact(){
         $d['var_script']='fiche_contact';
         
@@ -121,13 +126,7 @@ class DevenirController extends Controller {
             }
 
                         
-        } //fin isset submit 2 (formulaire détails du contact)
-        
-        
-
-        //faire un where :
-        //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
-        
+        } //fin isset submit 2 (formulaire détails du contact)  
 
         $this->set($d);
     }
@@ -135,8 +134,11 @@ class DevenirController extends Controller {
     
     
     
+    
+    
     //////////////////////////////////////////////////////////////////////////////////
-    // Fonction modifier_contact ////
+    // Fonction modifier_contact /////////////////////////////////////////////////////
+    //////////////////////////////////////////////////////////////////////////////////
     
 
     function modifier_contact($id){//paramètre $id passé dans l'URL pour récupérer l'étudiant
@@ -185,7 +187,7 @@ class DevenirController extends Controller {
         //deuxième formulaire
         if(isset($_POST['aff_fiche'])){
             $code_etudiant=$_POST['code_etudiant'];
-            echo 'code étu fonctionne bien : ', $code_etudiant;
+            //echo 'code étu fonctionne bien : ', $code_etudiant;
             
             //$d['ucode']=$code_etudiant; //OSEF
             
@@ -216,17 +218,24 @@ class DevenirController extends Controller {
         
         //on prélève les données du 2e formulaire pour l'update
         if(isset($_POST['submit2']) && !empty($_POST['date_contact'])){
-            
             $code_etudiant=$_POST['code_etudiant'];
+            
+            $modif_valid=TRUE;
             
             $international=0;
             $precisions='';
             
-            $date_contact=date("Y-m-d");
+            $date_contact=date("Y-m-d");//date actuelle
             $info_devenir=$_POST['info_devenir'];
 
             if(isset($_POST['date_contact'])){
-                $date_contact=$_POST['date_contact'];
+                try{
+                    $date_contact=verifDateY_m_d($_POST['date_contact']);
+                } catch (Exception $ex) {
+                    $d['message']=$ex->getMessage(); 
+                    $modif_valid=false;
+                }
+                
             }
             //echo 'date = ', $date_contact;
             
@@ -237,7 +246,8 @@ class DevenirController extends Controller {
                 try{
                     $precisions=nettoyer($_POST['precisions'], 254);
                 } catch (Exception $ex) {
-                    return $ex;
+                    $d['message']=$ex->getMessage(); 
+                    $modif_valid=false;
                 }
                 
             }
@@ -260,10 +270,16 @@ class DevenirController extends Controller {
             $tableau['cle']=$cle;
             $tableau['donnees']=$donnees;
             
-            $modContact->update($tableau); //requête insertion
             
-            echo 'Fiche contact bien modifiée.';
-                                    /*
+            if($modif_valid){
+                $modContact->update($tableau); //requête update
+                echo 'Fiche contact bien modifiée.';
+            }
+            else{
+                print_r($d['message']); //affiche l'exception (les)
+            }
+            
+            /*
             echo 'code étudiant : ', $code_etudiant ,'<br>';
             echo 'date contact : ', $date_contact ,'<br>';
             echo 'info dev : ', $info_devenir ,'<br>';
@@ -590,11 +606,11 @@ class DevenirController extends Controller {
 
                 if ((($copie == 'oui') && ($num_emails == 2)) || (($copie == 'non') && ($num_emails == 1)))
                 {
-                          echo '<p>'.$message_envoye.'</p>';
+                    echo '<p>'.$message_envoye.'</p>';
                 }
                 else
                 {
-                          echo '<p>'.$message_non_envoye.'</p>';
+                    echo '<p>'.$message_non_envoye.'</p>';
                 }
             }
             else

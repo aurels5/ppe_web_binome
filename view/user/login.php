@@ -17,9 +17,9 @@
 
 <!-- Text input-->
 <div class="form-group">
-    <label class="col-md-2 control-label" for="u_password">Password</label>  
+    <label class="col-md-2 control-label" for="u_password">Password</label>  <?php $mdp_vide=''; ?>
     <div class="col-md-4">
-        <input id="u_password" name="u_password" placeholder="Mot de passe" title="Mot de passe"  class="form-control input-md" type="password" >
+        <input id="u_password" name="u_password" placeholder="Mot de passe" title="Mot de passe"  class="form-control input-md" type="password" value="<?=$mdp_vide?>">
 
     </div>
 </div>

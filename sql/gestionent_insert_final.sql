@@ -2,10 +2,10 @@
 -- version 4.6.4
 -- https://www.phpmyadmin.net/
 --
--- Client :  127.0.0.1
--- Généré le :  Jeu 05 Octobre 2017 à 06:37
--- Version du serveur :  5.7.14
--- Version de PHP :  5.6.25
+-- Host: 127.0.0.1
+-- Generation Time: Oct 26, 2017 at 09:15 PM
+-- Server version: 5.7.14
+-- PHP Version: 5.6.25
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
@@ -17,10 +17,9 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de données :  `gestionent`
+-- Database: `gestionent`
 --
 
--- --------------------------------------------------------
 
 --
 -- les drops...
@@ -37,8 +36,11 @@ DROP TABLE IF EXISTS `promotion`;
 DROP TABLE IF EXISTS `devenir`;
 
 
+
+-- --------------------------------------------------------
+
 --
--- Structure de la table `commentaires`
+-- Table structure for table `commentaires`
 --
 
 CREATE TABLE `commentaires` (
@@ -52,7 +54,7 @@ CREATE TABLE `commentaires` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `commentaires`
+-- Dumping data for table `commentaires`
 --
 
 INSERT INTO `commentaires` (`c_code`, `c_login`, `c_dateheure`, `c_texte`, `c_type`, `e_code`, `u_code`) VALUES
@@ -64,23 +66,42 @@ INSERT INTO `commentaires` (`c_code`, `c_login`, `c_dateheure`, `c_texte`, `c_ty
 -- --------------------------------------------------------
 
 --
--- Structure de la table `contact`
+-- Table structure for table `contact`
 --
 
 CREATE TABLE `contact` (
   `co_code` int(11) NOT NULL,
   `u_code` tinyint(4) NOT NULL,
   `co_date` date DEFAULT NULL,
-  `co_informations` char(32) DEFAULT NULL,
-  `co_precisions` char(32) DEFAULT NULL,
-  `co_mail` char(32) DEFAULT NULL,
+  `co_international` tinyint(1) DEFAULT NULL,
+  `co_precisions` char(255) DEFAULT NULL,
   `d_code` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `contact`
+--
+
+INSERT INTO `contact` (`co_code`, `u_code`, `co_date`, `co_international`, `co_precisions`, `d_code`) VALUES
+(1, 12, '2017-10-12', 0, 'L\'étudiant est au chômage.', 5),
+(2, 6, '2017-10-17', 0, 'Admin réseau à Merleau-Ponty', 3),
+(3, 7, '2017-10-18', 0, 'A. Gacher commence un Bac+3.', 1),
+(4, 4, '2017-10-18', 1, 'Aurélia fait un bac+3 à l\'international.', 1),
+(5, 5, '2017-01-18', 1, 'Tanguy est à Berlin.', 4),
+(6, 13, '2017-10-19', 0, 'L\'étudiant poursuit ses études en bachelor Admin Réseaux à l\'étranger.', 1),
+(7, 8, '2017-10-02', 0, 'Mathias travail dans une ESN à Paris.', 4),
+(8, 16, '2017-08-17', 0, 'Maxime continue ses études à Niort à l\'ENI.', 1),
+(9, 9, '2017-10-02', 0, 'Tim travaille en tant que Community Manager.', 3),
+(10, 10, '2017-10-11', 0, 'Sonia continue ses études dans une école de Game Design.', 1),
+(11, 11, '2017-08-17', 0, 'Alicia continue ses études en licence pro multimédia à La Rochelle.', 1),
+(12, 17, '2017-10-03', 0, 'Alexandre Prouillet a trouvé un CDI de développeur PHP. Il travaille actuellement à Nantes pour une société d\'électro-ménager.', 4),
+(13, 14, '2017-08-31', 0, 'Adam recherche un poste d\'administrateur dans la sécurité informatique.', 5),
+(14, 15, '2017-07-10', 0, 'Teava se reconvertit dans l\'électronique.', 2);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `devenir`
+-- Table structure for table `devenir`
 --
 
 CREATE TABLE `devenir` (
@@ -88,10 +109,21 @@ CREATE TABLE `devenir` (
   `d_devenir` char(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `devenir`
+--
+
+INSERT INTO `devenir` (`d_code`, `d_devenir`) VALUES
+(1, 'Poursuite d\'études'),
+(2, 'Changement de voie'),
+(3, 'Travail en CDD'),
+(4, 'Travail en CDI'),
+(5, 'Chômage');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `eleve`
+-- Table structure for table `eleve`
 --
 
 CREATE TABLE `eleve` (
@@ -101,14 +133,42 @@ CREATE TABLE `eleve` (
   `el_date_naissance` date DEFAULT NULL,
   `el_sexe` tinyint(1) DEFAULT NULL,
   `el_diplome_prec` char(32) DEFAULT NULL,
-  `el_international` char(32) DEFAULT NULL,
-  `el_option` char(4) DEFAULT NULL
+  `el_option` char(4) DEFAULT NULL,
+  `el_mail` varchar(60) DEFAULT NULL,
+  `el_obtention_bts` tinyint(1) NOT NULL DEFAULT '1'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `eleve`
+--
+
+INSERT INTO `eleve` (`u_code`, `pr_code`, `el_redoublant`, `el_date_naissance`, `el_sexe`, `el_diplome_prec`, `el_option`, `el_mail`, `el_obtention_bts`) VALUES
+(4, 2, NULL, '1995-03-09', 1, 'Autre', 'SLAM', 'aurelia.sarradin@gmail.com', 1),
+(5, 2, NULL, '1995-10-18', 0, 'Bac Pro SEN', 'SLAM', 'tanguy.bouchet@gmail.com', 1),
+(6, 1, 1, '1998-10-10', 1, 'Bac STMG', 'SISR', NULL, 1),
+(7, 1, NULL, '1998-10-18', 0, 'Bac S', 'SLAM', NULL, 1),
+(8, 1, NULL, '1997-10-01', 0, 'Bac S', 'SLAM', NULL, 1),
+(9, 1, 1, '1997-05-05', 0, 'Bac STMG', 'SLAM', NULL, 1),
+(10, 2, NULL, '1998-11-06', 1, 'Bac STMG', 'SLAM', NULL, 1),
+(11, 2, NULL, '1998-12-14', 1, 'Bac ES', 'SLAM', NULL, 1),
+(12, 2, NULL, '1998-10-10', 0, 'Bac STI2D', 'SISR', NULL, 1),
+(13, 2, NULL, '1997-10-16', 0, 'Bac Pro SEN', 'SISR', NULL, 1),
+(14, 2, NULL, '1997-10-11', 0, 'Bac Pro SEN', 'SISR', NULL, 1),
+(15, 2, NULL, '1997-10-23', 0, 'Bac STMG', 'SISR', NULL, 1),
+(16, 1, NULL, '1996-10-09', 0, 'Bac S', 'SLAM', 'maxime.g@gmail.com', 1),
+(17, 1, NULL, '1997-09-03', 0, 'Bac STMG', 'SLAM', 'alexandre.prouillet@gmail.com', 1),
+(18, 1, NULL, '1996-12-12', 1, 'Autre', 'SLAM', 'mounadh@yahoo.com', 1),
+(19, 1, NULL, '1996-03-03', 1, 'Bac STMG', 'SISR', NULL, 1),
+(20, 2, 1, '1996-11-29', 0, 'Bac Pro SEN', 'SISR', 'aymerick.mallet@gmail.com', 1),
+(21, 2, 1, '1996-08-14', 0, 'Bac STMG', 'SISR', 'florian.pinaud@gmail.com', 1),
+(22, 1, NULL, '1996-11-02', 0, 'Bac Pro SEN', 'SISR', 'florian.kratz@yahoo.com', 1),
+(23, 1, NULL, '1995-08-02', 0, 'Bac Pro SEN', 'SISR', 'johnny.andre@gmail.com', 1),
+(24, 1, NULL, '1997-09-02', 0, 'Bac STMG', 'SLAM', 'quentin-p@yahoo.com', 1);
 
 -- --------------------------------------------------------
 
 --
--- Structure de la table `enseignant`
+-- Table structure for table `enseignant`
 --
 
 CREATE TABLE `enseignant` (
@@ -118,7 +178,7 @@ CREATE TABLE `enseignant` (
 -- --------------------------------------------------------
 
 --
--- Structure de la table `entreprises`
+-- Table structure for table `entreprises`
 --
 
 CREATE TABLE `entreprises` (
@@ -135,7 +195,7 @@ CREATE TABLE `entreprises` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `entreprises`
+-- Dumping data for table `entreprises`
 --
 
 INSERT INTO `entreprises` (`e_code`, `e_nom`, `e_adresse1`, `e_adresse2`, `e_ville`, `e_codpostal`, `e_nom_contact`, `e_tel`, `e_mail`, `te_code`) VALUES
@@ -258,7 +318,7 @@ INSERT INTO `entreprises` (`e_code`, `e_nom`, `e_adresse1`, `e_adresse2`, `e_vil
 -- --------------------------------------------------------
 
 --
--- Structure de la table `promotion`
+-- Table structure for table `promotion`
 --
 
 CREATE TABLE `promotion` (
@@ -267,10 +327,18 @@ CREATE TABLE `promotion` (
   `pr_date_fin` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `promotion`
+--
+
+INSERT INTO `promotion` (`pr_code`, `pr_date_debut`, `pr_date_fin`) VALUES
+(1, '2015-09-01', '2017-07-01'),
+(2, '2016-09-01', '2018-07-01');
+
 -- --------------------------------------------------------
 
 --
--- Structure de la table `type_entreprise`
+-- Table structure for table `type_entreprise`
 --
 
 CREATE TABLE `type_entreprise` (
@@ -279,7 +347,7 @@ CREATE TABLE `type_entreprise` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `type_entreprise`
+-- Dumping data for table `type_entreprise`
 --
 
 INSERT INTO `type_entreprise` (`te_code`, `te_libelle`) VALUES
@@ -301,7 +369,7 @@ INSERT INTO `type_entreprise` (`te_code`, `te_libelle`) VALUES
 -- --------------------------------------------------------
 
 --
--- Structure de la table `users`
+-- Table structure for table `users`
 --
 
 CREATE TABLE `users` (
@@ -314,20 +382,41 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `users`
+-- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`u_code`, `u_login`, `u_password`, `u_nom`, `u_prenom`, `u_role`) VALUES
 (1, 'etu', '9cf95dacd226dcf43da376cdb6cbba7035218921', 'Diant', 'Etu', 'etu'),
 (2, 'prof', '9cf95dacd226dcf43da376cdb6cbba7035218921', 'Pédagogique', 'Equipe', 'admin'),
-(3, 'exterieur', '', 'exterieur', 'exterieur', 'ext');
+(3, 'exterieur', '', 'exterieur', 'exterieur', 'ext'),
+(4, 'aurelia', '', 'Sarradin', 'Aurélia', 'admin'),
+(5, 'tanguy', '', 'Bouchet', 'Tanguy', 'admin'),
+(6, 'chloep', '', 'Picoron', 'Chloé', 'etu'),
+(7, 'aurelieng', '', 'Gacher', 'Aurélien', 'etu'),
+(8, 'mathiasr', '', 'Rousseau', 'Mathias', 'etu'),
+(9, 'timothyp', '', 'Philippe', 'Timothy', 'etu'),
+(10, 'soniag', '', 'Goulevent', 'Sonia', 'etu'),
+(11, 'aliciar', '', 'Rivière', 'Alicia', 'etu'),
+(12, 'maximer', '', 'Renneteau', 'Maxime', 'etu'),
+(13, 'alistairt', '', 'Thoor', 'Alistair', 'etu'),
+(14, 'adamh', '', 'Hammas', 'Adam', 'etu'),
+(15, 'teavat', '', 'Tuiteala', 'Teava', 'etu'),
+(16, 'maximeg', '', 'Gombeaud', 'Maxime', 'etu'),
+(17, 'alexandrep', '', 'Prouillet', 'Alexandre', 'etu'),
+(18, 'mounad', '', 'Dahmani', 'Mouna', 'etu'),
+(19, 'anaist', '', 'Tortorici', 'Anaïs', 'etu'),
+(20, 'aymerickm', '', 'Mallet', 'Aymerick', 'etu'),
+(21, 'florianp', '', 'Pinaud', 'Florian', 'etu'),
+(22, 'floriank', '', 'Kratz', 'Florian', 'etu'),
+(23, 'johnnya', '', 'André', 'Johnny', 'etu'),
+(24, 'quentinp', '', 'Passebon', 'Quentin', 'etu');
 
 --
--- Index pour les tables exportées
+-- Indexes for dumped tables
 --
 
 --
--- Index pour la table `commentaires`
+-- Indexes for table `commentaires`
 --
 ALTER TABLE `commentaires`
   ADD PRIMARY KEY (`c_code`),
@@ -335,7 +424,7 @@ ALTER TABLE `commentaires`
   ADD KEY `fk_commentaires_u_code` (`u_code`);
 
 --
--- Index pour la table `contact`
+-- Indexes for table `contact`
 --
 ALTER TABLE `contact`
   ADD PRIMARY KEY (`co_code`),
@@ -343,89 +432,94 @@ ALTER TABLE `contact`
   ADD KEY `d_code` (`d_code`);
 
 --
--- Index pour la table `devenir`
+-- Indexes for table `devenir`
 --
 ALTER TABLE `devenir`
   ADD PRIMARY KEY (`d_code`);
 
 --
--- Index pour la table `eleve`
+-- Indexes for table `eleve`
 --
 ALTER TABLE `eleve`
   ADD PRIMARY KEY (`u_code`),
   ADD KEY `i_fk_eleve_promotion` (`pr_code`);
 
 --
--- Index pour la table `enseignant`
+-- Indexes for table `enseignant`
 --
 ALTER TABLE `enseignant`
   ADD PRIMARY KEY (`u_code`);
 
 --
--- Index pour la table `entreprises`
+-- Indexes for table `entreprises`
 --
 ALTER TABLE `entreprises`
   ADD PRIMARY KEY (`e_code`),
   ADD KEY `fk_entreprise_te_code` (`te_code`);
 
 --
--- Index pour la table `promotion`
+-- Indexes for table `promotion`
 --
 ALTER TABLE `promotion`
   ADD PRIMARY KEY (`pr_code`);
 
 --
--- Index pour la table `type_entreprise`
+-- Indexes for table `type_entreprise`
 --
 ALTER TABLE `type_entreprise`
   ADD PRIMARY KEY (`te_code`);
 
 --
--- Index pour la table `users`
+-- Indexes for table `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`u_code`);
 
 --
--- AUTO_INCREMENT pour les tables exportées
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT pour la table `commentaires`
+-- AUTO_INCREMENT for table `commentaires`
 --
 ALTER TABLE `commentaires`
-  MODIFY `c_code` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `c_code` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 --
--- AUTO_INCREMENT pour la table `entreprises`
+-- AUTO_INCREMENT for table `contact`
+--
+ALTER TABLE `contact`
+  MODIFY `co_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+--
+-- AUTO_INCREMENT for table `devenir`
+--
+ALTER TABLE `devenir`
+  MODIFY `d_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+--
+-- AUTO_INCREMENT for table `entreprises`
 --
 ALTER TABLE `entreprises`
-  MODIFY `e_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=171;
+  MODIFY `e_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=157;
 --
--- AUTO_INCREMENT pour la table `type_entreprise`
+-- AUTO_INCREMENT for table `promotion`
+--
+ALTER TABLE `promotion`
+  MODIFY `pr_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+--
+-- AUTO_INCREMENT for table `type_entreprise`
 --
 ALTER TABLE `type_entreprise`
   MODIFY `te_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 --
--- AUTO_INCREMENT pour la table `users`
+-- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `u_code` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-  --
--- AUTO_INCREMENT pour la table `promotion`
+  MODIFY `u_code` tinyint(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 --
-ALTER TABLE `promotion`
-  MODIFY `pr_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
-  --
--- AUTO_INCREMENT pour la table `devenir`
---
-ALTER TABLE `devenir`
-  MODIFY `d_code` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
---
--- Contraintes pour les tables exportées
+-- Constraints for dumped tables
 --
 
 --
--- Contraintes pour la table `commentaires`
+-- Constraints for table `commentaires`
 --
 ALTER TABLE `commentaires`
   ADD CONSTRAINT `commentaires_ibfk_1` FOREIGN KEY (`e_code`) REFERENCES `entreprises` (`e_code`),
@@ -433,27 +527,27 @@ ALTER TABLE `commentaires`
   ADD CONSTRAINT `fk_commentaires_u_code` FOREIGN KEY (`u_code`) REFERENCES `users` (`u_code`);
 
 --
--- Contraintes pour la table `contact`
+-- Constraints for table `contact`
 --
 ALTER TABLE `contact`
   ADD CONSTRAINT `contact_ibfk_1` FOREIGN KEY (`d_code`) REFERENCES `devenir` (`d_code`),
   ADD CONSTRAINT `contact_ibfk_2` FOREIGN KEY (`u_code`) REFERENCES `eleve` (`u_code`);
 
 --
--- Contraintes pour la table `eleve`
+-- Constraints for table `eleve`
 --
 ALTER TABLE `eleve`
   ADD CONSTRAINT `eleve_ibfk_1` FOREIGN KEY (`pr_code`) REFERENCES `promotion` (`pr_code`),
   ADD CONSTRAINT `eleve_ibfk_2` FOREIGN KEY (`u_code`) REFERENCES `users` (`u_code`);
 
 --
--- Contraintes pour la table `enseignant`
+-- Constraints for table `enseignant`
 --
 ALTER TABLE `enseignant`
   ADD CONSTRAINT `enseignant_ibfk_1` FOREIGN KEY (`u_code`) REFERENCES `users` (`u_code`);
 
 --
--- Contraintes pour la table `entreprises`
+-- Constraints for table `entreprises`
 --
 ALTER TABLE `entreprises`
   ADD CONSTRAINT `entreprises_ibfk_1` FOREIGN KEY (`te_code`) REFERENCES `type_entreprise` (`te_code`),

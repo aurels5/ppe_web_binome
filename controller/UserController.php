@@ -13,34 +13,30 @@
  */
 class UserController extends Controller {
 
-//put your code here
+
     private $modUser = null;
 
     public function login() {
         $d['message'] = "Entrez votre login et votre mot de passe. <br>Pas de mot de passe pour le public extérieur, avec le login \"exterieur\".";
-        if (isset($_POST['singlebutton'])) {
+        if(isset($_POST['singlebutton'])) {
             if (is_null($this->modUser)) {
                 $this->modUser = $this->loadModel('User');
             }
 
             $donnees = array();
-//on n'envoie pas à la méthode update que les boutons où autres      
+    
             foreach ($_POST as $k => $v) {
                 if ($k != 'singlebutton') {
                     if ($k == 'u_password') {
-                        $donnees[$k] = sha1($v);
+                        //$donnees[$k] = sha1($v);
                     } else {
                         $donnees[$k] = $v;
                     }
                 }
             }
 
-
-
-
             $d['user'] = $this->modUser->findFirst(array(
                 'conditions' => $donnees));
-
 
             if (empty($d['user'])) {
                 $d['message'] = 'Login et/ou mot de passe  incorrects';

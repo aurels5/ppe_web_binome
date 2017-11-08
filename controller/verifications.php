@@ -27,7 +27,7 @@ function verifDateY_m_d($date){//méth. pour vérifier validité date fiche cont
             //on crée les 3 variables
             list($annee, $mois, $jour)=explode('-',$date);
             
-            if($tableau_date=='' || $annee<=1930 || ($annee>date('Y')) || $mois<1 || $mois>12 || $jour<1 || $jour>31){
+            if($tableau_date=='' || $annee<=1930 || ($annee>date('Y')) || $mois<1 || $mois>12 || $jour<1 || $jour>31 || $annee>2330){
                 $valid=FALSE;
             }
         }  
@@ -35,6 +35,20 @@ function verifDateY_m_d($date){//méth. pour vérifier validité date fiche cont
     else{ //la chaîne ne contient pas de '-'
         $valid=FALSE;
     }
+    
+    //si date entrée supérieure à date du jour
+    $date_du_jour=date("Y-m-d");
+    
+    $jour_actuel = date("j");
+    $mois_actuel = date("n");
+    $annee_actuelle = date("Y");
+ 
+
+    if( $date > $date_du_jour ){ //si la date entrée est supérieure à la date du jour
+        $valid=FALSE;
+        //echo 'Date supérieure à date actuelle...'; //OK
+    }
+
     
     if ($valid){//==TRUE
         //$d = DateTime::createFromFormat('Y-m-d', $date);
