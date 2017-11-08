@@ -17,7 +17,7 @@ class UserController extends Controller {
     private $modUser = null;
 
     public function login() {
-        $d['message'] = "Entrez votre login et votre mot de passe";
+        $d['message'] = "Entrez votre login et votre mot de passe. <br>Pas de mot de passe pour le public extérieur, avec le login \"exterieur\".";
         if (isset($_POST['singlebutton'])) {
             if (is_null($this->modUser)) {
                 $this->modUser = $this->loadModel('User');

@@ -10,7 +10,7 @@
         <div class="form-group">
     <label class="col-md-2 control-label" for="textinput">Login</label>  
     <div class="col-md-4">
-        <input id="u_login" name="u_login" placeholder="Login" class="form-control input-md" type="text" >
+        <input id="u_login" name="u_login" class="form-control input-md" type="text" placeholder="exterieur">
 
     </div>
 </div>
