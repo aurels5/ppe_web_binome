@@ -450,13 +450,23 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                 
             var chaine_dates='';
             tab_annee_promo.forEach(function(laDate){
-                chaine_dates+="'"+laDate+"'"+"," ;
+                chaine_dates+=""+laDate+""+"," ;
                 
             });
-            console.log(chaine_dates);
-            //on enlève la dernière virgule
-            //A FAIRE
+            console.log("chaine_dates :"+chaine_dates);
             
+  
+            var chaine_sans_virgule='';
+            //on enlève la dernière virgule
+            for(var cd=0;cd<chaine_dates.length-1;cd++){//cd étant l'itérateur sur la longueur de la chaîne date
+                                                      //on ne met pas <= car on ne veut pas le dernier caractère (la virgule)
+                chaine_sans_virgule+=chaine_dates.charAt(cd) ;
+                chaine_sans_virgule=chaine_sans_virgule.toString();
+            }
+            console.log("chaine_sans_virgule :"+ chaine_sans_virgule);
+            
+            tab_chaine_sans_virgule=chaine_sans_virgule.split(',');
+            console.log(tab_chaine_sans_virgule);
 
 
             //création du graphique...
@@ -485,7 +495,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                 xAxis : [
                     {
                         type : 'category',
-                        data : ['2013', '2014', '2015', '2016', '2017', '2018', '2019'], //les noms des dates dans l'ordre
+                        data : tab_chaine_sans_virgule, //les noms des dates dans l'ordre
                         axisTick: {
                             alignWithLabel: true
                         }
@@ -500,8 +510,8 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                     {
                         name:'Pourcentage',
                         type:'bar',
-                        barWidth: '60%',
-                        data:[340, 52, 200, 334, 390, 330, 220] //les valeurs dans l'ordre des noms des données
+                        barWidth: '55%',
+                        data:tab_redoub_promo //les valeurs dans l'ordre des noms des données
                     }
                 ]
             };
