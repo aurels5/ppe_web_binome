@@ -253,12 +253,14 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
         var pct_ba='<?= json_encode($pct_ba); ?>';
         
         //on met en /1000 au lieu de pourcentage
-        pct_bac_s=pct_bac_s*10; //alert(pct_bac_s);
-        pct_bac_es=pct_bac_es*10; //alert(pct_bac_es);
-        pct_bac_sen=pct_bac_sen*10; //alert(pct_bac_sen);
-        pct_bac_sti2d=pct_bac_sti2d*10; //alert(pct_bac_sti2d);
-        pct_bac_stmg=pct_bac_stmg*10; //alert(pct_bac_stmg);
-        pct_ba=pct_ba*10; //alert(pct_ba);
+        pct_bac_s=parseInt(pct_bac_s*10); //alert(pct_bac_s);
+        pct_bac_es=parseInt(pct_bac_es*10); //alert(pct_bac_es);
+        pct_bac_sen=parseInt(pct_bac_sen*10); //alert(pct_bac_sen);
+        pct_bac_sti2d=parseInt(pct_bac_sti2d*10); //alert(pct_bac_sti2d);
+        pct_bac_stmg=parseInt(pct_bac_stmg*10); //alert(pct_bac_stmg);
+        pct_ba=parseInt(pct_ba*10); //alert(pct_ba);
+        
+        
         
         
         //on crée le graphique, se met dans le container en html ci-dessus
@@ -280,7 +282,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
 
             tooltip : {
                 trigger: 'item',
-                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                formatter: "{a} <br/>{b} ({d}%)" // "{a} <br/>{b} : {c} ({d}%)" //si on veut afficher aussi le nb de base
             },
 
             visualMap: {
@@ -360,6 +362,10 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
             var pct_opt2_international = '<?= json_encode($pct_opt2_international); ?>';
             var reste = '<?= 100-json_encode($pct_international); ?>'; //alert(reste);//OK
             
+            pct_opt1_international = parseInt(pct_opt1_international);
+            pct_opt2_international = parseInt(pct_opt2_international);
+            reste = parseInt(reste);
+            
             //début du graphique à mettre dans le container
             var dom = document.getElementById("container");
             var myChart = echarts.init(dom);
@@ -373,7 +379,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                       },
                       tooltip : {
                                 trigger: 'item',
-                                formatter: "{a} <br/>{b} : {c} ({d}%)"
+                                formatter: "{a} <br/>{b}  ({d}%)"     //"{a} <br/>{b} : {c} ({d}%)"
                       },
                       legend: {
                                 orient: 'vertical',
@@ -417,56 +423,43 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
 
        <script type="text/javascript">
            
+           var tab_redoub_promo = new Array(); //on crée le tableau avant la boucle
+           var tab_annee_promo = new Array(); //on crée le tableau des années correspondant à chaque promo
+           
             //On prélève les variables de PHP pour la provenance des étudiants
             <?php
             //statistiques de redoublement par promotion
-            
+
             for($p=1;$p<=$nombre_promotions;$p++){ ?>
                 <?php
-                //l'année courante pour la promo
-                $annee_promo = 2015 + $p-1 ; //on commence en 2015
-                //$tab_annee_promo[$p-1]=$annee_promo; //on met chaque année dans un tableau
+                //l'année courante pour la promo on commence en 2015
+                $annee_promo = 2015 + $p-1 ;
+                $tab_annee_promo[$p-1]=$annee_promo; //on met chaque année dans un tableau
                 ?>
                 
-                var annee_promo= '<?= json_encode($annee_promo); ?>'; //alert(annee_promo);//OK, affiche chaque année de promo
-                
-                var p0 = '<?= json_encode($p-1); ?>'; //alert(p0); //OK, vaut 0 puis 1...
-                
-                //var redoub_promo_n = '<?php //echo json_encode(${'nb_redoub_promo'.$p}); ?>'; //OK donne le nombre de redoublants à chaque fois
-
-                var tab_redoub_promo = new Array();
-                
-                tab_redoub_promo.push(<?= json_encode(${'nb_redoub_promo'.$p}); ?>);
-                
-                var testt = '<?= ${'nb_redoub_promo'.$p}; ?>';
-                alert(testt);
-                
-                alert("p0="+p0);//OK
-                alert('tableau des redoublements par promo, rang ',p0, ': ',tab_redoub_promo[p0]); //on affiche le contenu du tableau à chaque rang (le nombre de redoublant pour la promo $p=1 quand p0=0...)
-                
-                //alert("test en dur="+ tab_redoub_promo[1]);//NE FONCTIONNE PAS NON PLUS AU RANG 1 ! alors que fonctionne au rang 0 !!
-                
-                //var tab_redoub_promo[p0]= 55; alert(tab_redoub_promo[0]); //je n'arrive pas à mettre dans un tableau...!!
-                
-                
-                //alert(redoub_promo_n); //OK
-                
+                var annee_promo= '<?= json_encode($annee_promo); ?>'; //console.log(annee_promo);//OK, affiche chaque année de promo
+                var p0 = '<?= json_encode($p-1); ?>'; //console.log(p0); //OK, vaut 0 puis 1...
+                var nb_redoublants_promo = '<?= ${'nb_redoub_promo'.$p}; ?>'; // console.log(p0+ ' : ' +nb_redoublants_promo);
+                             
+                tab_redoub_promo.push(nb_redoublants_promo); 
+                //console.log('Tableau des redoublements par promo, promotion n°'+p0+ ': '+tab_redoub_promo[p0]); //OK//on affiche le contenu du tableau à chaque rang (le nombre de redoublant pour la promo $p=1 quand p0=0...)
+                     
+                tab_annee_promo.push('<?= $annee_promo ?>');
+                //console.log('Tableau dates :'+tab_annee_promo[p0]);//OK
             <?php } ?>
+                
+            var chaine_dates='';
+            tab_annee_promo.forEach(function(laDate){
+                chaine_dates+="'"+laDate+"'"+"," ;
+                
+            });
+            console.log(chaine_dates);
+            //on enlève la dernière virgule
+            //A FAIRE
+            
 
 
-
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            
-           
+            //création du graphique...
            
             var dom = document.getElementById("container");
             var myChart = echarts.init(dom);
@@ -492,7 +485,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
                 xAxis : [
                     {
                         type : 'category',
-                        data : ['2013', '2014', '2015', '2016', '2017', '2018', '2019'], //les noms des données dans l'ordre
+                        data : ['2013', '2014', '2015', '2016', '2017', '2018', '2019'], //les noms des dates dans l'ordre
                         axisTick: {
                             alignWithLabel: true
                         }
@@ -534,6 +527,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
             var cdi='<?= json_encode($tab_valeurs_devenirs[3]/$v_tot_el*100); ?>';
             var chom='<?= json_encode($tab_valeurs_devenirs[4]/$v_tot_el*100); ?>';
             
+            //conversion string to int
             ps_et = parseInt(ps_et);
             ch_voie = parseInt(ch_voie);
             cdd = parseInt(cdd);
@@ -553,7 +547,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
             option = {
                 tooltip: {
                     trigger: 'item',
-                    formatter: "{a} <br/>{b}: {c} ({d}%)"
+                    formatter: "{a} <br/>{b} ({d}%)" //: {c} (si on veut le nombre exact et non le pourcentage)
                 },
                 legend: {
                     orient: 'vertical',
