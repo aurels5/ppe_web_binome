@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 
 <!--test sur les téléphones portables -->
@@ -27,17 +25,15 @@
             </div>
         </div>
 
-        <header  >
+        <header>
             <div class="row hidden-xs" id="header_img"></div>
             <h1 class="row"> BTS SIO Gestion des entreprises partenaires</h1>
         </header>
+        
         <?php if (Session::get('login') == 'exterieur'): ?>
             <div class="navbar navbar-default">
                 <ul class="nav navbar-nav">
                     <li class="active"><a href="<?= BASE_URL ?>/ent/liste"> Accueil</a></li>
-                    <li ><a href="<?= BASE_URL ?>/ent/nouveau">Nouvelle Entreprise</a></li>
-                    <li ><a href="<?= BASE_URL ?>/devenir/fiche_contact">Ajouter contact étudiant</a></li>
-                    <li ><a href="<?= BASE_URL ?>/devenir/modifier_contact">Modifier contact étudiant</a></li>
                     <li ><a href="<?= BASE_URL ?>/devenir/consulter_stat">Statistiques</a></li>
                     <li ><a href="<?= BASE_URL ?>/devenir/contact">Contact</a></li>
                 </ul>
@@ -73,6 +69,7 @@
     <script src='<?php echo BASE_SITE . '/js/jquery.dataTables.min.js' ?>' ></script>
     <script src='<?php echo BASE_SITE . '/css/bootstrap/js/bootstrap.min.js' ?>' ></script>
     <script src='<?php echo BASE_SITE . '/css/bootstrap/js/dataTables.bootstrap.min.js' ?>' ></script>
+    <script src='<?php echo BASE_SITE . '/js/verifications.js' ?>' ></script>
     <script type="text/javascript">
         $(function () {
             $('#liste_ent').dataTable();

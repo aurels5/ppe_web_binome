@@ -40,6 +40,34 @@ Application Entreprise, Retro-engineering : Module Devenir
 
 
 
+    **********************************************************/
+    Détails Architecture MVC----------------------------------/
+    **********************************************************/
+-----------
+    LES URL
+-----------
+    Toutes les URL appellent le fichier index.php dans webroot. 
+    Le premier htaccess redirige dans webroot.
+    La réécriture d'URL est automatisée dans le htaccess à la racine de webroot.
+    Ainsi toutes les URL ont une forme obligatoire (adresse du site / nom contrôleur / action (méthode du contrôleur) / paramètres éventuels
+-----------------
+   LE DISPATCHER
+-----------------
+    Dans l'index.php on instancie un dispatcher.
+    Il permet d'analyser l'URL. On en extrait : le nom du contrôleur, la méthode à appeler, les éventuels paramètres.
+    Le dispatcher instancie le Contrôleur en question et appelle la méthode concernée.
+-------------------
+    LES CONTRÔLEURS
+-------------------
+    Chaque méthode nécessitant des données instancie un modèle.
+    Une vue ne nécessitant pas de données doit quand même avoir un contrôleur associé et une méthode portant son nom (méthode vide possible).
+    La vue est appelée par le contrôleur et possède le même nom que la méthode du contrôleur.
+    
+
+
+
+
+
 
 
     /***********************************************************

@@ -3,7 +3,6 @@
 
 <br>
 
-
 <!-- Choix de la promotion pour afficher les stat -->
 
 
@@ -26,6 +25,10 @@
 <!-- récupérer les données uniquement en PHP puis on verra plus tard pour le JS -->
 
 <h3><?=$titre_stat?></h3>
+
+<!-- Prévenir du chargement de la page -->   
+<script type="text/javascript" src="<?=BASE_SITE.'/js/chargement.js'?>"></script>
+<div id="chargement_page"></div>
 
 
 <?php
@@ -82,6 +85,7 @@
            $pct_bac_stmg=$v_bac_stmg*100/$v_tot_el;
            $pct_ba=$v_ba*100/$v_tot_el;
            
+           /*//AFFICHAGE DES DONNEES EN PHP
            echo 'Bac S : ', $pct_bac_s , 
                    ' &#37;<br>Bac ES: ', $pct_bac_es, 
                    ' &#37;<br>Bac Pro SEN : ', $pct_bac_sen ,
@@ -89,6 +93,8 @@
                    ' &#37;<br>Bac STMG : ', $pct_bac_stmg , 
                    ' &#37;<br>Autres Baccalauréats : ', $pct_ba ,
                    ' &#37;' ; // % =  &#37; en html
+            * 
+            */
             
             break;
         case "s2"://Poursuite à l'étranger, sur la totalité des étudiants
@@ -114,9 +120,13 @@
             //% élèves en SISR à l'international
             $pct_opt2_international=$v_nb_opt2_international*100/$v_tot_el;
             
+            
+            /*//AFFICHAGE DES DONNEES EN PHP
             echo 'Elèves à l\'international : ', $pct_international , ' &#37;<br>';
             echo 'Elèves SLAM à l\'international : ', $pct_opt1_international , ' &#37;<br>';
             echo 'Elèves SISR à l\'international : ', $pct_opt2_international , ' &#37;<br>';
+             * 
+             */
             
             break;
             
@@ -134,11 +144,13 @@
             } 
             
             $taux_redoublement=$v_nb_redoublants_total/$v_nb_promos;
-            echo 'Il y a en moyenne ',$taux_redoublement , ' redoublant(s) par promotion (sur deux ans). ';
+            //AFFICHAGE DES DONNEES EN PHP
+            //echo 'Il y a en moyenne ',$taux_redoublement , ' redoublant(s) par promotion (sur deux ans). ';
             
             //soit sur une promotion de 28 élèves :
             $pct_redoublement=$taux_redoublement*100/28;
-            echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
+            //AFFICHAGE DES DONNEES EN PHP
+            //echo 'Soit, sur une promotion de 28 étudiants en moyenne, ' ,$pct_redoublement , ' &#37; de redoublement.';
 
             ?>
  
@@ -153,7 +165,9 @@
                 
                 //pour chaque promo, on veut le nombre de redoublants (on y associe la date)
                 $tab_redoub_promo["$p"]=${'nb_redoub_promo'.$p}; //OK
-                echo '<br>Pour la promotion ', $p, ' (' , $annee_promo, '-', $annee_promo+2, '), ' , $tab_redoub_promo[$p] , ' redoublants.'; //OK
+               
+                //AFFICHAGE DES DONNEES EN PHP
+                //echo '<br>Pour la promotion ', $p, ' (' , $annee_promo, '-', $annee_promo+2, '), ' , $tab_redoub_promo[$p] , ' redoublants.'; //OK
 
             }
             
@@ -206,9 +220,10 @@
             //Nom devenir : pourcentage de chaque devenir
             foreach ($devenirs as $de){
                 $rang=($de->d_code)-1; //echo 'd_code=',$de->d_code ;//OK
-                echo $de->d_devenir ;
                 
-                echo ' : ',$tab_pct_valeurs_devenirs[$rang],' &#37;<br>';
+                //AFFICHAGE DES DONNEES EN PHP
+                //echo $de->d_devenir ;
+                //echo ' : ',$tab_pct_valeurs_devenirs[$rang],' &#37;<br>';
             }
             
             ?>
@@ -228,13 +243,13 @@
 <!-- diagrammes et graphiques stats -->
 <!-- on charge tous les scripts JS 1 fois pour tous les scripts à venir-->
 <div id="container" style="height: 500px"><!--chaque graphique se met ici--></div>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts-all-3.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/echarts-all-3.js' ?>"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/ecStat.min.js' ?>"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/dataTool.min.js' ?>"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/china.js' ?>"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/world.js' ?>"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
-<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/bmap.min.js' ?>"></script>
 
 
 <?php
