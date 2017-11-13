@@ -13,16 +13,20 @@ $('document').on('unload', function() {
 */
 
 if(typeof jQuery !== 'undefined') {
-    alert("jQuery est chargée !");
+    //alert("jQuery est chargée !");//OK
 } else {
-    alert("jQuery est introuvable !");
+    alert("jQuery est introuvable !");//OK
 }
 
 
 $(document).ready(function(){//début jquery
     
-    $(document).write("test");
-    $("#chargement_page").html("encore un test, dans la div");
+    $(document).load(function(){
+        $("#chargement_page").html("la page est chargée?");
+    });
+    $("#chargement_page").html("Test jquery dans la div.");
+    
+    
     
 });//fin jquery
 

@@ -1,3 +1,4 @@
+<script src='<?php echo BASE_SITE . '/js/jquery-3.2.1.min.js' ?>' ></script>
 <!DOCTYPE html>
 
 <!--test sur les téléphones portables -->
@@ -65,7 +66,7 @@
         </section>
     </div> 
 
-    <script src='<?php echo BASE_SITE . '/js/jquery.js' ?>' ></script>
+    
     <script src='<?php echo BASE_SITE . '/js/jquery.dataTables.min.js' ?>' ></script>
     <script src='<?php echo BASE_SITE . '/css/bootstrap/js/bootstrap.min.js' ?>' ></script>
     <script src='<?php echo BASE_SITE . '/css/bootstrap/js/dataTables.bootstrap.min.js' ?>' ></script>
