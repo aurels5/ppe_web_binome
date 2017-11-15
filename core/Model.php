@@ -70,10 +70,17 @@ class Model {
             } else {
                 $cond = array();
                 foreach ($req['conditions'] as $k => $v) {
-                    if (!is_numeric($v)) {
-                        $v = $this->db->quote($v);
+                    
+                    if (is_null($v)){
+                        $cond[] = "$k is null ";
                     }
-                    $cond[] = "$k = $v ";
+                    else{
+                        if (!is_numeric($v)) {
+                            $v = $this->db->quote($v);
+                        }
+                        $cond[] = "$k = $v ";
+                    }
+                    
                 }
                 $sql .= implode(' AND ', $cond);
             }

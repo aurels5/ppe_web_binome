@@ -35,3 +35,15 @@ function verifForm() { //On vérifie tous les champs
         return false; //le formulaire n'est pas envoyé
     }
 }
+
+function cacheListeVide(){
+    alert("c'est vide");
+    $(document).ready(function(){
+        var contenuListe = $("#eleves_sans_fiche").text();
+        if(contenuListe==''){
+            alert("c'est vide"); 
+        }
+    });
+}
+
+cacheListeVide();

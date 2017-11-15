@@ -1,6 +1,6 @@
 
 <?php $title_for_layout = $entreprise->e_nom ?>
-<form class="form-horizontal" method="post" action="/entreprises/ent/modifier/<?= $entreprise->e_code ?>">
+<form class="form-horizontal" method="post" action="entreprises/devenir/ent/modifier/<?= $entreprise->e_code ?>">
     <fieldset>
 
         <!-- Form Name -->
@@ -43,7 +43,7 @@
 
     <?php endforeach; ?>
 </table>
-<form class="form-horizontal" method="post" action="/entreprises/ent/ajoutcom/<?= $entreprise->e_code ?>">
+<form class="form-horizontal" method="post" action="entreprises/devenir/ent/ajoutcom/<?= $entreprise->e_code ?>">
     <fieldset>
 
         <!-- Form Name -->

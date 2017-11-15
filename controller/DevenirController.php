@@ -35,6 +35,7 @@ class DevenirController extends Controller {
         $this->modUser = $this->loadModel('User');//charger le modèle User
         $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
         $this->modUserEleve = $this->loadModel('UserEleve');
+        $this->modUserEleveContact = $this->loadModel('UserEleveContact');
         
         //récupérer les données
         $d['devenirs'] = $this->modDevenir->find(); //utilisé dans le foreach d'affichage
@@ -57,12 +58,52 @@ class DevenirController extends Controller {
             $d['lecodepromo']=$promo_sel; //pour le selected : $d['name']=$var_entrée
             $d['loption']=$option_sel;
 
-            $params=array();
-            $projection='users.u_code,u_nom,u_prenom';
+            //$params=array();
+            //$projection='users.u_code,u_nom,u_prenom';
+            /*//avant, on affichait tous les élèves
             $conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
             $params=array('projection'=>$projection,'conditions'=>$conditions);
             $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
+                                                                //rien dans le find car pas de where */
+            
+            //mtn, on affiche uniquement les élèves qui n'ont pas déjà une fiche contact
+            //$select_imbriq='contact.u_code';
+            //$cond_imbriq='';
+            //$paramsimbriq=array('select_imbriq'=>$select_imbriq,'conditions'=>$conditions);
+            //$d['usercontacteleve']=$this->modUserEleve->find($paramsimbriq);
+            
+            //$conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel,'eleve.u_code'=>);
+            //$params=array('projection'=>$projection,'conditions'=>$conditions);
+            //$d['usereleve'] = $this->modUserEleveContact->find($params); //on récupère les données de la jointure User + Eleve
                                                                 //rien dans le find car pas de where
+            
+             
+            //si celui de la base == celui qui a une fiche -> on le prend dans le $d puis requête
+
+            /*
+            //select de tous les élèves de la promo et l'option choisies 
+            $pj_contacteleve='users.u_code';
+            $cond_contacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
+            $params_contacteleve=array('projection'=>$pj_contacteleve,'conditions'=>$cond_contacteleve);
+            $d['eleves_promo_selected'] = $this->modEleve->find($params_contacteleve);
+            
+            //select de ceux qui ont une fiche (même proj)
+            $pj_fiche_contacteleve='contact.u_code';
+            $cond_fiche_contacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
+            $params_fiche_contacteleve=array('projection'=>$pj_fiche_contacteleve,'conditions'=>$cond_fiche_contacteleve);
+            $d['eleves_promo_selected'] = $this->modContactEleve->find($params_fiche_contacteleve);
+             * 
+             */
+            
+            
+            //select u_nom, u_prenom from eleve left join contact on eleve.u_code= contact.u_code where co_code is NULL;
+            //$null=NULL;
+            $pj_pascontacteleve='contact.u_code, u_nom, u_prenom';
+            $cond_pascontacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel,'co_code'=>null);
+            $params_pascontacteleve=array('projection'=>$pj_pascontacteleve,'conditions'=>$cond_pascontacteleve);
+            $d['eleves_promo_selected'] = $this->modUserEleveContact->find($params_pascontacteleve);
+            
+            
         } //fin isset submit 1 (formulaire 1)
         
         //on prélève les données du 2e formulaire

@@ -26,9 +26,18 @@
 
 <h3><?=$titre_stat?></h3>
 
-<!-- Prévenir du chargement de la page -->   
+<!-- Prévenir du chargement de la page --> 
+<?php if(isset($_POST['submit_choix_stat'])){?>
 <script type="text/javascript" src="<?=BASE_SITE.'/js/chargement.js'?>"></script>
-<div id="chargement_page"></div>
+<div id="centre">
+    <span id="loader"><img src="<?php echo BASE_SITE . DS . '/img/loader.gif' ?>" border="0" alt="Chargement" title="Chargement" /> 
+        Chargement en cours
+    </span>
+    <div id="centre_contenu">
+    </div>
+</div>
+<?php } ?>
+
 
 
 <?php
@@ -248,7 +257,7 @@
 <script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/dataTool.min.js' ?>"></script>
 <script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/china.js' ?>"></script>
 <script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/world.js' ?>"></script>
-<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/api.js' ?>"></script><!-- http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM -->
 <script type="text/javascript" src="<?php echo BASE_SITE . '/js/echarts/bmap.min.js' ?>"></script>
 
 
@@ -435,8 +444,7 @@ switch($value_stat_choisie){ //vient du $d['value_stat_choisie']
     case "s3" :
         //taux de redoublement
 ?>
-
-       <script type="text/javascript">
+        <script type="text/javascript">
            
            var tab_redoub_promo = new Array(); //on crée le tableau avant la boucle
            var tab_annee_promo = new Array(); //on crée le tableau des années correspondant à chaque promo

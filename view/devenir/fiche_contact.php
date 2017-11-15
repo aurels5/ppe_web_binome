@@ -79,9 +79,9 @@ for($k=0;$k<2;$k++){
                
                 <label for="etu">Quel étudiant ?</label>
                 
-                <select name="code_etudiant">
+                <select name="code_etudiant" id="eleves_sans_fiche">
                     <?php if(isset($_POST['submit1'])){
-                    foreach ($usereleve as $ue):?>
+                    foreach ($eleves_promo_selected as $ue):?>
 
                         <option value="<?= $ue->u_code ?>" <?php if($ue->u_code==$lusereleve){ echo 'selected'; }?>>
                             <?= $ue->u_nom .' '. $ue->u_prenom ?>

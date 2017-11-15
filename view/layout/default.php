@@ -1,4 +1,4 @@
-<script src='<?php echo BASE_SITE . '/js/jquery-3.2.1.min.js' ?>' ></script>
+<script src='<?php echo BASE_SITE . '/js/jquery.js' ?>' ></script>
 <!DOCTYPE html>
 
 <!--test sur les téléphones portables -->

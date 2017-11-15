@@ -2,7 +2,7 @@
 <?php $title_for_layout = 'Connexion';
       //  echo "insert into users (u_login,u_password) values ('claude','", sha1('claude'),"');"
 ?>
-<form class="form-horizontal" method="post" action="entreprises/devenir/user/login" >
+<form class="form-horizontal" method="post" action="<?= BASE_URL ?>/user/login" >
     <fieldset>
 
         <!-- Form Name -->
