@@ -20,22 +20,34 @@ class DevenirController extends Controller {
     private $modContactDevenir = null;
     
     
-    //////////////////////////////////////
-    ////    CREATION FICHE    ////////////
-    //////////////////////////////////////
-    
-    function fiche_contact(){
-        $d['var_script']='fiche_contact';
-        
-        $contact_valid=true;
-        
-        //chargement des modèles utiles
+    //chargement des modèles utiles
+    function chargementModeles(){
         $this->modDevenir = $this->loadModel('Devenir'); //charger le modèle Devenir
         $this->modPromotion = $this->loadModel('Promotion'); //charger le modèle Promotion
         $this->modUser = $this->loadModel('User');//charger le modèle User
         $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
         $this->modUserEleve = $this->loadModel('UserEleve');
         $this->modUserEleveContact = $this->loadModel('UserEleveContact');
+        $this->modContactDevenir = $this->loadModel('ContactDevenir');
+        $this->modContact = $this->loadModel('Contact');
+        $this->modContactEleve = $this->loadModel('ContactEleve');
+    }
+    
+        
+    
+    
+    
+    
+    //////////////////////////////////////
+    ////    CREATION FICHE    ////////////
+    //////////////////////////////////////
+    
+    function fiche_contact(){
+        $d['var_script']='fiche_contact';
+        $this->chargementModeles();  
+        $contact_valid=true;
+        
+
         
         //récupérer les données
         $d['devenirs'] = $this->modDevenir->find(); //utilisé dans le foreach d'affichage
@@ -66,34 +78,7 @@ class DevenirController extends Controller {
             $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
                                                                 //rien dans le find car pas de where */
             
-            //mtn, on affiche uniquement les élèves qui n'ont pas déjà une fiche contact
-            //$select_imbriq='contact.u_code';
-            //$cond_imbriq='';
-            //$paramsimbriq=array('select_imbriq'=>$select_imbriq,'conditions'=>$conditions);
-            //$d['usercontacteleve']=$this->modUserEleve->find($paramsimbriq);
             
-            //$conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel,'eleve.u_code'=>);
-            //$params=array('projection'=>$projection,'conditions'=>$conditions);
-            //$d['usereleve'] = $this->modUserEleveContact->find($params); //on récupère les données de la jointure User + Eleve
-                                                                //rien dans le find car pas de where
-            
-             
-            //si celui de la base == celui qui a une fiche -> on le prend dans le $d puis requête
-
-            /*
-            //select de tous les élèves de la promo et l'option choisies 
-            $pj_contacteleve='users.u_code';
-            $cond_contacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
-            $params_contacteleve=array('projection'=>$pj_contacteleve,'conditions'=>$cond_contacteleve);
-            $d['eleves_promo_selected'] = $this->modEleve->find($params_contacteleve);
-            
-            //select de ceux qui ont une fiche (même proj)
-            $pj_fiche_contacteleve='contact.u_code';
-            $cond_fiche_contacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
-            $params_fiche_contacteleve=array('projection'=>$pj_fiche_contacteleve,'conditions'=>$cond_fiche_contacteleve);
-            $d['eleves_promo_selected'] = $this->modContactEleve->find($params_fiche_contacteleve);
-             * 
-             */
             
             
             //select u_nom, u_prenom from eleve left join contact on eleve.u_code= contact.u_code where co_code is NULL;
@@ -177,6 +162,8 @@ class DevenirController extends Controller {
     
     
     
+    
+    
     //////////////////////////////////////////////////////////////////////////////////
     // Fonction modifier_contact /////////////////////////////////////////////////////
     //////////////////////////////////////////////////////////////////////////////////
@@ -184,14 +171,8 @@ class DevenirController extends Controller {
 
     function modifier_contact($id){//paramètre $id passé dans l'URL pour récupérer l'étudiant
         $d['var_script']='modifier_contact';
-        
-        //chargement des modèles utiles
-        $this->modDevenir = $this->loadModel('Devenir'); //charger le modèle Devenir
-        $this->modPromotion = $this->loadModel('Promotion'); //charger le modèle Promotion
-        $this->modUser = $this->loadModel('User');//charger le modèle User
-        $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
-        $this->modUserEleve = $this->loadModel('UserEleve');
-        $this->modContactDevenir = $this->loadModel('ContactDevenir');
+        $this->chargementModeles(); 
+
         
         //récupérer les données
         $d['devenirs'] = $this->modDevenir->find(); //utilisé dans le foreach d'affichage
@@ -331,12 +312,8 @@ class DevenirController extends Controller {
         
         
 
-        //faire un where :
-        //$d['eleves'] = $this->modEleve->find(array('conditions' => array('el_option'=>$opt, 'el_date_naissance'=>$el_date_nais)   ));
-        
         //print_r($d);
         $this->set($d);
-        //print_r($d);
     }
     
     
@@ -346,15 +323,7 @@ class DevenirController extends Controller {
     
     
     function consulter_stat(){
-        //chargement des modèles utiles
-        $this->modDevenir = $this->loadModel('Devenir'); //charger le modèle Devenir
-        $this->modPromotion = $this->loadModel('Promotion'); //charger le modèle Promotion
-        $this->modUser = $this->loadModel('User');//charger le modèle User
-        $this->modEleve = $this->loadModel('Eleve');//charger le modèle Eleve
-        $this->modUserEleve = $this->loadModel('UserEleve');
-        $this->modContactDevenir = $this->loadModel('ContactDevenir');
-        $this->modContact = $this->loadModel('Contact');
-        $this->modContactEleve = $this->loadModel('ContactEleve');
+        $this->chargementModeles(); 
         
         //initialisations
         $msg_stat='';

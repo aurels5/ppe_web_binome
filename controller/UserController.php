@@ -28,7 +28,7 @@ class UserController extends Controller {
             foreach ($_POST as $k => $v) {
                 if ($k != 'singlebutton') {
                     if ($k == 'u_password') {
-                        //$donnees[$k] = sha1($v);
+                        $donnees[$k] = sha1($v);
                     } else {
                         $donnees[$k] = $v;
                     }
@@ -56,6 +56,13 @@ class UserController extends Controller {
     }
 
     public function logout() {
+        //traitement sur le bouton
+        if(isset($_POST['submit'])){
+            session_destroy();
+             
+            //redirection vers login
+            $this->redirect('/entreprises/user/login');
+        }
         
     }
 

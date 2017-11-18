@@ -23,12 +23,12 @@ function verifPrecisions(champ) {
 
 
 function verifForm() { //On vérifie tous les champs
-    //alert("est-ce qu'on passe ici? vérif form");
-    console.log("est-ce qu'on passe dans le vérif form? Pourquoi ça n'affiche pas ce console.log alors que ça affiche l'alert??");
+    //alert("Vérification du formulaire...");
+    console.log("Vérification du formulaire...");
     var validPrecisions = verifPrecisions();//soit true soit false
 
     if (validPrecisions) {//si les précisions sont true
-        alert("C'est bon.");
+        alert("Le formulaire est valide.");
         return true; //le formulaire est envoyé
     } else {
         alert("Veuillez remplir correctement tous les champs");
@@ -36,14 +36,4 @@ function verifForm() { //On vérifie tous les champs
     }
 }
 
-function cacheListeVide(){
-    alert("c'est vide");
-    $(document).ready(function(){
-        var contenuListe = $("#eleves_sans_fiche").text();
-        if(contenuListe==''){
-            alert("c'est vide"); 
-        }
-    });
-}
 
-cacheListeVide();

@@ -75,9 +75,9 @@ for($k=0;$k<2;$k++){
 
         
         <form method="post" onsubmit="return verifForm();" action="<?= BASE_URL ?>/devenir/<?=$var_script?>/">
-            <fieldset>
+            <fieldset id="form_eleves_sans_fiche">
                
-                <label for="etu">Quel étudiant ?</label>
+                <label for="etu">Quel étudiant ?</label><span id="reponse_eleves_sans_fiche"></span>
                 
                 <select name="code_etudiant" id="eleves_sans_fiche">
                     <?php if(isset($_POST['submit1'])){
@@ -105,14 +105,14 @@ for($k=0;$k<2;$k++){
                 
                 <?php
                 if($var_script=='modifier_contact'){
-                    echo '<input type="submit" name="aff_fiche" value="Afficher fiche(s)" >';
+                    echo '<input type="submit" name="aff_fiche" value="Afficher fiche(s)" id="aff_fiche">';
                 }
                 ?>
             </fieldset>   
            
 
             <?php if( ($var_script=='fiche_contact') || ( $var_script=='modifier_contact' &&  isset($_POST['aff_fiche'])   ) ){ ?>
-            <fieldset>
+            <fieldset id="details_contact">
                
                <legend>Détails du contact</legend> <!-- Titre du fieldset -->
                <input type="hidden" name="cocode" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
@@ -168,10 +168,96 @@ for($k=0;$k<2;$k++){
                 </p>
            </fieldset>
             
-            <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact">
+            <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact" id="valider_fiche">
             <?php } //fin du isset aff_fiche ?>
         </form><!--fin form 2-->
         
         <?php } //fin du isset pour afficher le formulaire 2 ?>
     </div><!--fin col-->
 </div><!--fin row-->
+
+
+
+
+<script type="text/javascript">
+    // variable globale
+     var_script_j = '<?= json_encode($var_script); ?>'; //alert(var_script);//OK
+    
+     //si on est dans la fonction fiche_contact et non dans modifier_contact
+     //En jQuery, on vérifie si le <select> est vide. Si oui, message pour informer l'utilisateur.
+     function cacheListeVide(){ 
+
+        var_script_j = '<?= $var_script ?>'; //attention, pas de json encode ici ! 
+        //alert(typeof var_script_j + " " + var_script_j);//OK //var_script_j = String(var_script_j);
+        
+        if(var_script_j==="fiche_contact"){
+            //on est dans le traitement fiche_contact
+            $(document).ready(function(){
+                var contenuListe = $("#eleves_sans_fiche").val(); //alert(contenuListe);//OK
+
+                $("#form_eleves_sans_fiche").mouseover(function(){
+                    if(contenuListe===null){
+                        alert("Les élèves correspondant à cette promotion et cette option ont tous une fiche contact. \n\Vous pouvez modifier la fiche souhaitée dans Menu > Modifier, ou sélectionner une autre promotion/option."); //on l'informe avec un alert
+
+                        $("#valider_fiche").hide();//on le cache sans délai.
+                        $("#eleves_sans_fiche").hide(1000);
+                        $("#details_contact").hide(1000);
+                        $("#reponse_eleves_sans_fiche").html(" Les étudiants sélectionnés ont tous une fiche contact. Veuillez cliquer dans le Menu > Modifier contact."); //on répète l'information si l'utilisateur réactualise
+                    }
+                });
+            });//fin jQ
+        }
+        else if(var_script_j==="modifier_contact"){
+            //on est dans le traitement modifier_contact
+            $(document).ready(function(){
+                var contenuListe = $("#eleves_sans_fiche").val(); //alert(contenuListe);//OK
+
+                $("#form_eleves_sans_fiche").mouseover(function(){
+                    if(contenuListe===null){
+                        alert("Pas de fiche modifiable pour cette promotion et cette option. Vous pouvez créer la fiche souhaitée dans Menu > Ajouter contact étudiant, ou sélectionner une autre promotion/option."); //on l'informe avec un alert
+                        
+                        $("#aff_fiche").hide();//on cache le bouton sans délai.
+                        $("#eleves_sans_fiche").hide();
+                        $("#details_contact").hide();
+                        $("#reponse_eleves_sans_fiche").html(" Les étudiants sélectionnés n'ont pas encore de fiche contact. Veuillez cliquer dans le Menu > Ajouter contact."); //on répète l'information si l'utilisateur réactualise
+                        
+                    }
+                });
+            });//fin jQ
+        }
+        
+    }//fin fonction cacheListeVide()
+    
+    
+    cacheListeVide(); //on lance la fonction
+</script>
+<script type="text/javascript" src="<?= BASE_SITE . DS . '/js/verifications.js' ?>"></script>
+
+
+
+<!-- Informations supplémentaires pour l'utilisateur -->
+<button class="transparent" type="button" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-cog"></span> Informations</button>
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Fiche contact : création et modification</h4>
+        </div>
+        <div class="modal-body">
+          <p>Un étudiant possède une fiche contact unique qui peut être modifiée. Si vous ne pouvez pas en créer une, 
+              cela signifie que la fiche contact a déjà été créée et est modifiable, ou bien que l'étudiant n'est pas 
+              encore dans la base de données, auquel cas, nous vous conseillons de vous adresser à un administrateur du site qui tâchera de 
+              répondre au mieux à votre demande.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>

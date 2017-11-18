@@ -3,6 +3,8 @@
       //  echo "insert into users (u_login,u_password) values ('claude','", sha1('claude'),"');"
 ?>
 <form class="form-horizontal" method="post" action="<?= BASE_URL ?>/user/login" >
+    <?php //sur serveur faire un echo BASE_URL /user/login 
+//en local tester : entreprises/devenir/user/login ?>
     <fieldset>
 
         <!-- Form Name -->
