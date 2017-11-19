@@ -207,6 +207,9 @@ for($k=0;$k<2;$k++){
                 });
             });//fin jQ
         }
+        
+        
+        /*
         else if(var_script_j==="modifier_contact"){
             //on est dans le traitement modifier_contact
             $(document).ready(function(){
@@ -224,7 +227,7 @@ for($k=0;$k<2;$k++){
                     }
                 });
             });//fin jQ
-        }
+        }*/
         
     }//fin fonction cacheListeVide()
     

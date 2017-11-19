@@ -31,6 +31,7 @@ class DevenirController extends Controller {
         $this->modContactDevenir = $this->loadModel('ContactDevenir');
         $this->modContact = $this->loadModel('Contact');
         $this->modContactEleve = $this->loadModel('ContactEleve');
+        $this->modUserEleveAvecContact = $this->loadModel('UserEleveContact');
     }
     
         
@@ -195,13 +196,49 @@ class DevenirController extends Controller {
             $d['lecodepromo']=$promo_sel; //pour le selected : $d['name']=$var_entrée
             $d['loption']=$option_sel; //on met la promo et l'option dans $d[]
 
-            $params=array();
-            $projection='users.u_code,u_nom,u_prenom';
+            //requête qui select nom prenom contact.ucode, where option : celle sélectionnée && promo = celle sélectionnée
+            //on veut ++ ceux qui ont déjà une fiche (jointure)
+            /*SELECT contact.u_code, u_nom, u_nom FROM contact 
+            INNER JOIN users ON contact.u_code=users.u_code 
+            INNER JOIN eleve ON eleve.u_code=users.u_code WHERE el_option="SLAM" && pr_code=1 ; */
+
+            /*
+            $projection='contact.u_code,u_nom,u_prenom';
             $conditions= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
             $params=array('projection'=>$projection,'conditions'=>$conditions);
-            $d['usereleve'] = $this->modUserEleve->find($params); //on récupère les données de la jointure User + Eleve
+            $d['eleves_promo_selected'] = $this->modUserEleveAvecContact->find($params);
+            */
+            
+            ///////////////////////////////////////////////////////////
+            //requête intermédiaire
+            
+            $projection1='contact.u_code';
+            $conditions1= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
+            $params1=array('projection'=>$projection1,'conditions'=>$conditions1);
+            $d['eleves_promo_selected1'] = $this->modContactEleve->find($params1); 
+            print_r($d['eleves_promo_selected1']);
+            
+            $codes_eleve_fiche="(";
+            foreach($d['eleves_promo_selected1'] as $eps1){
+                $codes_eleve_fiche .= $eps1->u_code . "," ;
+            }
+            // enlever ,
+            $codes_eleve_fiche = substr($codes_eleve_fiche, 0, -1);
+            // fin
+            $codes_eleve_fiche= $codes_eleve_fiche.")";
+            echo $codes_eleve_fiche;
+            
+            ///////////////////////////////////////////////////////////
+            $projection='contact.u_code,u_nom,u_prenom';
+            $conditions= array('users.u_code'=>$codes_eleve_fiche);
+            $params=array('projection'=>$projection,'where_in'=>$conditions);
+            $d['eleves_promo_selected'] = $this->modUserEleveContact->find($params); //on récupère les données de la jointure User + Eleve
             
             $d['ucode']='';//on initialise
+            print_r($d['eleves_promo_selected']);
+
+            
+            
             
             
         } //fin isset submit 1 (formulaire 1)
@@ -210,9 +247,7 @@ class DevenirController extends Controller {
         if(isset($_POST['aff_fiche'])){
             $code_etudiant=$_POST['code_etudiant'];
             //echo 'code étu fonctionne bien : ', $code_etudiant;
-            
-            //$d['ucode']=$code_etudiant; //OSEF
-            
+
 
             $projection2='co_code,co_date,co_international,co_precisions,contact.d_code'; //select du (contact && du devenir) par étudiant
             $conditions2= array('u_code'=>$code_etudiant); //le where
@@ -229,6 +264,7 @@ class DevenirController extends Controller {
             $params3=array('projection'=>$projection3,'conditions'=>$conditions3);
             $d['elevefiche'] = $this->modUserEleve->find($params3);
             
+
             $projection4='co_code,contact.u_code,co_date,co_international,co_precisions,devenir.d_code';
             $conditions4= array('contact.u_code'=>$code_etudiant);
             $params4=array('projection'=>$projection4,'conditions'=>$conditions4);
@@ -320,6 +356,11 @@ class DevenirController extends Controller {
     
     
     
+    
+    
+    ////////////////////////////////////
+    // Consulter les statistiques //////
+    ////////////////////////////////////
     
     
     function consulter_stat(){

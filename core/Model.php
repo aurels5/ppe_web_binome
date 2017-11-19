@@ -61,10 +61,22 @@ class Model {
         
         $sql .= ' from ' . $this->table . ' ';
         
+        if (isset($req['exists'])){
+            $sql.= ' where exists '. $req['exists'];
+        }
+        
+        if(isset($req['where_in'])){
+            $sql .='where ';
+            foreach ($req['where_in'] as $k => $v) {
+                $sql .= "$k IN $v ";
+            }    
+        }
+        
         //construction de la condition
 
         if (isset($req['conditions'])) {
             $sql .= 'where ';
+            
             if (!is_array($req['conditions'])) {
                 $sql .= $req['conditions'];
             } else {
@@ -106,7 +118,7 @@ class Model {
         }
     }
 
-    function findFirst($req) {
+    function findFirst($req) {//renvoie le premier élément
         return current($this->find($req));
     }
 
