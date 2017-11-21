@@ -120,7 +120,7 @@ for($k=0;$k<2;$k++){
                        echo $cc->co_code;}
                    }?>">
                <label for="date_contact">Date de la prise de contact</label>
-               <input type="date" name="date_contact" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+               <input type="date" id="dateEntree" name="date_contact" onblur="verifDate();" value="<?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
                    { foreach ($contactseleve as $ce) {
                        echo $ce->co_date;}
                    }elseif($var_script=='modifier_contact'){ echo $contactdevenir->co_date; } else{ echo date("Y-m-d"); }?>" />
@@ -163,10 +163,16 @@ for($k=0;$k<2;$k++){
                 <br>
                 <p>
                     <label for="precisions">Précisions :</label>
-                    <textarea name="precisions" onblur="verifPrecisions(this);" id="precisions" cols="40" rows="4" class="form-control"><?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
+                    <textarea name="precisions" onblur="verifPrecisions();" onkeypress="affTaille();" id="precisions" cols="40" rows="4" class="form-control"><?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
 { foreach ($contactseleve as $ce) { echo $ce->co_precisions;}}?></textarea>
+                    
                 </p>
+                <div id="taillePrecisions"></div>
            </fieldset>
+            
+            <script type="text/javascript">
+                
+            </script>
             
             <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact" id="valider_fiche">
             <?php } //fin du isset aff_fiche ?>
@@ -209,7 +215,7 @@ for($k=0;$k<2;$k++){
         }
         
         
-        /*
+        
         else if(var_script_j==="modifier_contact"){
             //on est dans le traitement modifier_contact
             $(document).ready(function(){
@@ -227,7 +233,7 @@ for($k=0;$k<2;$k++){
                     }
                 });
             });//fin jQ
-        }*/
+        }
         
     }//fin fonction cacheListeVide()
     
