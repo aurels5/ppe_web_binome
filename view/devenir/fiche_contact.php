@@ -74,7 +74,7 @@ for($k=0;$k<2;$k++){
         ?>
 
         
-        <form method="post" onsubmit="return verifForm();" action="<?= BASE_URL ?>/devenir/<?=$var_script?>/">
+        <form method="post" action="<?= BASE_URL ?>/devenir/<?=$var_script?>/">
             <fieldset id="form_eleves_sans_fiche">
                
                 <label for="etu">Quel étudiant ?</label><span id="reponse_eleves_sans_fiche"></span>
@@ -164,9 +164,9 @@ for($k=0;$k<2;$k++){
                 <p>
                     <label for="precisions">Précisions :</label>
                     <textarea name="precisions" onblur="verifPrecisions();" onkeypress="affTaille();" id="precisions" cols="40" rows="4" class="form-control"><?php if( ($var_script=='modifier_contact') && isset($_POST['aff_fiche']))
-{ foreach ($contactseleve as $ce) { echo $ce->co_precisions;}}?></textarea>
-                    
+{ foreach ($contactseleve as $ce) { echo $ce->co_precisions;}}?></textarea>   
                 </p>
+                
                 <div id="taillePrecisions"></div>
            </fieldset>
             
@@ -174,7 +174,7 @@ for($k=0;$k<2;$k++){
                 
             </script>
             
-            <input type="submit" name="submit2" class="btn btn-primary" value="Valider la fiche contact" id="valider_fiche">
+            <input type="submit" name="submit2" onclick="verifForm();" class="btn btn-primary" value="Valider la fiche contact" id="valider_fiche">
             <?php } //fin du isset aff_fiche ?>
         </form><!--fin form 2-->
         

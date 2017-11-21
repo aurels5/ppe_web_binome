@@ -9,26 +9,24 @@ function surligne(champ, erreur) { //mettre erreur à true s'il y a une erreur
             $(champ).css("background-color","#7B9"); //vrai : vert
         });
     }
-}
+}//fin surligne, OK
 
 //on vérifie les précisions
-function verifPrecisions() {
+function verifPrecisions() {//OK
     var prec = document.getElementById("precisions").value.length; //on récupère la longueur du champ precisions
     var valid=true;
     
     if (prec > 254) {
         surligne("#precisions", true);
-        valid=false;
+        valid=false;//alert(valid);//OK
     } else {
-        surligne("#precisions", false);
-        //valid reste true
+        surligne("#precisions", false); //valid reste true
     }
-    console.log("Longueur de précisions : ", prec);
-
+    console.log("Longueur de précisions : ", prec); //alert(valid);
     return valid;
 }
 
-function affTaille(){
+function affTaille(){ //OK
     $(document).ready(function(){
         var t=0;
         var max=254;//le maximum
@@ -36,8 +34,6 @@ function affTaille(){
         //console.log("t="+t);
         max-=t; //nb de caractères qui restent à l'utilisateur
         
-        //var par = $("<div></div>").text("Coucou");
-        //$("#precisions").after(par);
         
         if ( max>1 ){
             $("#taillePrecisions").text("Il vous reste : "+max+" caractères disponibles.");
@@ -49,14 +45,14 @@ function affTaille(){
             oppMax = -max;
             $("#taillePrecisions").text("Vous devez retirer "+ oppMax +" caractères.");
         }
-        
-        
     });
     
 }
 
 
-function verifDate(){
+//Vérifie que la date n'est pas supérieure à la date actuelle
+//si elle l'est, renvoie false
+function verifDate(){//OK
     var ok=true;
     var now = new Date(); //ex : Mon Nov 20 2017 12:55:06 GMT+0100 (Paris, Madrid)
     
@@ -97,19 +93,28 @@ function verifForm() { //On vérifie tous les champs
     //alert("Vérification du formulaire...");
     console.log("Vérification du formulaire...");
     
+    var validP = verifPrecisions();//bool
+    var validD= verifDate(); // bool
+    
+    //idée : on hide() par défaut et dès que c'est valid on l'affiche (si on lance bien la fonction tout le temps et pas onclick() )
+    
+   //console.log("validPrecisions=" + validP + " validDate="+ validD);
+        
     $('#valider_fiche').click(function(){
-        var validPrecisions = verifPrecisions();//bool
-        var validDate = verifDate(); // bool
+        
+        //alert("validPrecisions=" + validP + " validDate="+ validD);
 
-        if (validPrecisions && validDate) {//si les précisions sont true
-            alert("Le formulaire est valide.");
+        if (validP && validD) {//si les vérif précisions et vérif date sont true
+            //alert("Le formulaire va être envoyé.");
             return true; //le formulaire est envoyé
         } else {
-            alert("Veuillez remplir correctement tous les champs");
+            alert("Une erreur a été entrée dans le formulaire. Veuillez remplir correctement tous les champs");
             return false; //Empêche le formulaire d'être soumis
         }   
     });
     
 }
+
+verifForm();
 
 
