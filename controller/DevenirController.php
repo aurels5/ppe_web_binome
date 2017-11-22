@@ -84,7 +84,7 @@ class DevenirController extends Controller {
             
             //select u_nom, u_prenom from eleve left join contact on eleve.u_code= contact.u_code where co_code is NULL;
             //$null=NULL;
-            $pj_pascontacteleve='contact.u_code, u_nom, u_prenom';
+            $pj_pascontacteleve='users.u_code, u_nom, u_prenom';
             $cond_pascontacteleve= array('pr_code'=>$promo_sel,'el_option'=>$option_sel,'co_code'=>null);
             $params_pascontacteleve=array('projection'=>$pj_pascontacteleve,'conditions'=>$cond_pascontacteleve);
             $d['eleves_promo_selected'] = $this->modUserEleveContact->find($params_pascontacteleve);
