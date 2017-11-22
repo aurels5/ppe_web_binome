@@ -56,7 +56,7 @@ for($k=0;$k<2;$k++){
                     <label for="option">Quelle option ?</label>
                     <select name="option">
                         <?php 
-                        foreach($fichier->option as $op): ?>
+                        foreach($fichier->option as $op): ?> <!-- utilisation du xml -->
                             <option value="<?= $op ?>" <?php if($op==$loption){ echo 'selected';} ?> >
                                 <?= $op ?>
                             </option>
