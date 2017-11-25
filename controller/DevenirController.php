@@ -216,7 +216,7 @@ class DevenirController extends Controller {
             $conditions1= array('pr_code'=>$promo_sel,'el_option'=>$option_sel);
             $params1=array('projection'=>$projection1,'conditions'=>$conditions1);
             $d['eleves_promo_selected1'] = $this->modContactEleve->find($params1); 
-            print_r($d['eleves_promo_selected1']);
+            //print_r($d['eleves_promo_selected1']);
             
             $codes_eleve_fiche="(";
             foreach($d['eleves_promo_selected1'] as $eps1){
@@ -226,7 +226,7 @@ class DevenirController extends Controller {
             $codes_eleve_fiche = substr($codes_eleve_fiche, 0, -1);
             // fin
             $codes_eleve_fiche= $codes_eleve_fiche.")";
-            echo $codes_eleve_fiche;
+            //echo $codes_eleve_fiche;
             
             ///////////////////////////////////////////////////////////
             $projection='contact.u_code,u_nom,u_prenom';
@@ -235,7 +235,7 @@ class DevenirController extends Controller {
             $d['eleves_promo_selected'] = $this->modUserEleveContact->find($params); //on récupère les données de la jointure User + Eleve
             
             $d['ucode']='';//on initialise
-            print_r($d['eleves_promo_selected']);
+            //print_r($d['eleves_promo_selected']);
 
             
             
